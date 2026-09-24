@@ -1,201 +1,2170 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f172a"><title>شاشة تحكم الباحث </title>
-<style>
-:root{--bg:#f4f7fb;--card:rgba(255,255,255,.93);--text:#122033;--muted:#667085;--line:#e5eaf1;--primary:#1769e0;--primary2:#0f4fb8;--success:#168b57;--danger:#c53030;--warning:#9b6500;--shadow:0 20px 50px rgba(17,37,70,.10)}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#eaf2ff 0,#f6f8fb 42%,#eef2f7 100%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;color:var(--text)}button,input{font:inherit}button{cursor:pointer}.wrap{max-width:1200px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#163f91,#1769e0);box-shadow:0 10px 28px rgba(23,105,224,.24);font-size:21px}.brand h1{margin:0;font-size:22px}.sub{margin-top:4px;color:var(--muted);font-size:12px}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:800;transition:.18s}.btn:disabled{opacity:.52;cursor:not-allowed}.primary{background:var(--primary);color:#fff}.success{background:var(--success);color:#fff}.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}.danger{background:#fff1f1;border:1px solid #ffd3d3;color:var(--danger)}.card{background:var(--card);backdrop-filter:blur(15px);border:1px solid rgba(220,228,240,.9);border-radius:22px;box-shadow:var(--shadow)}.login{max-width:440px;margin:10vh auto;padding:28px}.field{margin-bottom:14px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:7px}.field input,.lookup input,.manual input{width:100%;padding:13px 14px;background:#fff;border:1px solid var(--line);border-radius:14px;outline:none}.field input:focus,.lookup input:focus,.manual input:focus{border-color:#8ab5f8;box-shadow:0 0 0 4px rgba(23,105,224,.08)}.error{display:none;margin-top:12px;padding:11px;border-radius:12px;background:#fff2f2;color:#b42318;font-size:13px}.error.show{display:block}.dashboard{display:none}.hero{padding:20px;margin-bottom:14px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}.heroTitle{font-weight:900;font-size:15px}.heroMeta{font-size:12px;color:var(--muted);margin-top:4px}.stats{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}.stat{min-width:150px;padding:14px 17px;border-radius:18px;border:1px solid #e4e9f2;background:linear-gradient(180deg,#fff,#f8fbff)}.stat small{display:block;color:var(--muted);font-weight:700}.stat strong{display:block;font-size:28px;margin-top:2px}.deskgrid{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;margin-bottom:14px}.desk{min-height:180px;padding:20px;border-radius:24px;border:1px solid rgba(203,213,229,.9);position:relative;overflow:hidden;transition:.2s}.desk .topline{display:flex;justify-content:space-between;gap:12px;align-items:center}.desk .tag{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900;background:#eef3f9}.desk strong{display:block;font-size:48px;line-height:1;margin-top:15px}.desk .time{margin-top:12px;color:var(--muted);font-size:12px}.desk.current{background:linear-gradient(135deg,#0f4fb8 0%,#1769e0 58%,#2687ed 100%);border-color:#1f65cd;box-shadow:0 22px 45px rgba(23,105,224,.30);transform:scale(1.015)}.desk.current:after{content:"";position:absolute;inset:auto -30px -45px auto;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.10)}.desk.current .tag,.desk.current .time,.desk.current small{color:rgba(255,255,255,.84)}.desk.current strong{color:#fff}.desk.current .tag{background:rgba(255,255,255,.15)}.desk.other{background:linear-gradient(135deg,#fbfcfe,#f0f4f9);transform:scale(.985)}.panel{padding:18px;margin-top:14px}.panelTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font-weight:900}.lookup{display:grid;grid-template-columns:1fr auto;gap:9px}.actions{display:grid;grid-template-columns:1fr auto;gap:10px}.manual{display:grid;grid-template-columns:1fr auto;gap:8px}.results{display:grid;gap:10px;margin-top:12px}.result{padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff}.rrow{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px dashed #edf0f4}.rrow:last-of-type{border-bottom:0}.lbl{color:var(--muted);font-size:12px;font-weight:800}.val{font-weight:800;word-break:break-word}.dup{display:inline-flex;padding:7px 10px;border-radius:999px;background:#fff7e8;color:#895b00;font-size:11px;font-weight:900;margin-bottom:8px}.copyRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.copy{background:#f5f8fc;border:1px solid #e2e8f0;color:#122033}.transfer{background:#fff6eb;border:1px solid #f1d4aa;color:#8b5a00}.hint{color:var(--muted);font-size:12px;line-height:1.7}.pill{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:900}.open{background:#e9f8f0;color:#126a40}.closed{background:#fff0f0;color:#a72318}.tableWrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px;border-bottom:1px solid #edf0f4;font-size:11px;white-space:nowrap;text-align:right}.table th{background:#f8fafc;position:sticky;top:0}.ticketBtn{background:#eef4ff;border:1px solid #d5e3ff;border-radius:9px;padding:5px 9px;font-weight:800}.toast{position:fixed;left:16px;bottom:16px;background:#111827;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.22);opacity:0;pointer-events:none;transform:translateY(15px);transition:.2s;z-index:20}.toast.show{opacity:1;transform:none}.overlay{position:fixed;inset:0;background:rgba(10,16,27,.42);backdrop-filter:blur(4px);display:none;place-items:center;z-index:30;padding:18px}.overlay.show{display:grid}.dialog{max-width:470px;width:100%;background:#fff;border-radius:22px;padding:22px;box-shadow:0 25px 70px rgba(0,0,0,.22)}.dialog h3{margin:0 0 8px}.dialog p{white-space:pre-line;color:#475467;line-height:1.8;font-size:13px}.dialog textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:14px;padding:12px;resize:vertical}.dialogActions{display:flex;justify-content:flex-start;gap:8px;margin-top:14px}@media(max-width:760px){.hero{grid-template-columns:1fr}.deskgrid{grid-template-columns:1fr}.desk.current{transform:none}.actions{grid-template-columns:1fr}.manual,.lookup{grid-template-columns:1fr}.rrow{grid-template-columns:1fr}.top{align-items:flex-start}}
-</style><script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" crossorigin="anonymous"></script>
-</head>
-<body><div class="wrap">
-<section class="card login" id="loginCard"><div class="brand"><div class="logo">◉</div><div><h1>دخول الباحث</h1><div class="sub">الوصول محمي بحساب الباحث والصلاحيات المخصصة للشباك.</div></div></div><div style="height:18px"></div><div class="field"><label>اسم المستخدم</label><input id="username" autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">دخول آمن</button><div class="error" id="loginError"></div></section>
-<section class="dashboard" id="dashboard"><div class="top"><div class="brand"><div class="logo">◉</div><div><h1>شاشة تحكم الباحث </h1><div class="sub" id="employeeIdentity">—</div></div></div><button class="btn ghost" id="logoutBtn">تسجيل الخروج</button></div>
-<section class="card hero"><div><div class="heroTitle">مؤشر التشغيل اليومي</div><div class="heroMeta">تحديث تلقائي للبيانات أثناء العمل.</div></div><div class="stats"><div class="stat"><small>الأرقام المتبقية</small><strong id="waitingCount">0</strong></div><div class="stat"><small>استدعاءات شباكي</small><strong id="myCalls">0</strong></div></div></section>
-<section class="deskgrid" id="deskGrid"></section>
-<section class="card panel"><div class="panelTitle"><span>التحكم في استقبال العملاء</span><div id="formPill" class="pill">—</div></div><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><span class="hint" id="formStatusText">—</span><button class="btn ghost" id="toggleFormBtn">—</button></div><div class="panelTitle" style="margin-top:18px"><span>استدعاء الرقم</span></div><div class="actions"><button class="btn success" id="nextBtn">استدعاء الرقم التالي تصاعدياً</button><button class="btn danger" id="skipBtn" title="تخطي الرقم الحالي لعدم حضور العميل">تخطي الرقم (عدم حضور)</button><div class="manual"><input id="manualNumber" inputmode="numeric" placeholder="رقم محدد"><button class="btn primary" id="manualBtn">استدعاء رقم محدد</button></div></div></section>
-<section class="card panel"><div class="panelTitle"><span>البحث في تسجيلات العملاء</span><span class="hint">يُملأ تلقائياً بآخر رقم استدعاه شباكك.</span></div><div class="lookup"><input id="searchTicket" inputmode="numeric" placeholder="رقم العميل"><button class="btn primary" id="searchBtn">عرض البيانات</button></div><div class="results" id="results"></div></section>
-<section class="card panel"><div class="panelTitle"><span>آخر التسجيلات اليوم</span><button class="btn ghost" id="refreshBtn">تحديث</button></div><div class="tableWrap"><table class="table"><thead><tr><th>الوقت</th><th>السجل الموحد</th><th>اسم الشركة</th><th>رقم العميل</th><th>المصدر</th></tr></thead><tbody id="recentBody"></tbody></table></div></section>
-</section></div>
-<div class="toast" id="toast"></div><div class="overlay" id="overlay"><div class="dialog"><h3 id="dialogTitle">تأكيد</h3><p id="dialogText"></p><textarea id="dialogNote" placeholder="ملاحظة الباحث (اختيارية، لا تظهر للعميل)"></textarea><div class="dialogActions"><button class="btn ghost" id="dialogCancel">إلغاء</button><button class="btn danger" id="dialogOk">تأكيد</button></div></div></div>
-<script>
-'use strict';
-const $=id=>document.getElementById(id);let sessionToken=sessionStorage.getItem('cr_employee_session_v2')||'';let employee=null;let pollTimer=null;let dialogResolver=null;
-const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-const fmtTime=s=>{if(!s)return '—';try{return new Date(s).toLocaleString('ar-EG',{dateStyle:'short',timeStyle:'short'})}catch(e){return s}};
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0d6efd" />
+  <title>تسجيل بيانات الطلب للخدمات الحكومية </title>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" crossorigin="anonymous"></script>
+  <script>
+    window.__libsReady = { tesseract: false, pdfjs: false };
+    window.addEventListener('load', function () {
+      window.__libsReady.tesseract = (typeof Tesseract !== 'undefined');
+      window.__libsReady.pdfjs = (typeof pdfjsLib !== 'undefined');
+      console.log('[CR] Libraries loaded:', window.__libsReady);
+    });
+  </script>
+  <style>
+    :root {
+      --primary: #0d6efd; --primary-dark: #0a58ca; --success: #198754; --danger: #dc3545;
+      --warning: #ffc107; --bg: #f0f2f5; --card: #ffffff; --border: #e0e4e8; --text: #1a1d21;
+      --muted: #6c757d; --input-bg: #ffffff; --review-bg: #fff8e6; --review-border: #ffe08a;
+      --review-text: #664d03; --shadow: 0 8px 32px rgba(0,0,0,0.08);
+      --header-grad: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); --modal-bg: rgba(0,0,0,0.45);
+    }
+    [data-theme="dark"] {
+      --primary: #3d8bfd; --primary-dark: #0d6efd; --success: #20c997; --danger: #ff6b6b;
+      --bg: #0f1115; --card: #1a1d24; --border: #2d323c; --text: #e8eaed; --muted: #9aa0a6;
+      --input-bg: #252830; --review-bg: #2a2418; --review-border: #5c4a1a; --review-text: #f0d78c;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+      --header-grad: linear-gradient(135deg, #1a3a6e 0%, #0d2b55 100%); --modal-bg: rgba(0,0,0,0.65);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg); min-height: 100%; min-height: 100dvh; color: var(--text);
+      line-height: 1.55; padding: 10px; padding-bottom: max(16px, env(safe-area-inset-bottom));
+      padding-top: max(10px, env(safe-area-inset-top)); transition: background 0.25s, color 0.25s;
+    }
+    .container { max-width: 480px; margin: 0 auto; background: var(--card); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+    .header { background: var(--header-grad); color: white; padding: 18px 16px 16px; text-align: center; position: relative; }
+    .header h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; letter-spacing: -0.02em; }
+    .header p { font-size: 0.8rem; opacity: 0.88; }
+    .header .header-agency {
+      font-size: 0.78rem;
+      opacity: 0.92;
+      margin-bottom: 6px;
+    }
+    .header .header-desc {
+      font-size: 0.72rem;
+      opacity: 0.85;
+      line-height: 1.55;
+      padding: 0 12px;
+      margin-top: 6px;
+    }
+    .header { padding-top: 68px; }
+    .header-tools { position: absolute; top: 14px; inset-inline-start: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; justify-content: center; z-index: 10; }
+    .theme-toggle, .lang-toggle { position: static; height: 38px; border-radius: 20px; border: none; background: rgba(255,255,255,0.18); color: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+    .theme-toggle { width: 38px; font-size: 1.15rem; }
+    .lang-toggle { min-width: 78px; padding: 0 12px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+    .status-bar { padding: 9px 14px; font-size: 0.82rem; font-weight: 600; text-align: center; background: #d1e7dd; color: #0f5132; }
+    [data-theme="dark"] .status-bar { background: #0d3b2a; color: #75e0b0; }
+    .body { padding: 18px 14px 24px; }
+    .section-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .mode-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 18px; }
+    .mode-btn { border: 2px solid var(--border); background: var(--input-bg); border-radius: 14px; padding: 12px 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.18s; text-align: center; color: var(--text); user-select: none; }
+    .mode-btn:active { transform: scale(0.96); }
+    .mode-btn.active { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, var(--card)); color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent); }
+    .mode-btn span { display: block; font-size: 1.35rem; margin-bottom: 3px; }
+    .panel { display: none; animation: fadeIn 0.22s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    .form-group { margin-bottom: 14px; }
+    label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+    label .hint { font-weight: 400; color: var(--muted); font-size: 0.72rem; }
+    input[type="text"], input[type="tel"], textarea { width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 16px; direction: ltr; text-align: right; background: var(--input-bg); color: var(--text); appearance: none; font-family: inherit; }
+    textarea { direction: rtl; text-align: right; min-height: 112px; line-height: 1.65; resize: vertical; overflow-y: auto; }
+    #regNumber { text-align: left; direction: ltr; font-variant-numeric: tabular-nums; letter-spacing: 0.35px; }
+    #companyName { direction: rtl; text-align: right; }
+    input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent); }
+    input.invalid { border-color: var(--danger); }
+    input.valid { border-color: var(--success); }
+    .error-msg { color: var(--danger); font-size: 0.75rem; margin-top: 4px; display: none; }
+    .error-msg.show { display: block; }
+    .field-note { font-size: 0.74rem; margin-top: 5px; display: none; color: var(--review-text); background: var(--review-bg); border: 1px solid var(--review-border); border-radius: 9px; padding: 7px 9px; line-height: 1.45; }
+    .field-note.show { display: block; }
+    .upload-zone, .camera-zone { border: 2px dashed var(--border); border-radius: 16px; padding: 22px 14px; text-align: center; background: color-mix(in srgb, var(--bg) 60%, var(--card)); cursor: pointer; }
+    .upload-zone:active, .upload-zone.dragover { border-color: var(--primary); }
+    .upload-zone input { display: none; }
+    .upload-icon { font-size: 2rem; margin-bottom: 6px; }
+    .upload-text { font-size: 0.88rem; font-weight: 600; }
+    .upload-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+    .preview-box { margin-top: 12px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); display: none; background: #000; }
+    .preview-box img, .preview-box canvas { width: 100%; display: block; max-height: 260px; object-fit: contain; }
+    .camera-controls { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 16px; border: none; border-radius: 12px; font-size: 0.88rem; font-weight: 600; cursor: pointer; user-select: none; }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-success { background: var(--success); color: white; }
+    .btn-outline { background: var(--input-bg); border: 1.5px solid var(--border); color: var(--text); }
+    .btn-warning { background: var(--warning); color: #212529; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .ocr-progress { margin-top: 12px; display: none; }
+    .progress-bar { height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #6610f2); width: 0%; transition: width 0.3s; border-radius: 4px; }
+    .progress-text { font-size: 0.78rem; color: var(--muted); margin-top: 5px; text-align: center; }
+    .retry-row { display: none; gap: 8px; margin-top: 10px; justify-content: center; flex-wrap: wrap; }
+    .retry-row.show { display: flex; }
+    .review-box { background: var(--review-bg); border: 1px solid var(--review-border); border-radius: 14px; padding: 13px; margin: 16px 0 12px; font-size: 0.84rem; color: var(--review-text); display: none; line-height: 1.45; }
+    .review-box.show { display: block; }
+    .review-box strong { display: block; margin-bottom: 3px; }
+    .submit-btn { width: 100%; padding: 15px; font-size: 1.05rem; border-radius: 14px; min-height: 52px; }
+    .footer-note { text-align: center; font-size: 0.7rem; color: var(--muted); margin-top: 14px; line-height: 1.45; }
+    .spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.65s linear infinite; display: none; }
+    .btn.loading .spinner { display: inline-block; }
+    .btn.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .saved-toast { position: fixed; bottom: max(20px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(80px); background: #212529; color: white; padding: 10px 18px; border-radius: 30px; font-size: 0.82rem; font-weight: 600; z-index: 9999; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .saved-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    [data-theme="dark"] .saved-toast { background: #e8eaed; color: #1a1d21; }
+    .zone-thumb { display: none; margin-top: 8px; border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; background: #000; cursor: zoom-in; }
+    .zone-thumb.show { display: block; }
+    .zone-thumb img { width: 100%; display: block; max-height: 90px; object-fit: contain; background: #fff; }
+    .zone-thumb .zone-thumb-hint { display: block; font-size: 0.68rem; color: #fff; background: rgba(13,110,253,0.85); text-align: center; padding: 3px 4px; }
+    .modal-overlay { position: fixed; inset: 0; background: var(--modal-bg); backdrop-filter: blur(4px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity 0.22s ease, visibility 0.22s; }
+    .modal-overlay.show { opacity: 1; visibility: visible; }
+    .modal-box { background: var(--card); border-radius: 20px; width: 100%; max-width: 340px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); transform: scale(0.88) translateY(12px); transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1); overflow: hidden; text-align: center; max-height: 80dvh; overflow-y: auto; }
+    .modal-overlay.show .modal-box { transform: scale(1) translateY(0); }
+    .modal-box.modal-box-wide { max-width: 92vw; }
+    .modal-icon { font-size: 2.6rem; margin: 22px 0 8px; line-height: 1; }
+    .modal-title { font-size: 1.1rem; font-weight: 700; color: var(--text); padding: 0 20px; margin-bottom: 6px; }
+    .modal-msg { font-size: 0.88rem; color: var(--muted); padding: 0 22px 18px; line-height: 1.55; white-space: pre-line; }
+    .modal-data { background: color-mix(in srgb, var(--bg) 70%, var(--card)); margin: 0 16px 16px; border-radius: 12px; padding: 12px 14px; text-align: right; font-size: 0.84rem; line-height: 1.7; color: var(--text); }
+    .modal-data .row { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--border); padding: 4px 0; }
+    .modal-data .row:last-child { border-bottom: none; }
+    .modal-data .lbl { color: var(--muted); font-size: 0.78rem; flex-shrink: 0; }
+    .modal-data .val { font-weight: 600; text-align: left; direction: ltr; word-break: break-all; }
+    .modal-data img { width: 100%; border-radius: 8px; margin-top: 4px; background:#fff; }
+    .modal-actions { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 18px; }
+    .modal-actions.horizontal { flex-direction: row; }
+    .modal-actions .btn { width: 100%; padding: 13px 10px; border-radius: 12px; font-size: 0.9rem; min-height: 46px; }
+    .modal-actions.horizontal .btn { flex: 1; width: auto; }
+    .candidate-btn { font-variant-numeric: tabular-nums; letter-spacing: 0.5px; }
+    @media (max-width: 380px) { .mode-btn { font-size: 0.68rem; padding: 10px 2px; } .header h1 { font-size: 1.1rem; } }
+   </style>
+    <base target="_blank">
+    </head>
+      <body>
+      <div class="container">
+      <div class="header">
+      <div class="header-tools"><button type="button" class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي">🌙</button><button type="button" class="lang-toggle" id="langToggle" aria-label="تغيير اللغة">English</button></div>
+      <h1 id="formTitle">الإدارة العامة للخدمات الحكومية</h1>
+      <p class="header-agency" id="formAgencyDesc">خدمة تتيح لك بعد الحصول على رقمك من ماكينة الأرقام تسجيل بيانات شركتك، ثم متابعة دورك في الشباك عن بُعد، مما يتيح لك إنجاز مهام أخرى بالهيئة دون الإنتظار أمام الشباك .</p>
+      <p class="header-desc" id="formWarning">🚨 يجب التواجد امام الشباك بمدة كافية حتي لا تخسر دورك</p>
+    </div> 
+    <div class="status-bar" id="formStatusBar">النظام مفتوح حالياً · يمكنك التسجيل</div>
+    <div class="body">
+      <div class="section-title" id="inputMethodTitle">① اختر طريقة الإدخال</div>
+      <div class="mode-selector">
+        <button type="button" class="mode-btn active" data-mode="manual" id="modeManual"><span>⌨️</span><span>يدوي</span></button>
+        <button type="button" class="mode-btn" data-mode="upload" id="modeUpload"><span>📄</span><span>رفع ملف</span></button>
+        <button type="button" class="mode-btn" data-mode="camera" id="modeCamera"><span>📷</span><span>كاميرا</span></button>
+      </div>
 
-/* === Adapter: Google Apps Script → Local API === */
-const API_BASE = '';
-let __authToken = sessionStorage.getItem('cr_employee_session_v2') || sessionStorage.getItem('emp_token') || '';
-let __desk = Number(sessionStorage.getItem('emp_desk') || 11);
+      <div id="panel-manual" class="panel active">
+        <p id="manualHint" style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">أدخل البيانات يدوياً. الأرقام العربية أو الهندية مقبولة.</p>
+      </div>
 
-async function __api(path, opts={}) {
-  const headers = Object.assign({'Content-Type':'application/json'}, opts.headers||{});
-  if (__authToken) headers['Authorization'] = 'Bearer ' + __authToken;
-  if (__desk) headers['X-Desk'] = String(__desk);
-  const res = await fetch(API_BASE + path, Object.assign({}, opts, {headers}));
-  const data = await res.json().catch(()=>({}));
-  if (res.status === 401) throw new Error('انتهت جلسة الباحث أو أنها غير صالحة. يرجى تسجيل الدخول مرة أخرى.');
-  if (!res.ok && data.message) throw new Error(data.message);
-  return data;
-}
+      <div id="panel-upload" class="panel">
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text" id="uploadText">اضغط أو اسحب صورة / PDF السجل</div>
+          <div class="upload-hint" id="uploadHint">PDF أو JPG أو PNG · بأي اتجاه · يُعالج على جهازك فقط</div>
+          <input type="file" id="fileInput" accept="image/*,image/heic,image/heif,application/pdf" />
+        </div>
+        <div class="preview-box" id="uploadPreview"></div>
+        <div class="ocr-progress" id="uploadProgress">
+          <div class="progress-bar"><div class="progress-fill" id="uploadProgressFill"></div></div>
+          <div class="progress-text" id="uploadProgressText">جاري التحليل...</div>
+        </div>
+        <div class="retry-row" id="uploadRetry">
+          <button type="button" class="btn btn-warning" id="retryUploadBtn">🔄 إعادة المحاولة</button>
+        </div>
+      </div>
 
-async function __mapRun(fn, args) {
-  switch (fn) {
-    case 'loginEmployee': {
-      const [username, password] = args;
-      const data = await __api('/api/auth/login', {method:'POST', body: JSON.stringify({username, password})});
-      if (!data.success) throw new Error(data.message || 'فشل الدخول');
-      __authToken = data.token;
-      sessionStorage.setItem('cr_employee_session_v2', __authToken);
-      sessionStorage.setItem('emp_token', __authToken);
-      if (data.employee.desk != null) { __desk = Number(data.employee.desk); sessionStorage.setItem('emp_desk', String(__desk)); }
-      return {
-        success: true,
-        sessionToken: __authToken,
-        employee: {
-          username: data.employee.username,
-          desk: data.employee.desk == null ? null : String(data.employee.desk),
-          role: (data.employee.role||'').toLowerCase() === 'manager' ? 'manager' : 'employee',
-          displayName: data.employee.displayName
+      <div id="panel-camera" class="panel">
+        <div class="camera-zone">
+          <p id="cameraHint" style="font-size:0.82rem;margin-bottom:10px;">صوّر أول صفحة من السجل التجاري بإضاءة جيدة ودون ميل</p>
+          <input type="file" id="cameraFileInput" accept="image/*,image/heic,image/heif" capture="environment" style="display:none;" />
+          <div class="camera-controls">
+            <button type="button" class="btn btn-primary" id="nativeCameraBtn" style="min-width:200px;">📷 فتح كاميرا الهاتف</button>
+          </div>
+        </div>
+        <div class="preview-box" id="cameraPreviewBox"></div>
+        <div class="ocr-progress" id="cameraProgress">
+          <div class="progress-bar"><div class="progress-fill" id="cameraProgressFill"></div></div>
+          <div class="progress-text" id="cameraProgressText">جاري التحليل...</div>
+        </div>
+        <div class="retry-row" id="cameraRetry">
+          <button type="button" class="btn btn-warning" id="retryCameraBtn">🔄 إعادة المحاولة</button>
+          <button type="button" class="btn btn-outline" id="retakeBtn">📷 التقاط من جديد</button>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <div class="section-title" id="dataTitle">② البيانات المستخرجة / المدخلة</div>
+
+        <div class="form-group">
+          <label for="regNumber" id="regLabel">رقم السجل التجاري الموحد <span class="hint" id="regLabelHint">(15 رقمًا فقط)</span></label>
+          <input type="tel" id="regNumber" inputmode="numeric" maxlength="17" placeholder="مثال: 12345 67891 12345" autocomplete="off" aria-describedby="regError" />
+          <div class="error-msg" id="regError">يجب أن يكون 15 رقمًا فقط (عربية أو هندية مقبولة)</div>
+          <div class="field-note" id="regNote"></div>
+          <div class="zone-thumb" id="regZoneThumb">
+            <img id="regZoneImg" alt="المنطقة التي قُرئ منها الرقم" />
+            <span class="zone-thumb-hint">🔍 قارن الرقم بالصورة — اضغط للتكبير</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="companyName" id="companyLabel">اسم الشركة / المنشأة</label>
+          <textarea id="companyName" rows="4" maxlength="300" placeholder="اسم الشركة كما في السجل" autocomplete="organization"></textarea>
+          <div class="zone-thumb" id="nameZoneThumb">
+            <img id="nameZoneImg" alt="المنطقة التي قُرئ منها اسم الشركة" />
+            <span class="zone-thumb-hint">🔍 قارن الاسم بالصورة — اضغط للتكبير</span>
+          </div>
+        </div>
+
+        <!-- حقل شرك (honeypot): مخفي عن المستخدم الحقيقي بموضع خارج الشاشة
+             (وليس display:none، لأن بعض الروبوتات تتجاهل الحقول المخفية بهذه
+             الطريقة تحديدًا)، ويجب أن يبقى فارغًا دائمًا. -->
+        <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+          <label for="website">اتركه فارغًا</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label for="clientNumber" id="clientLabel">رقمي (من نظام الطابور - ماكينة الأرقام) <span class="hint">Queuing System</span></label>
+          <input type="tel" id="clientNumber" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="رقم من 1 إلى 500" autocomplete="off" enterkeyhint="done" />
+        </div>
+      </div>
+
+      <div class="review-box" id="reviewBox">
+        <strong id="reviewTitle">⚠️ برجاء مراجعة البيانات بدقة قبل الإرسال</strong>
+        <span id="reviewText">قارن الرقم والاسم بصورة المنطقة الظاهرة تحت كل حقل، وصحّح يدوياً إن لزم قبل الإرسال.</span>
+      </div>
+
+      <div class="submit-area">
+        <button type="button" class="btn btn-success submit-btn" id="submitBtn">
+          <span class="spinner"></span><span class="btn-text" id="submitText">إرسال البيانات</span>
+        </button>
+      </div>
+
+      <div class="footer-note" id="privacyNote">
+        جميع عمليات المسح والاستخراج تتم محلياً على متصفحك فقط.<br>
+        لا يتم رفع صورة السجل التجاري إلى أي خادم.<br>
+        </div>
+    </div>
+  </div>
+
+  <div class="saved-toast" id="savedToast">تم الحفظ مؤقتاً ✓</div>
+
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+    <div class="modal-box" id="modalBox">
+      <div class="modal-icon" id="modalIcon">ℹ️</div>
+      <div class="modal-title" id="modalTitle">تنبيه</div>
+      <div class="modal-msg" id="modalMsg"></div>
+      <div class="modal-data" id="modalData" style="display:none;"></div>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+
+    // واجهة العميل ثنائية اللغة: النصوص الأساسية ورسائل OCR/الإرسال تتبدل
+    // من مكان واحد، مع حفظ الاختيار على الجهاز.
+    let formLangCode = (() => { try { return localStorage.getItem('queue_form_lang_v1') === 'en' ? 'en' : 'ar'; } catch (_) { return 'ar'; } })();
+    const FORM_I18N = {
+      ar: {
+        toggle:'English', title:'الإدارة العامة للخدمات الحكومية', agency:'خدمة تتيح لك بعد الحصول على رقمك من ماكينة الأرقام تسجيل بيانات شركتك، ثم متابعة دورك في الشباك عن بُعد، مما يتيح لك إنجاز مهام أخرى بالهيئة دون الإنتظار أمام الشباك.', warning:'🚨 يجب التواجد امام الشباك بمدة كافية حتي لا تخسر دورك', open:'النظام مفتوح حالياً · يمكنك التسجيل', closed:'التسجيل مغلق حالياً · المتابعة للأرقام المسجلة ما زالت متاحة',
+        input:'① اختر طريقة الإدخال', manual:'⌨️ يدوي', upload:'📄 رفع ملف', camera:'📷 كاميرا', manualHint:'أدخل البيانات يدوياً. الأرقام العربية أو الهندية مقبولة.', uploadText:'اضغط أو اسحب صورة / PDF السجل', uploadHint:'PDF أو JPG أو PNG · بأي اتجاه · يُعالج على جهازك فقط', cameraHint:'صوّر أول صفحة من السجل التجاري بإضاءة جيدة ودون ميل', openCamera:'📷 فتح كاميرا الهاتف', retry:'🔄 إعادة المحاولة', retake:'📷 التقاط من جديد',
+        dataTitle:'② البيانات المستخرجة / المدخلة', reg:'رقم السجل التجاري الموحد (15 رقمًا فقط)', regHint:'(15 رقمًا فقط)', regErr:'يجب أن يكون 15 رقمًا فقط (عربية أو هندية مقبولة)', compareNum:'🔍 قارن الرقم بالصورة — اضغط للتكبير', company:'اسم الشركة / المنشأة', compareName:'🔍 قارن الاسم بالصورة — اضغط للتكبير', client:'رقمي (من نظام الطابور - ماكينة الأرقام)', review:'⚠️ برجاء مراجعة البيانات بدقة قبل الإرسال', reviewText:'قارن الرقم والاسم بصورة المنطقة الظاهرة تحت كل حقل، وصحّح يدوياً إن لزم قبل الإرسال.', submit:'إرسال البيانات', privacy:'جميع عمليات المسح والاستخراج تتم محلياً على متصفحك فقط.\nلا يتم رفع صورة السجل التجاري إلى أي خادم.', closedErr:'التسجيل مغلق حالياً. يمكنك متابعة رقمك السابق من رابط المتابعة.', alert:'تنبيه', ok:'حسناً', done:'تم بنجاح',
+        preparing:'جاري تجهيز الصورة...', orientation:'جاري تحديد اتجاه المستند...', phoneOptimize:'جاري تحسين الصورة للهاتف...', engine:'جاري تجهيز المحرك...', header:'تحليل تخطيط المستند...', readHeader:'قراءة ترويسة المستند...', readNumber:'قراءة الرقم الموحد...', readName:'قراءة عمود اسم الشركة...', loadImage:'جاري تحميل الصورة...', start:'بدء التعرف الذكي...', processing:'جاري المعالجة...', extracting:'جاري استخراج البيانات...',
+        submitOpening:'جاري فتح المتابعة…', genericSend:'حدث خطأ أثناء التسجيل', required:'حقل مطلوب', invalidReg:'رقم السجل التجاري الموحد يجب أن يكون 15 رقماً فقط.', invalidRegTitle:'رقم السجل غير صحيح', companyRequired:'يرجى إدخال اسم الشركة / المنشأة.', clientRequired:'يرجى إدخال رقمك الحاصل عليه من ماكينة الارقام (من 1 إلى 500).', invalidClient:'رقمك يجب أن يكون رقماً فقط بين 1 و 500.', invalidClientTitle:'رقم غير صالح', reviewMsg:'برجاء مراجعة البيانات بدقة قبل الإرسال.', reviewTitle:'تأكيد الإرسال', cancel:'إلغاء', confirm:'تأكيد الإرسال',
+        copied:'تم النسخ ✓', manualInput:'إدخال يدوي', confirmNumber:'أكد الرقم الموحد', multipleReadings:'تم العثور على أكثر من قراءة محتملة.\nقارن بالصورة واختر الصحيح:', numberZone:'منطقة الرقم', referenceDocument:'مرجع من المستند', close:'إغلاق', saved:'تم الحفظ مؤقتاً ✓',
+        heicError:'تعذرت معالجة صورة HEIC على هذا الهاتف لأن أداة التحويل المحلية غير متاحة. اختر "الأكثر توافقاً" في إعدادات الصور أو استخدم الإدخال اليدوي.', ocrNotLoaded:'لم يتم تحميل محرك OCR.', readNumberTemplate:'قراءة الرقم الموحد من القالب الرسمي...', readCompany:'قراءة اسم الشركة من عمود الاسم...', mediumConfidence:'تمت قراءة الرقم آلياً لكن الثقة متوسطة. قارن الخانات مع الصورة المرجعية قبل الإرسال.', numberExtractFail:'تعذر استخراج الرقم آلياً. راجع الصورة المرجعية وأدخل الرقم يدوياً كآخر خطوة.', noExtraction:'لم يتم استخراج البيانات تلقائياً.\n\nلم نرسل المستند إلى أي خدمة خارجية. راجع الصور المرجعية وأدخل البيانات يدوياً.', numberReview:'تم استخراج اسم الشركة، لكن الرقم الموحد لم يُقرأ بثقة كافية. أدخل الرقم يدوياً بعد مراجعته من الصورة.', companyReview:'تم استخراج الرقم الموحد، لكن اسم الشركة يحتاج إدخالاً يدوياً بعد مراجعة الصورة.', quickReview:'تمت المعالجة، لكن اتجاه الصورة لم يكن مؤكداً بالكامل. راجع النتيجة قبل الإرسال.', mobileError:'تعذر تشغيل معالجة الهاتف. لم يتم إرسال الصورة إلى أي خدمة خارجية. استخدم الإدخال اليدوي أو أعد التصوير بصورة أوضح.', ocrLibraryError:'تعذر تحميل مكتبة التعرف الضوئي.\nتأكد من الإنترنت أو أدخل البيانات يدوياً.', lowConfidence:'القراءة تمت بثقة منخفضة — قارن كل خانة بالصورة المرجعية قبل الإرسال.', manualNumber:'تعذّرت القراءة الآلية للرقم. كبّر الصورة المرجعية بالأسفل وأدخل الخانات الخمس عشرة يدوياً.', orientationUncertain:'لم يتحدّد اتجاه المستند بثقة كافية — قد تكون الصورة غير واضحة أو مقصوصة.\nراجع النتيجة بعناية أو أعد التصوير للصفحة كاملة.', nothingExtracted:'لم يتم التعرف على الرقم أو الاسم تلقائياً.\n\nراجع الصورتين المرجعيتين تحت الحقلين وأدخل البيانات يدوياً، أو أعد المحاولة بصورة أوضح.', numberNotRead:'تم التعرف على اسم الشركة، لكن الرقم الموحد لم يُقرأ.\n\nاضغط على الصورة المرجعية تحت حقل الرقم لتكبيرها وأدخل الرقم يدوياً.', companyNotRead:'تم التعرف على الرقم الموحد، لكن اسم الشركة لم يُقرأ.\n\nاضغط على الصورة المرجعية تحت حقل الاسم لتكبيرها وأدخل الاسم يدوياً.', extractionCheck:'برجاء مراجعة البيانات مقارنة بالصور المرجعية قبل الإرسال.', extractionDone:'تم الاستخراج', lowConfidenceAlert:'ثقة القراءة منخفضة — راجع كل خانة.', numberReviewTitle:'الرقم يحتاج مراجعة', companyReviewTitle:'اسم الشركة يحتاج مراجعة', quickReviewTitle:'مراجعة سريعة', orientationTitle:'اتجاه المستند غير مؤكد', nothingTitle:'لم يتم الاستخراج', numberNotReadTitle:'الرقم لم يُقرأ', companyNotReadTitle:'الاسم لم يُقرأ', regSummary:'رقم السجل', companySummary:'اسم الشركة', extractionFailed:'فشل التعرف الضوئي:', extractionFailedTitle:'خطأ في الاستخراج', extractionRetry:'\n\nجرّب صورة أوضح أو أدخل البيانات يدوياً.', fileRead:'جاري قراءة الملف:', unnamedFile:'ملف', pdfUnavailable:'مكتبة قراءة PDF غير محمّلة. استخدم صورة بدلاً من PDF.', pdfConvert:'تحويل أول صفحة من PDF بدقة عالية...', unsupportedFile:'يرجى اختيار صورة (JPG/PNG) أو ملف PDF فقط.', processingError:'فشل معالجة الملف:', processingTitle:'خطأ في المعالجة', cameraReadError:'تعذر قراءة الصورة الملتقطة. حاول مرة أخرى.', cameraErrorTitle:'خطأ في الصورة', registrationSavedNoLink:'تم تسجيل البيانات، لكن تعذر إنشاء رابط المتابعة. أعد تحميل الصفحة أو تواصل مع الموظف.', sendError:'حدث خطأ أثناء الإرسال. تحقق من الاتصال وحاول مرة أخرى.', sendFailed:'فشل الإرسال', openingTracking:'جاري فتح المتابعة…'
+      },
+      en: {
+        toggle:'العربية', title:'Government Services Administration', agency:'After taking your queue number, enter your company details and follow your turn remotely so you can complete other tasks without waiting at the service desk.', warning:'🚨 Please stay near the service desk in time so you do not lose your turn', open:'Registration is currently open · you can register', closed:'Registration is currently closed · tracking for existing tickets remains available',
+        input:'① Choose an input method', manual:'⌨️ Manual', upload:'📄 Upload file', camera:'📷 Camera', manualHint:'Enter the details manually. Arabic and English digits are accepted.', uploadText:'Tap or drop a commercial register image / PDF', uploadHint:'PDF, JPG or PNG · any orientation · processed on your device only', cameraHint:'Capture the first page in good light without tilt', openCamera:'📷 Open phone camera', retry:'🔄 Retry', retake:'📷 Retake',
+        dataTitle:'② Extracted / entered data', reg:'Unified commercial registration number (15 digits)', regHint:'(15 digits only)', regErr:'Must be exactly 15 digits (Arabic or English digits accepted)', compareNum:'🔍 Compare the number with the image — tap to enlarge', company:'Company / establishment name', compareName:'🔍 Compare the name with the image — tap to enlarge', client:'My queue number (queue system ticket)', review:'⚠️ Please review the data carefully before sending', reviewText:'Compare the number and name with the reference image under each field and correct them manually when needed.', submit:'Submit data', privacy:'All scanning and extraction are performed locally in your browser.\nThe commercial register image is not uploaded to any server.', closedErr:'Registration is currently closed. You can still track an existing ticket from its tracking link.', alert:'Notice', ok:'OK', done:'Done',
+        preparing:'Preparing image...', orientation:'Detecting document orientation...', phoneOptimize:'Optimizing image for phone...', engine:'Preparing recognition engine...', header:'Analyzing document layout...', readHeader:'Reading document header...', readNumber:'Reading unified number...', readName:'Reading company-name column...', loadImage:'Loading image...', start:'Starting smart recognition...', processing:'Processing...', extracting:'Extracting data...',
+        submitOpening:'Opening tracking…', genericSend:'An error occurred during registration', required:'Required field', invalidReg:'The unified commercial registration number must contain exactly 15 digits.', invalidRegTitle:'Invalid registration number', companyRequired:'Please enter the company / establishment name.', clientRequired:'Please enter your queue number (1 to 500).', invalidClient:'The queue number must be a number between 1 and 500.', invalidClientTitle:'Invalid number', reviewMsg:'Please review the data carefully before sending.', reviewTitle:'Confirm submission', cancel:'Cancel', confirm:'Confirm submission',
+        copied:'Copied ✓', manualInput:'Enter manually', confirmNumber:'Confirm unified number', multipleReadings:'More than one possible reading was found.\nCompare with the image and choose the correct one:', numberZone:'Number area', referenceDocument:'Document reference', close:'Close', saved:'Saved temporarily ✓',
+        heicError:'This phone provided a HEIC image, but the local converter is unavailable. Choose "Most Compatible" in Photos settings or use manual entry.', ocrNotLoaded:'The OCR engine has not loaded.', readNumberTemplate:'Reading the unified number from the official template...', readCompany:'Reading the company name from the name column...', mediumConfidence:'The number was read automatically with medium confidence. Compare each digit with the reference image before sending.', numberExtractFail:'The number could not be extracted automatically. Check the reference image and enter it manually as the final step.', noExtraction:'The data could not be extracted automatically.\n\nThe document was not sent to any external service. Check the reference images and enter the data manually.', numberReview:'The company name was extracted, but the unified number was not read confidently enough. Review the image and enter the number manually.', companyReview:'The unified number was extracted, but the company name requires manual entry after checking the image.', quickReview:'Processing completed, but document orientation was not fully confirmed. Review the result before sending.', mobileError:'Phone processing could not be started. The image was not sent to any external service. Use manual entry or retake a clearer photo.', ocrLibraryError:'The OCR library could not be loaded.\nCheck your internet connection or enter the data manually.', lowConfidence:'The reading has low confidence — compare every digit with the reference image before sending.', manualNumber:'The number could not be read automatically. Enlarge the reference image below and enter all 15 digits manually.', orientationUncertain:'Document orientation could not be confirmed with enough confidence — the image may be unclear or cropped.\nReview the result carefully or retake the full page.', nothingExtracted:'The number or name could not be recognized automatically.\n\nCheck the two reference images below the fields and enter the data manually, or retry with a clearer image.', numberNotRead:'The company name was recognized, but the unified number was not.\n\nTap the reference image under the number field to enlarge it and enter the number manually.', companyNotRead:'The unified number was recognized, but the company name was not.\n\nTap the reference image under the company field to enlarge it and enter the name manually.', extractionCheck:'Please review the data against the reference images before sending.', extractionDone:'Extraction complete', lowConfidenceAlert:'Low reading confidence — review every digit.', numberReviewTitle:'Number needs review', companyReviewTitle:'Company name needs review', quickReviewTitle:'Quick review', orientationTitle:'Document orientation uncertain', nothingTitle:'Extraction failed', numberNotReadTitle:'Number not read', companyNotReadTitle:'Name not read', regSummary:'Registration number', companySummary:'Company name', extractionFailed:'OCR recognition failed:', extractionFailedTitle:'Extraction error', extractionRetry:'\n\nTry a clearer image or enter the data manually.', fileRead:'Reading file:', unnamedFile:'file', pdfUnavailable:'The PDF reader library is not loaded. Use an image instead of PDF.', pdfConvert:'Converting the first PDF page at high resolution...', unsupportedFile:'Please choose an image (JPG/PNG) or PDF only.', processingError:'File processing failed:', processingTitle:'Processing error', cameraReadError:'The captured image could not be read. Try again.', cameraErrorTitle:'Image error', registrationSavedNoLink:'Your registration was saved, but a tracking link could not be generated. Reload the page or contact staff.', sendError:'An error occurred while sending. Check your connection and try again.', sendFailed:'Send failed', openingTracking:'Opening tracking…'
+      }
+    };
+    const ft = key => (FORM_I18N[formLangCode] && FORM_I18N[formLangCode][key]) || FORM_I18N.ar[key] || key;
+    function applyFormLanguage() {
+      document.documentElement.lang = formLangCode; document.documentElement.dir = formLangCode === 'ar' ? 'rtl' : 'ltr';
+      const text = { formTitle:'title', formAgencyDesc:'agency', formWarning:'warning', inputMethodTitle:'input', modeManual:'manual', modeUpload:'upload', modeCamera:'camera', manualHint:'manualHint', uploadText:'uploadText', uploadHint:'uploadHint', cameraHint:'cameraHint', nativeCameraBtn:'openCamera', retryUploadBtn:'retry', retryCameraBtn:'retry', retakeBtn:'retake', dataTitle:'dataTitle', regLabel:'reg', regLabelHint:'regHint', regError:'regErr', regZoneThumb:'compareNum', companyLabel:'company', nameZoneThumb:'compareName', clientLabel:'client', reviewTitle:'review', reviewText:'reviewText', submitText:'submit', privacyNote:'privacy' };
+      Object.keys(text).forEach(id => { const el=document.getElementById(id); if(el) el.textContent=ft(text[id]); });
+      const tgl=document.getElementById('langToggle'); if(tgl) tgl.textContent=ft('toggle');
+      const sp1=document.getElementById('uploadProgressText'), sp2=document.getElementById('cameraProgressText'); if(sp1&&(!sp1.textContent||sp1.dataset.i18nState)) sp1.textContent=ft('processing'); if(sp2&&(!sp2.textContent||sp2.dataset.i18nState)) sp2.textContent=ft('processing');
+    }
+    let formIsOpen = true;
+    let formStatusHub = null;
+    function renderFormStatus(open) {
+      formIsOpen = !!open;
+      const bar = document.getElementById('formStatusBar');
+      const btn = document.getElementById('submitBtn');
+      if (bar) {
+        bar.textContent = ft(open ? 'open' : 'closed');
+        bar.setAttribute('data-open', open ? '1' : '0');
+      }
+      // لا نعطّل زر الإرسال اعتماداً على قناة الحالة الحية.
+      // قد تكون حالة القراءة متأخرة/غير متاحة، بينما السيرفر نفسه
+      // يملك القرار النهائي داخل POST /api/public/register.
+      // عند الإغلاق سيبقى الزر قابلاً للنقر ليعرض رسالة الإغلاق
+      // بدلاً من أن يتحول النموذج إلى زر ميت بشكل دائم.
+      if (btn) {
+        btn.disabled = false;
+        btn.removeAttribute('aria-disabled');
+      }
+    }
+    async function refreshFormStatus() {
+      try {
+        const r = await fetch('/api/public/system-status', { credentials:'same-origin', cache:'no-store' });
+        if (!r.ok) throw new Error('status');
+        const d = await r.json();
+        renderFormStatus(d.isOpen !== false);
+        return d;
+      } catch (_) {
+        // لا نعتمد على حالة محلية قديمة لرفض التسجيل؛ السيرفر هو صاحب القرار عند POST.
+        return null;
+      }
+    }
+    async function connectFormLive() {
+      if (!window.signalR || formStatusHub) return;
+      try {
+        const h = new signalR.HubConnectionBuilder().withUrl('/hubs/public').withAutomaticReconnect([0,1000,2000,5000,10000]).build();
+        formStatusHub = h;
+        h.on('SystemStateChanged', payload => { if (payload && typeof payload.isOpen === 'boolean') renderFormStatus(payload.isOpen); });
+        h.onclose(() => { if (formStatusHub === h) formStatusHub = null; });
+        await h.start();
+        await h.invoke('JoinSystem');
+      } catch (_) { formStatusHub = null; }
+    }
+    document.querySelector('script[src*="microsoft-signalr"]') || (()=>{})();
+    applyFormLanguage();
+    refreshFormStatus();
+    connectFormLive();
+    setInterval(() => { if (!formStatusHub || formStatusHub.state !== 'Connected') refreshFormStatus(); }, 15000);
+
+    // حماية من الإرسال الآلي: نطلب رمز التحقق الموقّع من السيرفر فور تحميل
+    // الصفحة، مش عند الإرسال — بكده أي مستخدم حقيقي بيملأ 3 حقول ويراجع
+    // البيانات هياخد أكتر من 5 ثوانٍ بشكل طبيعي تمامًا بدون أي إزعاج أو
+    // CAPTCHA، بينما أي إرسال آلي فوري هيترفض من السيرفر.
+    // جلب رمز الحماية من السيرفر المحلي (بدل Apps Script)
+    let formGuardTokenPromise = fetch('/api/public/form-guard', { method: 'GET', credentials: 'same-origin' })
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => (d && d.token) ? d.token : '')
+      .catch(() => '');
+
+    // =====================================================================
+    //  النوافذ
+    // =====================================================================
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalBox = document.getElementById('modalBox');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMsg = document.getElementById('modalMsg');
+    const modalData = document.getElementById('modalData');
+    const modalActions = document.getElementById('modalActions');
+
+    function showModal(opts) {
+      return new Promise(resolve => {
+        modalIcon.textContent = opts.icon || 'ℹ️';
+        modalTitle.textContent = opts.title || ft('alert');
+        modalMsg.textContent = opts.message || '';
+        modalBox.classList.toggle('modal-box-wide', !!opts.wide);
+        if (opts.dataHtml) { modalData.innerHTML = opts.dataHtml; modalData.style.display = 'block'; }
+        else { modalData.style.display = 'none'; modalData.innerHTML = ''; }
+        modalActions.innerHTML = '';
+        modalActions.className = 'modal-actions' + (opts.horizontal ? ' horizontal' : '');
+        (opts.buttons || [{ text: ft('ok'), class: 'btn-primary', value: true }]).forEach(btn => {
+          const el = document.createElement('button');
+          el.type = 'button';
+          el.className = 'btn ' + (btn.class || 'btn-primary') + (btn.candidate ? ' candidate-btn' : '');
+          el.textContent = btn.text;
+          el.addEventListener('click', () => { closeModal(); resolve(btn.value); });
+          modalActions.appendChild(el);
+        });
+        modalOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+    function closeModal() { modalOverlay.classList.remove('show'); document.body.style.overflow = ''; }
+    modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+
+    const modalAlert = (m, t, i) => showModal({ icon: i || 'ℹ️', title: t || ft('alert'), message: m, buttons: [{ text: ft('ok'), class: 'btn-primary', value: true }] });
+    const modalSuccess = (m, t, d) => showModal({ icon: '✅', title: t || ft('done'), message: m, dataHtml: d, buttons: [{ text: ft('ok'), class: 'btn-success', value: true }] });
+    const modalError = (m, t) => showModal({ icon: '⚠️', title: t || ft('alert'), message: m, buttons: [{ text: ft('ok'), class: 'btn-primary', value: true }] });
+    const modalConfirm = (m, t, d) => showModal({
+      icon: '📋', title: t || ft('reviewTitle'), message: m, dataHtml: d, horizontal: true,
+      buttons: [{ text: ft('cancel'), class: 'btn-outline', value: false }, { text: ft('confirm'), class: 'btn-success', value: true }]
+    });
+    function modalPickCandidate(cands, img) {
+      const buttons = cands.map((c, i) => ({ text: c.num, class: i === 0 ? 'btn-success' : 'btn-outline', value: c.num, candidate: true }));
+      buttons.push({ text: ft('manualInput'), class: 'btn-danger', value: null });
+      return showModal({
+        icon: '🔢', title: ft('confirmNumber'),
+        message: ft('multipleReadings'),
+        dataHtml: img ? ('<img src="' + img + '" alt="' + ft('numberZone') + '">') : null, wide: !!img, buttons
+      });
+    }
+    const modalViewImage = (src, title) => showModal({
+      icon: '🔍', title: title || ft('referenceDocument'), wide: true,
+      dataHtml: '<img src="' + src + '" alt="">', buttons: [{ text: ft('close'), class: 'btn-primary', value: true }]
+    });
+
+    function escapeHtml(v) {
+      return String(v == null ? '' : v).replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    // =====================================================================
+    //  أدوات الأرقام
+    // =====================================================================
+    function normalizeDigits(str) {
+      if (!str) return '';
+      const map = { '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
+                    '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9' };
+      return String(str).replace(/[٠-٩۰-۹]/g, c => map[c] || c);
+    }
+    const extractDigitsOnly = s => normalizeDigits(s).replace(/\D/g, '');
+    const isValidRegNumber = v => extractDigitsOnly(v).length === 15;
+    // عرض بصري فقط: 5-5-5 بمسافات. الإرسال دائماً عبر extractDigitsOnly
+    // (يُسقط أي مسافات) فلا تصل مسافة إلى الشيت مطلقاً.
+    function formatRegDisplay(val) {
+      const d = extractDigitsOnly(val);
+      return d.length === 15 ? (d.slice(0, 5) + ' ' + d.slice(5, 10) + ' ' + d.slice(10, 15)) : val;
+    }
+
+    // =====================================================================
+    //  نِسَب احتياطية معايرة على القالب الرسمي
+    // =====================================================================
+    // منطقة الرقم الاحتياطية المعايرة على صورة السجل الرسمية.
+    // المنطقة ضيقة عمداً: تضم الرقم والأقواس فقط ولا تدخل في نص تسمية
+    // «الرقم الموحد»، وهو ما يسمح لمصنف الخانات بالعمل حتى عندما يفشل OCR
+    // في قراءة كلمة «الموحد» أو عندما تكون الصورة أقل جودة من PDF.
+    const FALLBACK_NUMBER_ZONE = { x0: 0.265, y0: 0.061, x1: 0.420, y1: 0.090 };
+    const FALLBACK_NAME_ZONE   = { x0: 0.742, y0: 0.295, x1: 0.898, y1: 0.640 };
+    const NAME_COL_WIDTH_FRAC  = 0.158;
+
+    // =====================================================================
+    //  مسار الهاتف الآمن من استهلاك الذاكرة
+    // =====================================================================
+    // لا نغيّر مسار الكمبيوتر. الهاتف فقط يستخدم خط معالجة أخف:
+    // 1) حد أقصى للصورة.
+    // 2) لا نُنشئ OCR للترويسة والإنجليزية إلا عند الحاجة.
+    // 3) الرقم يُقرأ بقالب ثابت من منطقة ضيقة.
+    // 4) اسم الشركة يُقرأ من العمود المعروف للقالب.
+    // 5) عند فشل الآلة نترك الإدخال اليدوي كآخر مرحلة.
+    function isMobileLike() {
+      const ua = navigator.userAgent || '';
+      return /Android|iPhone|iPad|iPod|Mobile/i.test(ua) ||
+        (navigator.maxTouchPoints > 1 && Math.min(screen.width || 9999, screen.height || 9999) < 1000);
+    }
+
+    const MOBILE_CFG = Object.freeze({
+      photoMaxDim: 2400,
+      pdfMaxDim: 2100,
+      nameMaxDim: 1250,
+      numberCandidates: 13
+    });
+
+    function disposeCanvas(c) {
+      try { if (c && c instanceof HTMLCanvasElement) { c.width = 1; c.height = 1; } } catch (e) {}
+    }
+
+    // =====================================================================
+    //  أدوات Canvas
+    // =====================================================================
+    const srcW = s => s.width || s.naturalWidth;
+    const srcH = s => s.height || s.naturalHeight;
+
+    function drawRotated(source, degrees) {
+      const sw = srcW(source), sh = srcH(source);
+      const swap = (degrees === 90 || degrees === 270);
+      const w = swap ? sh : sw, h = swap ? sw : sh;
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.translate(w / 2, h / 2);
+      ctx.rotate(degrees * Math.PI / 180);
+      ctx.drawImage(source, -sw / 2, -sh / 2);
+      return c;
+    }
+
+    function downscaleTo(source, maxDim) {
+      const sw = srcW(source), sh = srcH(source);
+      const scale = Math.min(1, maxDim / Math.max(sw, sh));
+      const c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(sw * scale));
+      c.height = Math.max(1, Math.round(sh * scale));
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(source, 0, 0, c.width, c.height);
+      return c;
+    }
+
+    // تمديد تباين بالمئين 2%/98% (min/max لا يصلح: الباركود يجعله تحويلاً مطابقاً)
+    function toGrayStretched(source) {
+      const w = srcW(source), h = srcH(source);
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d', { willReadFrequently: true });
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(source, 0, 0, w, h);
+      const img = ctx.getImageData(0, 0, w, h), d = img.data, n = w * h;
+      const gray = new Uint8ClampedArray(n), hist = new Int32Array(256);
+      for (let i = 0, j = 0; j < n; i += 4, j++) {
+        const v = (d[i] * 299 + d[i + 1] * 587 + d[i + 2] * 114) / 1000 | 0;
+        gray[j] = v; hist[v]++;
+      }
+      let acc = 0, p2 = 0, p98 = 255;
+      for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= n * 0.02) { p2 = v; break; } }
+      acc = 0;
+      for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= n * 0.98) { p98 = v; break; } }
+      const range = Math.max(1, p98 - p2);
+      for (let i = 0, j = 0; j < n; i += 4, j++) {
+        let v = ((gray[j] - p2) * 255 / range) | 0;
+        v = v < 0 ? 0 : (v > 255 ? 255 : v);
+        d[i] = v; d[i + 1] = v; d[i + 2] = v; d[i + 3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+      return c;
+    }
+
+    function cropPixels(source, box, minHeight, minWidth, maxScale) {
+      const sw = srcW(source), sh = srcH(source);
+      const x0 = Math.max(0, Math.round(box.x0 * sw)), y0 = Math.max(0, Math.round(box.y0 * sh));
+      const x1 = Math.min(sw, Math.round(box.x1 * sw)), y1 = Math.min(sh, Math.round(box.y1 * sh));
+      const cw = Math.max(1, x1 - x0), ch = Math.max(1, y1 - y0);
+      let scale = 1;
+      if (minHeight && ch < minHeight) scale = Math.max(scale, minHeight / ch);
+      if (minWidth && cw < minWidth) scale = Math.max(scale, minWidth / cw);
+      scale = Math.min(maxScale || 6, scale);
+      const out = document.createElement('canvas');
+      out.width = Math.round(cw * scale); out.height = Math.round(ch * scale);
+      const ctx = out.getContext('2d');
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(source, x0, y0, cw, ch, 0, 0, out.width, out.height);
+      return out;
+    }
+
+    function otsuThreshold(gray, n) {
+      const hist = new Int32Array(256);
+      for (let i = 0; i < n; i++) hist[gray[i]]++;
+      let sum = 0;
+      for (let t = 0; t < 256; t++) sum += t * hist[t];
+      let sumB = 0, wB = 0, maxVar = 0, th = 127;
+      for (let t = 0; t < 256; t++) {
+        wB += hist[t]; if (!wB) continue;
+        const wF = n - wB; if (!wF) break;
+        sumB += t * hist[t];
+        const mB = sumB / wB, mF = (sum - sumB) / wF;
+        const v = wB * wF * (mB - mF) * (mB - mF);
+        if (v > maxVar) { maxVar = v; th = t; }
+      }
+      return th;
+    }
+
+    // =====================================================================
+    //  ★ مصنّف الأرقام العربية-الهندية بمطابقة القوالب
+    //  ----------------------------------------------------------------
+    //  Tesseract لا يقرأ أرقام هذا القالب (ثبت ذلك عملياً حتى عند 300DPI
+    //  وبقائمة محارف بيضاء وتمرير حرف-بحرف). البديل: القالب رسمي ثابت
+    //  والخط ثابت ⇒ تكفي مطابقة شكل لكل رقم.
+    //  القوالب أدناه (20×24، تدرّج رمادي) مستخرجة من مستخرج سجل رسمي
+    //  ومعايَرة على دقّتين مختلفتين للمستند نفسه.
+    //  الصفر (٠) نقطة صغيرة ⇒ يُميَّز هندسياً بلا تصنيف.
+    // =====================================================================
+    const TPL_W = 20, TPL_H = 24;
+    const CR_DIGIT_TPL = {
+      '0': 'AAAAACFpvPbujAoAAAAAAAAAAAAAAAAYbtb6////uhYAAAAAAAAAAAAABlG69v/////+ow0AAAAAAAAAAAAGcd3////////wZgAAAAAAAAAAAAqV9f/////////sNgAAAAAAAAAADa3///////////+zHAAAAAAAAAAOx////////////+twEgAAAAAAABrJ/////////////qouAAAAAAAAMtr/////////////6HgIAAAAAAAy2v//////////////1iMAAAAAADfl///////////////+gQYAAAAAROv///////////////+2GAAAAABE2f///////////////88eAAAAADLR////////////////zywAAAAALM7////////////////ILAAAAAAYsvj//////////////6wqAAAAAAGK+P/////////////+nSYAAAAAABbY//////////////x8JAAAAAAAA2b1////////////6nAJAAAAAAAAKqD9///////////JUwEAAAAAAAAASM7/////////+pY4AQAAAAAAAAASX8z8///////bYyAAAAAAAAAAAAAENKDw////+Ho5BwAAAAAAAAAAAAAAAjub6NGGKgcAAAAA',
+      '1': 'AAAAAAAAIb3smRcAAAAAAAAAAAAAAAAAAACC/v/5hQMAAAAAAAAAAAAAAAAABNP////OIQAAAAAAAAAAAAAAAAAU8v////VTAgAAAAAAAAAAAAAAABj5/////6QYAAAAAAAAAAAAAAAAGPL/////2UwAAAAAAAAAAAAAAAAM2v/////0ZAsAAAAAAAAAAAAAAAKX//////+GEQAAAAAAAAAAAAAAADz1/////6AcAAAAAAAAAAAAAAAABrT/////uS8AAAAAAAAAAAAAAAAASvb////WPwAAAAAAAAAAAAAAAAAZxv///+pQAAAAAAAAAAAAAAAAAAWS////9mkAAAAAAAAAAAAAAAAAAEr6////mQYAAAAAAAAAAAAAAAAAJt////+7DwAAAAAAAAAAAAAAAAAW0v///8EPAAAAAAAAAAAAAAAAAAO5////yQ8AAAAAAAAAAAAAAAAAAIn////WCgAAAAAAAAAAAAAAAAAAWv///9wIAAAAAAAAAAAAAAAAAAA6/f//0QgAAAAAAAAAAAAAAAAAACjm///DCAAAAAAAAAAAAAAAAAAAHcT//6QAAAAAAAAAAAAAAAAAAAAMiP/8TwAAAAAAAAAAAAAAAAAAAAAvz5gJAAAAAAAA',
+      '2': 'AAAAAAAAAAAAAAAAPOCEBAAAAAAAAAAAAAACAwAAAC3j/+U+AAAAAAAAAAADULSaQQs01v//82IAAAAAAAAAAD/c///67OP////2XgAAAAAAAAAAdO////////////ZFAAAAAAAAAAOO9v//////////3yAAAAAAAAAAAIHn//////////+5DAAAAAAAAAAAU9f//////////WkAAAAAAAAAAAAkr/3///////2vGgAAAAAAAAAAAAVs5f/////8vlUAAAAAAAAAAAAAACyl9f///9JnBgAAAAAAAAAAAAAABm/V////ZwAAAAAAAAAAAAAAAAAALcr///9BAAAAAAAAAAAAAAAAAAADvP///1IAAAAAAAAAAAAAAAAAAAB+////UwAAAAAAAAAAAAAAAAAAAE3///9pAAAAAAAAAAAAAAAAAAAAL////3MAAAAAAAAAAAAAAAAAAAAH9///dgAAAAAAAAAAAAAAAAAAAAPW//+MAAAAAAAAAAAAAAAAAAAAAKj//5kDAAAAAAAAAAAAAAAAAAAAof//kwsAAAAAAAAAAAAAAAAAAABp//yOEQAAAAAAAAAAAAAAAAAAABXw8XACAAAAAAAAAAAAAAAAAAAAAGnPIwAAAAAAAAAA',
+      '3': 'AAAAcLdeFwAATuPsdmKfwcoPAAAAAB/+///VGnb+/////////3wAAAAARv/////5/v//////////dAAAAAB7//////////////////9yAAAAAIT//////////////////06AAAAAm///////////////////JwAAAABL/////////////////60BAAAAAATq///////////////+PgAAAAAAAHP+//////Xv7/3//68AAAAAAAAAAKj////2GwAAKzExBQAAAAAAAAAAUf///+8AAAAAAAAAAAAAAAAAAABR////7wAAAAAAAAAAAAAAAAAAACn////zCQAAAAAAAAAAAAAAAAAAG/////8/AAAAAAAAAAAAAAAAAAAB5f///4IAAAAAAAAAAAAAAAAAAADk////twAAAAAAAAAAAAAAAAAAALL////tAAAAAAAAAAAAAAAAAAAAp/////8AAAAAAAAAAAAAAAAAAAB3/////wAAAAAAAAAAAAAAAAAAAHf////MAAAAAAAAAAAAAAAAAAAAd////48AAAAAAAAAAAAAAAAAAABZ///+PQAAAAAAAAAAAAAAAAAAABPz/8MAAAAAAAAAAAAAAAAAAAAAAGbnRQAAAAAAAAAAAAAA',
+      '4': 'AAAAAAAAAAAAAKKlBQAAAAAAAAAAAAAAAAAAACC1//9lAAAAAAAAAAAAAAAAAAAAqv///4AAAAAAAAAAAAAAAAAAADj3////SgAAAAAAAAAAAAAAAAAIx////+8LAAAAAAAAAAAAAAAAAH3/////3wAAAAAAAAAAAAAAAAAj+v/////fAAAAAAAAAAAAAAAAAKL///////9lAAAAAAAAAAAAAAAA//////////olAAAAAAAAAAAAAAD//////////1UAAAAAAAAAAAAAAKL/////////VQAAAAAAAAAAAAAAI+z//////9oQAAAAAAAAAAAAAAAAQPr/////ZQAAAAAAAAAAAAAAAAAAtf///+8LAAAAAAAAAAAAAAAAAACa////nQAAAAAAAAAAAAAAAAAAHef///+3AAAAAAAAAAAAAAAAAACX//////dgAAAAAAAAAAAAAAAAC/f///////99AAAAAAAAAAAAAAAq//////////96AAAAAAAAAAAAACr//////////+QAAAAAAAAAAAAAANr/////////1wAAAAAAAAAAAAAAiv////////+iAAAAAAAAAAAAAAAIbdT/////7BUAAAAAAAAAAAAAAAAAEHXk/+xAAAAAAAAA',
+      '5': 'AAAAAAAAAA523//ZdhcAAAAAAAAAAAAAAAACg/v////+yzkAAAAAAAAAAAAAAHH8////////22IGAAAAAAAAAABC+f//////////0k4CAAAAAAAAD83/////////////nDEAAAAAAABs///////////////nbQAAAAAAGeX////////////////HHgAAAABW//////////////////VYAAAACcb//////////////////5EAAABK////////////////////sQ8AAZn//////+Xv//////////+7FQAd0f////+tPGfe/////////7MVADbu/////1EABmnv////////swYAYv//////cgAAFYP7//////+aAACh///////JKwIcVuT//////H4AAMH////////XpJe1/f/////sWAALx///////////9/z//////8QrABWp///////////////////3jwYAE53//////////////////9U8AAAAk/r////////////////6iwMAAABk5f///////////////a8yAAAAADm+/v////////////+9TwUAAAAACXrI/P////////rnqEIPAAAAAAAAEk+Oyd3p+NSocUoMAQAAAAAA',
+      '6': 'AAAAAm7NbkJIYGBxcDwGAAAAAAAAAAB4+///5sHM1sqcgFgAAAAAAAAACsb///////////+ZZQAAAAAAAAAKsP///////////9JlAAAAAAAAAAiO////////////4EoAAAAAAAAAAHz////////////fHQAAAAAAAAAANPj//////////8gAAAAAAAAAAAACpv//////////oAAAAAAAAAAAAAAQhMjf4P////+MAAAAAAAAAAAAAAABDiAwbuv//44AAAAAAAAAAAAAAAAAAAAChP//vgAAAAAAAAAAAAAAAAAAAABN///fAAAAAAAAAAAAAAAAAAAAAC76//5KAAAAAAAAAAAAAAAAAAAALvr//7YBAAAAAAAAAAAAAAAAAAAu+v///zwAAAAAAAAAAAAAAAAAAC76////oAAAAAAAAAAAAAAAAAAALvr////0LAAAAAAAAAAAAAAAAAAu+v////92AAAAAAAAAAAAAAAAABb6/////64GAAAAAAAAAAAAAAAAANb/////pAoAAAAAAAAAAAAAAAAAhP////iACgAAAAAAAAAAAAAAAABI8v//2XgGAAAAAAAAAAAAAAAAAASu/v+/SAAAAAAAAAAAAAAAAAAAAAys+HwKAAAA',
+      '7': 'AAAreVQCAAAAAAAAAABOyLYrAAAAAFju92oAAAAAAAAAL+///3wAAAAAsv///TUAAAAAAAHI////mQAAAADM////twAAAAAAIv////+mAAAAAL7////2FAAAAABk/////5YAAAAA0v////9iAAAAAKL/////cgAAAAC9/////7gIAAAK1P////9AAAAAAI7/////5jAAACX2////2AwAAAAAIer////8WAAAY/////+AAQAAAAACiv////+NAgCX////9CgAAAAAAAAh4////7ImDKj///+cAwAAAAAAAABI////x2gquf//1ygAAAAAAAAAAADD///wypvP//+RAAAAAAAAAAAAAC78////9/z/zjYAAAAAAAAAAAAAAKv///////9+BAAAAAAAAAAAAAAAUv///////DwAAAAAAAAAAAAAAAAN7v/////0FgAAAAAAAAAAAAAAAACl/////+IAAAAAAAAAAAAAAAAAAFH/////qgAAAAAAAAAAAAAAAAAAH/b///+JAAAAAAAAAAAAAAAAAAAK0v///UgAAAAAAAAAAAAAAAAAAAKe///iSAAAAAAAAAAAAAAAAAAAAF7q/608AAAAAAAAAAAAAAAAAAAAD23iagUAAAAAAAAA',
+      '8': 'AAAAAAAAAAiG4GkAAAAAAAAAAAAAAAAAAAAAL9r/8iYAAAAAAAAAAAAAAAAAAABV+P/+gAIAAAAAAAAAAAAAAAAAAH3///+/DgAAAAAAAAAAAAAAAAAAmv///+QsAAAAAAAAAAAAAAAAAAi6/////FwAAAAAAAAAAAAAAAAAINj/////lwAAAAAAAAAAAAAAAAA97v/////aBQAAAAAAAAAAAAAAAnD4//////0yAAAAAAAAAAAAAAAQoP///////5wDAAAAAAAAAAAAACve////////7SsAAAAAAAAAAAAEcP7//vX+////aAAAAAAAAAAAABnL///ZP4v////FIQAAAAAAAAAAd/7//6kUNez///yoFwAAAAAAAB7S////cggPu////+9+CAAAAAAEi/z///pOAAJr/v///csuAAAAACjW////5i4AACPs////5mAAAAAAV/3////HFAAAAa3////8gQAAAAB5/////pIBAAAAWf////+HAAAAAJr////tQwAAAAAW1v///3kAAAAAjP3//9EpAAAAAAN9///8WAAAAAB3+P/+mAwAAAAAACzd/9Q7AAAAADni/9o7AAAAAAAAAne9cCAAAAAAA3jNYwEAAAAAAAAAABcnDQAA',
+      '9': 'AAAAAAAAAABj5v/IFAAAAAAAAAAAAAAAAAABgPv///+qAAAAAAAAAAAAAAAAAFf///////oSAAAAAAAAAAAAAAAQ4P///////0cAAAAAAAAAAAAAAI3/////////hQAAAAAAAAAAAAAn+P////////+SAAAAAAAAAAAAAJn//////////5IAAAAAAAAAAAAAuf//////////kgAAAAAAAAAAAADa//////////+SAAAAAAAAAAAAALb//////////5IAAAAAAAAAAAAAf///////////lQAAAAAAAAAAAAAX6/////////+/AAAAAAAAAAAAAABS/P///////68AAAAAAAAAAAAAAABR2+7/////iAAAAAAAAAAAAAAAAAAAA1X1///QBgAAAAAAAAAAAAAAAAAAAEL///9pAAAAAAAAAAAAAAAAAAAADvb//9sDAAAAAAAAAAAAAAAAAAAA7f///0EAAAAAAAAAAAAAAAAAAAC/////vQAAAAAAAAAAAAAAAAAAALL////kAAAAAAAAAAAAAAAAAAAAkv///+QAAAAAAAAAAAAAAAAAAAB4////sAAAAAAAAAAAAAAAAAAAAFf///9EAAAAAAAAAAAAAAAAAAAACq3/gAAAAAAA',
+    };
+    const CR_TPL = (function () {
+      const out = {};
+      for (const d in CR_DIGIT_TPL) {
+        const bin = atob(CR_DIGIT_TPL[d]);
+        const a = new Float32Array(TPL_W * TPL_H);
+        let mean = 0;
+        for (let i = 0; i < a.length; i++) { a[i] = bin.charCodeAt(i); mean += a[i]; }
+        mean /= a.length;
+        let norm = 0;
+        for (let i = 0; i < a.length; i++) { a[i] -= mean; norm += a[i] * a[i]; }
+        out[d] = { v: a, n: Math.sqrt(norm) || 1 };
+      }
+      return out;
+    })();
+
+    // مكوّنات متصلة (8-جوار) على قناع ثنائي
+    function connectedComponents(mask, W, H) {
+      const labels = new Int32Array(W * H);
+      const comps = [];
+      const stack = new Int32Array(W * H);
+      let next = 0;
+      for (let p = 0; p < W * H; p++) {
+        if (!mask[p] || labels[p]) continue;
+        next++;
+        let sp = 0; stack[sp++] = p; labels[p] = next;
+        let minx = W, maxx = 0, miny = H, maxy = 0, area = 0;
+        while (sp > 0) {
+          const q = stack[--sp];
+          const qy = (q / W) | 0, qx = q - qy * W;
+          area++;
+          if (qx < minx) minx = qx; if (qx > maxx) maxx = qx;
+          if (qy < miny) miny = qy; if (qy > maxy) maxy = qy;
+          for (let dy = -1; dy <= 1; dy++) {
+            const ny = qy + dy; if (ny < 0 || ny >= H) continue;
+            for (let dx = -1; dx <= 1; dx++) {
+              const nx = qx + dx; if (nx < 0 || nx >= W) continue;
+              const r = ny * W + nx;
+              if (mask[r] && !labels[r]) { labels[r] = next; stack[sp++] = r; }
+            }
+          }
         }
-      };
+        comps.push({ id: next, x: minx, y: miny, w: maxx - minx + 1, h: maxy - miny + 1, a: area });
+      }
+      return { labels, comps };
     }
-    case 'getEmployeeBootstrap': {
-      return await __api('/api/compat/employee-bootstrap');
-    }
-    case 'getManagerBootstrap': {
-      return await __api('/api/compat/manager-bootstrap');
-    }
-    case 'getRegistrationsByClientNumber': {
-      const n = args[1];
-      const rows = await __api('/api/employee/lookup?clientNumber=' + encodeURIComponent(n));
-      return (Array.isArray(rows)?rows:[]).map(r => ({
-        registrationId: r.registrationId,
-        row: r.registrationId,
-        time: r.time,
-        regNumber: r.regNumber,
-        companyName: r.companyName,
-        clientNumber: String(r.clientNumber),
-        source: r.source || 'Form',
-        status: r.status,
-        desk: r.desk
-      }));
-    }
-    case 'callNextNumber': {
-      const r = await __api('/api/queue/next', {method:'POST', body: JSON.stringify({desk: __desk})});
-      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
-      return {
-        success: !!r.success,
-        message: r.message,
-        current: r.clientNumber,
-        desk: r.desk || __desk,
-        queue: boot.queue || {},
-        metrics: boot.metrics || {}
-      };
-    }
-    case 'callSpecificNumber': {
-      const n = args[1];
-      const r = await __api('/api/queue/call-specific', {method:'POST', body: JSON.stringify({desk: __desk, clientNumber: Number(n)})});
-      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
-      return {
-        success: !!r.success,
-        message: r.message,
-        current: r.clientNumber,
-        desk: r.desk || __desk,
-        queue: boot.queue || {},
-        metrics: boot.metrics || {}
-      };
-    }
-    case 'skipCurrentNumber': {
-      const r = await __api('/api/queue/skip', {method:'POST', body: JSON.stringify({desk: __desk})});
-      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
-      return {
-        success: !!r.success,
-        message: r.message,
-        skipped: r.clientNumber,
-        queue: boot.queue || {},
-        metrics: boot.metrics || {}
-      };
-    }
-    case 'transferRegistrationToManager': {
-      const regId = args[1];
-      const note = args[2] || '';
-      const r = await __api('/api/queue/transfer', {method:'POST', body: JSON.stringify({registrationId: Number(regId), note})});
-      return { success: !!r.success, message: r.message, alreadyTransferred: false };
-    }
-    case 'setSystemOpenState': {
-      const isOpen = args[1];
-      const r = await __api('/api/manager/system-open', {method:'POST', body: JSON.stringify({isOpen: !!isOpen})});
-      return { success: true, isOpen: r.isOpen };
-    }
-    case 'getFirebasePublicSettings': {
-      return { enabled: false };
-    }
-    default:
-      throw new Error('دالة غير مدعومة: ' + fn);
-  }
-}
 
-function run(fn,...args){
-  return __mapRun(fn, args);
-}
+    // تطبيع مكوّن إلى 20×24 (حشو لمربع مع الحفاظ على النسبة ثم تصغير بالمتوسط)
+    function normalizeGlyph(labels, W, comp) {
+      const s = Math.max(comp.w, comp.h);
+      const ox = ((s - comp.w) / 2) | 0, oy = ((s - comp.h) / 2) | 0;
+      const sq = new Float32Array(s * s);
+      for (let y = 0; y < comp.h; y++) {
+        const row = (comp.y + y) * W;
+        for (let x = 0; x < comp.w; x++) {
+          if (labels[row + comp.x + x] === comp.id) sq[(y + oy) * s + (x + ox)] = 255;
+        }
+      }
+      const out = new Float32Array(TPL_W * TPL_H);
+      for (let ty = 0; ty < TPL_H; ty++) {
+        const y0 = Math.floor(ty * s / TPL_H), y1 = Math.max(y0 + 1, Math.floor((ty + 1) * s / TPL_H));
+        for (let tx = 0; tx < TPL_W; tx++) {
+          const x0 = Math.floor(tx * s / TPL_W), x1 = Math.max(x0 + 1, Math.floor((tx + 1) * s / TPL_W));
+          let sum = 0, cnt = 0;
+          for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) { sum += sq[y * s + x]; cnt++; }
+          out[ty * TPL_W + tx] = cnt ? sum / cnt : 0;
+        }
+      }
+      return out;
+    }
 
-function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
-function showError(m){$('loginError').textContent=m;$('loginError').classList.add('show')}function clearError(){$('loginError').classList.remove('show')}
-function openDialog(title,text,okText='تأكيد',withNote=false){return new Promise(resolve=>{dialogResolver=resolve;$('dialogTitle').textContent=title;$('dialogText').textContent=text;$('dialogOk').textContent=okText;$('dialogNote').style.display=withNote?'block':'none';$('dialogNote').value='';$('overlay').classList.add('show')})}
-function closeDialog(value){$('overlay').classList.remove('show');if(dialogResolver){const r=dialogResolver;dialogResolver=null;r(value)}}
-$('dialogCancel').onclick=()=>closeDialog(null);$('dialogOk').onclick=()=>closeDialog({confirmed:true,note:$('dialogNote').value.trim()});
+    // [إصلاح] "0" و"5" متشابهان بدرجة كافية (ثبت رقمياً: ترابط القالبين
+    // ~0.58 — أعلى بكثير من بقية الأزواج) بحيث تنقلب مطابقة القوالب بينهما
+    // مع أي ضجيج بسيط في الصورة. الفيصل الموثوق هنا هندسي لا نَسَقي:
+    // "0" حلقة مغلقة تحيط بفراغ لا يتصل بخارج الرقم، بينما "5" مسار مفتوح
+    // بلا فراغ محاط بالكامل. نتحقق بملء-فيضي (flood fill) للخلفية من إطار
+    // صندوق الرقم؛ أي بكسل خلفية لا تصله المَلء = ثقب محاط = "0".
+    function hasEnclosedHole(mask, W, H, comp) {
+      const pad = 1;
+      const x0 = Math.max(0, comp.x - pad), y0 = Math.max(0, comp.y - pad);
+      const x1 = Math.min(W - 1, comp.x + comp.w - 1 + pad), y1 = Math.min(H - 1, comp.y + comp.h - 1 + pad);
+      const w = x1 - x0 + 1, h = y1 - y0 + 1;
+      if (w < 3 || h < 3) return false;
+      const visited = new Uint8Array(w * h);
+      const stack = [];
+      const seed = (gx, gy) => {
+        const xx = gx - x0, yy = gy - y0, idx = yy * w + xx;
+        if (!mask[gy * W + gx] && !visited[idx]) { visited[idx] = 1; stack.push(idx); }
+      };
+      for (let x = x0; x <= x1; x++) { seed(x, y0); seed(x, y1); }
+      for (let y = y0; y <= y1; y++) { seed(x0, y); seed(x1, y); }
+      while (stack.length) {
+        const idx = stack.pop();
+        const yy = (idx / w) | 0, xx = idx - yy * w;
+        const gx = x0 + xx, gy = y0 + yy;
+        const nbrs = [[gx - 1, gy], [gx + 1, gy], [gx, gy - 1], [gx, gy + 1]];
+        for (const [nx, ny] of nbrs) {
+          if (nx < x0 || nx > x1 || ny < y0 || ny > y1) continue;
+          const nidx = (ny - y0) * w + (nx - x0);
+          if (visited[nidx] || mask[ny * W + nx]) continue;
+          visited[nidx] = 1; stack.push(nidx);
+        }
+      }
+      let holeArea = 0;
+      for (let yy = 0; yy < h; yy++)
+        for (let xx = 0; xx < w; xx++) {
+          const gx = x0 + xx, gy = y0 + yy;
+          if (!mask[gy * W + gx] && !visited[yy * w + xx]) holeArea++;
+        }
+      return holeArea >= Math.max(3, comp.a * 0.035);
+    }
 
-let liveHub=null;
-async function startLiveQueue(){
-  if(liveHub||!window.signalR||!__authToken)return;
-  try{
-    liveHub=new signalR.HubConnectionBuilder()
-      .withUrl('/hubs/queue?access_token='+encodeURIComponent(__authToken))
-      .withAutomaticReconnect([0,1000,2000,5000,10000])
-      .build();
-    liveHub.on('QueueUpdated',function(){
-      // الـ payload قد يتضمن تحديثاً لنتيجة حالية أو إغلاقاً؛ الـ bootstrap هو المصدر الكامل للحقيقة.
-      refresh().catch(function(){});
+    function classifyGlyph(vec) {
+      let mean = 0;
+      for (let i = 0; i < vec.length; i++) mean += vec[i];
+      mean /= vec.length;
+      let norm = 0;
+      const v = new Float32Array(vec.length);
+      for (let i = 0; i < vec.length; i++) { v[i] = vec[i] - mean; norm += v[i] * v[i]; }
+      norm = Math.sqrt(norm) || 1;
+      let best = '?', bs = -2, second = -2;
+      for (const d in CR_TPL) {
+        const t = CR_TPL[d];
+        let dot = 0;
+        for (let i = 0; i < v.length; i++) dot += v[i] * t.v[i];
+        const s = dot / (norm * t.n);
+        if (s > bs) { second = bs; bs = s; best = d; }
+        else if (s > second) second = s;
+      }
+      return { d: best, score: bs, margin: bs - second };
+    }
+
+    // يحلل قصاصة تحوي سطر أرقام واحداً ويعيد الأرقام مرتبة من اليمين لليسار
+    function readDigitLine(canvas, dropWide) {
+      const W = canvas.width, H = canvas.height;
+      if (W < 20 || H < 10) return null;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const d = ctx.getImageData(0, 0, W, H).data;
+      const n = W * H, gray = new Uint8ClampedArray(n);
+      for (let i = 0, j = 0; j < n; i += 4, j++)
+        gray[j] = (d[i] * 299 + d[i + 1] * 587 + d[i + 2] * 114) / 1000 | 0;
+      const th = otsuThreshold(gray, n);
+      const mask = new Uint8Array(n);
+      for (let j = 0; j < n; j++) mask[j] = gray[j] < th ? 1 : 0;
+
+      const cc = connectedComponents(mask, W, H);
+      let items = cc.comps.filter(c => c.a > 12 && c.y > 0 && c.y + c.h < H - 1);
+      if (items.length < 4) return null;
+
+      const hs = items.map(c => c.h).sort((a, b) => a - b);
+      const Href = hs[Math.min(hs.length - 1, Math.floor(hs.length * 0.70))];
+      const big = items.filter(c => c.h >= 0.70 * Href && c.h <= 1.40 * Href);
+      if (!big.length) return null;
+      const med = arr => { const s = arr.slice().sort((a, b) => a - b); return s[(s.length / 2) | 0]; };
+      const top = med(big.map(c => c.y)), bot = med(big.map(c => c.y + c.h));
+      const Hd = Math.max(1, bot - top);
+      const minA = 0.055 * Href * Href;
+
+      items = items.filter(c => {
+        const cy = c.y + c.h / 2;
+        if (cy < top - 0.25 * Hd || cy > bot + 0.25 * Hd) return false;
+        if (c.a < minA) return false;
+        if (c.h > 1.40 * Href) return false;                 // قوس أو ضجيج طويل
+        if (dropWide && c.w > 1.55 * Href) return false;     // كتلة حروف عربية متصلة
+        return true;
+      });
+      if (!items.length) return null;
+
+      items.sort((a, b) => b.x - a.x);                        // من اليمين لليسار
+      const res = [];
+      for (const c of items) {
+        if (c.h < 0.70 * Href && c.w < 0.70 * Href) { res.push({ d: '0', score: 1, x: c.x, w: c.w }); continue; }
+        const r = classifyGlyph(normalizeGlyph(cc.labels, W, c));
+        // الرقم هنا مطبوع بالأرقام العربية-الهندية الخاصة بالقالب الرسمي:
+        // ٠ = نقطة صغيرة، ٥ = حلقة/دائرة. لذلك لا يجوز استخدام منطق
+        // 0/5 الخاص بالأرقام اللاتينية (كان يعكس النتيجة ويحوّل ٥ إلى ٠).
+        // الثقب المغلق في هذا القالب علامة ٥، بينما ٠ يظهر كمكوّن صغير.
+        if (r.d === '0' || r.d === '5') {
+          const tinyDot = c.h < 0.70 * Href && c.w < 0.70 * Href;
+          const ring = hasEnclosedHole(mask, W, H, c);
+          if (ring) r.d = '5';
+          else if (tinyDot) r.d = '0';
+        }
+        res.push({ d: r.d, score: r.score, margin: r.margin, x: c.x, w: c.w });
+      }
+      return res;
+    }
+
+    // يجمّع ناتج readDigitLine إلى رقم موحّد 15 خانة (3 مجموعات × 5)
+    function assembleUnified(items) {
+      if (!items || items.length !== 15) return null;
+      const gaps = [];
+      for (let i = 1; i < items.length; i++) gaps.push({ i, g: items[i - 1].x - (items[i].x + items[i].w) });
+      const sorted = gaps.slice().sort((a, b) => b.g - a.g);
+      const cuts = [sorted[0].i, sorted[1].i].sort((a, b) => a - b);
+      if (cuts[0] !== 5 || cuts[1] !== 10) return null;       // ليس 5-5-5 ⇒ رفض
+      const rtl = items.map(x => x.d).join('');
+      const rev = s => s.split('').reverse().join('');
+      // المستند الرسمي يطبع مجموعات الرقم بصرياً من اليمين إلى اليسار،
+      // لكن قيمة السجل نفسها مرتبة من المجموعة اليسرى إلى اليمنى:
+      // 11070 05000 58868. بعد ترتيب الخانات بصرياً RTL نعكس كل مجموعة
+      // داخلياً ثم نعكس ترتيب المجموعات الثلاث.
+      const num = rev(rtl.slice(10, 15)) + rev(rtl.slice(5, 10)) + rev(rtl.slice(0, 5));
+      if (!/^\d{15}$/.test(num)) return null;
+      const minScore = Math.min.apply(null, items.map(x => x.score));
+      return { num, minScore };
+    }
+
+    // يجرّب عدة درجات تكبير ويختار الأفضل
+    function readUnifiedFromBox(pageCanvas, box, dropWide, thumbOut) {
+      let best = null, bestCanvas = null;
+      for (const targetH of [170, 210, 260, 320, 380]) {
+        const crop = toGrayStretched(cropPixels(pageCanvas, box, targetH, 0, 14));
+        const items = readDigitLine(crop, dropWide);
+        if (!bestCanvas) bestCanvas = crop;
+        if (!items) continue;
+        const r = assembleUnified(items);
+        if (r && (!best || r.minScore > best.minScore)) { best = r; bestCanvas = crop; }
+      }
+      if (thumbOut && bestCanvas) thumbOut.src = bestCanvas.toDataURL('image/png');
+      return best;
+    }
+
+    // [إضافة جذرية] لا نعتمد على قراءة كلمة «الموحد» لتحديد مكان الرقم.
+    // في المستخرج الرسمي القالب ثابت، لكن جودة الصورة قد تجعل Tesseract
+    // يفقد كلمة الارتكاز رغم بقاء الرقم نفسه واضحاً. لذلك نبحث داخل حزام
+    // الترويسة المُعاير بالنسبة إلى خط بداية الجدول، ونقبل فقط قصاصة تعطي
+    // 15 خانة مرتبة فعلياً إلى 5-5-5. هذا مسار واحد احتياطي deterministic
+    // وليس تخميناً للرقم.
+    function searchCalibratedNumberZone(pageCanvas, layout, thumbOut) {
+      const top = layout.tableTop;
+      const candidates = [];
+      const widths = [0.24, 0.28, 0.32];
+      const xStarts = [0.27, 0.31, 0.35, 0.39];
+      const heights = [0.050, 0.060];
+      const yOffsets = [0.080, 0.068];
+
+      for (const width of widths) {
+        for (const x0 of xStarts) {
+          if (x0 + width > 0.64) continue;
+          for (const height of heights) {
+            for (const off of yOffsets) {
+              const y1 = top - off;
+              const y0 = y1 - height;
+              if (y0 < 0.01 || y1 <= y0) continue;
+              candidates.push({ x0, y0, x1: x0 + width, y1 });
+            }
+          }
+        }
+      }
+
+      let best = null;
+      for (const box of candidates) {
+        const r = readUnifiedFromBox(pageCanvas, box, true, null);
+        if (!r) continue;
+
+        // أولوية طفيفة لموضع الرقم المعروف في هذا القالب؛ المطابقة
+        // الفعلية تظل هي الشرط الحاسم (15 خانة + 5-5-5).
+        const center = (box.x0 + box.x1) / 2;
+        const positionScore = Math.max(0, 1 - Math.abs(center - 0.42) / 0.24);
+        const totalScore = r.minScore + positionScore * 0.035;
+
+        if (!best || totalScore > best.totalScore) {
+          best = Object.assign({}, r, { box, totalScore });
+        }
+      }
+
+      if (best && thumbOut) {
+        readUnifiedFromBox(pageCanvas, best.box, true, thumbOut);
+      }
+      if (best)
+        console.log('[CR] calibrated number zone:', JSON.stringify(best.box),
+          'num=', best.num, 'minScore=', best.minScore.toFixed(3));
+      return best;
+    }
+
+    // =====================================================================
+    //  عمّال Tesseract
+    // =====================================================================
+    let textWorkerP = null, mixWorkerP = null;
+    function makeWorker(langs, params) {
+      return (async () => {
+        const w = await Tesseract.createWorker(langs, 1, { logger: function () {} });
+        await w.setParameters(params);
+        return w;
+      })();
+    }
+    function getTextWorker() {
+      if (!textWorkerP) {
+        textWorkerP = makeWorker('ara', { preserve_interword_spaces: '1', tessedit_pageseg_mode: '6' });
+        textWorkerP.catch(() => { textWorkerP = null; });
+      }
+      return textWorkerP;
+    }
+    // 'ara+eng' يُستخدم فقط لتحديد موضع كتلة الترجمة الإنجليزية (لا لقراءة العربية)
+    function getMixWorker() {
+      if (!mixWorkerP) {
+        mixWorkerP = makeWorker('ara+eng', { preserve_interword_spaces: '1', tessedit_pageseg_mode: '6' });
+        mixWorkerP.catch(() => { mixWorkerP = null; });
+      }
+      return mixWorkerP;
+    }
+    // عامل مستقل لاسم المنشأة. لا نغير عامل النص العام حتى لا يتأثر أي
+    // جزء آخر من المشروع. PSM 4 أنسب لهذا العمود لأنه يتعامل مع كتلة الاسم
+    // ذات الأسطر المتعددة دون خلطها مع الأعمدة المجاورة.
+    let nameWorkerP = null;
+    function getNameWorker() {
+      if (!nameWorkerP) {
+        nameWorkerP = makeWorker('ara', { preserve_interword_spaces: '1', tessedit_pageseg_mode: '4' });
+        nameWorkerP.catch(() => { nameWorkerP = null; });
+      }
+      return nameWorkerP;
+    }
+    // [إصلاح] الترويسة تحوي عدة أعمدة متجاورة (شعار الوزارة، رقم الصفحة،
+    // "الرقم الموحد..." و"الرقم القومى..." على نفس السطر). psm 6 (كتلة
+    // منتظمة) يفترض عموداً واحداً فيخلط الأعمدة ويفشل في قراءة "الموحد"
+    // تماماً. psm 11 (نص متناثر) يقرأها بثقة عالية — تحقّقنا من ذلك على
+    // كل من الصورة الملتقطة وصفحة الـ PDF.
+    let headerWorkerP = null;
+    function getHeaderWorker() {
+      if (!headerWorkerP) {
+        headerWorkerP = makeWorker('ara', { preserve_interword_spaces: '1', tessedit_pageseg_mode: '11' });
+        headerWorkerP.catch(() => { headerWorkerP = null; });
+      }
+      return headerWorkerP;
+    }
+    window.addEventListener('load', () => {
+      // لا نحمّل عامل OCR مسبقاً على الهاتف؛ يبدأ فقط عند اختيار رفع/كاميرا.
+      if (window.__libsReady.tesseract && !isMobileLike())
+        setTimeout(() => getTextWorker(), 900);
     });
-    liveHub.on('SystemStateChanged',function(payload){
-      if(payload&&typeof payload.isOpen==='boolean') renderFormState(payload.isOpen);
-      refresh().catch(function(){});
+
+    function extractWordsFromOCRData(data) {
+      const norm = w => {
+        const b = w.bbox || w;
+        return { text: (w.text || '').trim(), conf: (w.confidence != null ? w.confidence : 100),
+                 x0: b.x0, y0: b.y0, x1: b.x1, y1: b.y1 };
+      };
+      if (Array.isArray(data.words) && data.words.length) return data.words.map(norm).filter(w => w.text);
+      const out = [];
+      for (const b of (data.blocks || []))
+        for (const p of (b.paragraphs || []))
+          for (const l of (p.lines || []))
+            for (const w of (l.words || [])) out.push(norm(w));
+      return out.filter(w => w.text);
+    }
+    async function ocrCanvas(worker, canvas) {
+      const { data } = await worker.recognize(canvas, {}, { text: true, blocks: true });
+      return { text: (data && data.text) || '', words: extractWordsFromOCRData(data || {}) };
+    }
+
+    // =====================================================================
+    //  كشف الاتجاه
+    // =====================================================================
+    const ORIENTATION_ANCHORS = ['الرقم الموحد', 'السجل التجار', 'الاسم التجار', 'السمة التجارية',
+      'وزارة التموين', 'جهاز تنمية', 'مستخرج سجل', 'الرقم القومى', 'المركزية للسجل', 'التجارة الداخلية'];
+    const ORIENT_CONFIDENT = 15;
+
+    function scoreOrientationText(text) {
+      const t = normalizeDigits(text || '');
+      let s = 0;
+      for (const a of ORIENTATION_ANCHORS) if (t.indexOf(a) !== -1) s += 15;
+      s += Math.min(10, (t.match(/[\u0600-\u06FF]/g) || []).length / 60);
+      return s;
+    }
+
+    async function detectBestOrientation(source, onProgress) {
+      let worker;
+      try { worker = await getTextWorker(); } catch (e) { return { degrees: 0, confident: false }; }
+      let best = { degrees: 0, score: -1 };
+      for (const deg of [0, 90, 180, 270]) {
+        if (onProgress) onProgress(deg);
+        try {
+          const rotated = deg === 0 ? source : drawRotated(source, deg);
+          const small = downscaleTo(rotated, 1600);
+          const band = document.createElement('canvas');
+          band.width = small.width;
+          band.height = Math.max(40, Math.round(small.height * 0.30));
+          band.getContext('2d').drawImage(small, 0, 0);
+          const { data } = await worker.recognize(toGrayStretched(band));
+          const score = scoreOrientationText(data.text || '');
+          console.log('[CR] orientation test', deg, '-> score', score.toFixed(2));
+          if (score > best.score) best = { degrees: deg, score };
+          if (score >= 45) break;
+        } catch (e) { console.warn('[CR] orientation test failed', deg, e); }
+      }
+      const confident = best.score >= ORIENT_CONFIDENT;
+      console.log('[CR] chosen orientation:', best.degrees, 'score', best.score.toFixed(2), 'confident:', confident);
+      return { degrees: best.degrees, confident };
+    }
+
+    // =====================================================================
+    //  كشف خطوط الجدول
+    // =====================================================================
+    function findVerticalRules(gray, yFrom, yTo, ratio) {
+      const W = gray.width, H = gray.height;
+      const y0 = Math.round(H * yFrom), h = Math.max(1, Math.round(H * yTo) - y0);
+      const d = gray.getContext('2d', { willReadFrequently: true }).getImageData(0, y0, W, h).data;
+      const counts = new Int32Array(W);
+      for (let y = 0; y < h; y++) {
+        const row = y * W * 4;
+        for (let x = 0; x < W; x++) if (d[row + x * 4] < 150) counts[x]++;
+      }
+      const th = h * (ratio || 0.45), out = [];
+      for (let x = 0; x < W; x++) {
+        if (counts[x] > th) {
+          if (out.length && x - out[out.length - 1].end <= 6) out[out.length - 1].end = x;
+          else out.push({ start: x, end: x });
+        }
+      }
+      return out.map(r => ((r.start + r.end) / 2) / W);
+    }
+    function findHorizontalRules(gray, xFrom, xTo, ratio) {
+      const W = gray.width, H = gray.height;
+      const x0 = Math.round(W * xFrom), w = Math.max(1, Math.round(W * xTo) - x0);
+      const d = gray.getContext('2d', { willReadFrequently: true }).getImageData(x0, 0, w, H).data;
+      const th = w * (ratio || 0.5), out = [];
+      for (let y = 0; y < H; y++) {
+        let c = 0; const row = y * w * 4;
+        for (let x = 0; x < w; x++) if (d[row + x * 4] < 170) c++;
+        if (c > th) {
+          if (out.length && y - out[out.length - 1].end <= 5) out[out.length - 1].end = y;
+          else out.push({ start: y, end: y });
+        }
+      }
+      return out.map(r => ((r.start + r.end) / 2) / H);
+    }
+
+    function deriveLayout(probeGray) {
+      const L = { tableTop: 0.121, legendBottom: 0.291, tableBottom: 0.882,
+                  nameZone: Object.assign({}, FALLBACK_NAME_ZONE), source: 'fallback' };
+      try {
+        const hR = findHorizontalRules(probeGray, 0.15, 0.85, 0.5).filter(v => v > 0.03 && v < 0.97);
+        const vR = findVerticalRules(probeGray, 0.32, 0.75, 0.45);
+        console.log('[CR] rules H:', hR.map(v => v.toFixed(3)).join(','), '| V:', vR.map(v => v.toFixed(3)).join(','));
+        const top = hR.find(v => v > 0.05 && v < 0.25);
+        const legend = top ? hR.find(v => v > top + 0.08 && v < 0.45) : null;
+        const bottom = hR.length ? hR[hR.length - 1] : null;
+        if (top && legend && bottom && bottom > legend + 0.2) {
+          L.tableTop = top; L.legendBottom = legend; L.tableBottom = bottom; L.source = 'rules-h';
+        }
+        const right = vR.filter(v => v > 0.62);
+        let x0 = null, x1 = null;
+        if (right.length >= 2) { x0 = right[right.length - 2]; x1 = right[right.length - 1]; }
+        else if (right.length === 1) { x0 = right[0]; x1 = right[0] + NAME_COL_WIDTH_FRAC; }
+        if (x0 !== null && x1 - x0 > 0.08 && x1 - x0 < 0.26) {
+          L.nameZone = { x0: x0 + 0.004, x1: Math.min(0.995, x1 - 0.004),
+                         y0: L.legendBottom + 0.006, y1: Math.min(L.tableBottom, L.legendBottom + 0.36) };
+          L.source += '+rules-v';
+        } else {
+          L.nameZone = { x0: FALLBACK_NAME_ZONE.x0, x1: FALLBACK_NAME_ZONE.x1,
+                         y0: L.legendBottom + 0.006, y1: Math.min(L.tableBottom, L.legendBottom + 0.36) };
+        }
+      } catch (e) { console.warn('[CR] deriveLayout failed', e); }
+      console.log('[CR] layout:', JSON.stringify(L));
+      return L;
+    }
+
+    // =====================================================================
+    //  تحديد سطر الرقم الموحد
+    // =====================================================================
+    const NUM_LINE_ANCHORS = ['الموحد', 'المنشأة', 'المنشاة', 'القومى', 'القومي', 'المركزية', 'للسجل'];
+    const NUM_LABEL_WORDS  = ['الموحد', 'التجار', 'للسجل', 'الرقم', 'المنشأ', 'المنشا', 'القوم', 'المركز'];
+
+    function groupWordsToLines(words) {
+      const hs = words.map(w => w.y1 - w.y0).filter(v => v > 0).sort((a, b) => a - b);
+      const med = hs.length ? hs[(hs.length / 2) | 0] : 20;
+      const tol = Math.max(5, med * 0.6);
+      const lines = [];
+      words.slice().sort((a, b) => a.y0 - b.y0).forEach(w => {
+        const cy = (w.y0 + w.y1) / 2;
+        const L = lines.find(l => Math.abs(l.y - cy) < tol);
+        if (L) { L.words.push(w); L.y = (L.y * (L.words.length - 1) + cy) / L.words.length; }
+        else lines.push({ y: cy, words: [w] });
+      });
+      lines.sort((a, b) => a.y - b.y);
+      lines.forEach(l => {
+        l.top = Math.min.apply(null, l.words.map(w => w.y0));
+        l.bot = Math.max.apply(null, l.words.map(w => w.y1));
+        l.minX = Math.min.apply(null, l.words.map(w => w.x0));
+        l.maxX = Math.max.apply(null, l.words.map(w => w.x1));
+      });
+      return lines;
+    }
+
+    // [إصلاح] لا يُعوَّل على عرض صندوق كلمة الرقم كما تراه Tesseract —
+    // Tesseract غالباً يفقد أو يقصّ بعض خانات الرقم فيُخرج كلمة أضيق
+    // بكثير من الرقم الفعلي (رأينا "5778978" لِـ 15 خانة حقيقية).
+    // البديل الموثوق: نأخذ فقط حافة النص التسمية (يمين الرقم) من
+    // كلمة "الموحد" نفسها — موضعها دقيق حتى لو محتواها غير مقروء —
+    // ونمتد يساراً بمقدار مضاعفات ثابتة من ارتفاعها (القالب رسمي وثابت
+    // النسب، فالعلاقة بين ارتفاع السطر وعرض الرقم ثابتة). معايَرة على
+    // عيّنتين بدقتين مختلفتين وثبتت صحتها بين 13x و18x الارتفاع.
+    const NUM_LEFT_RATIO = 17;   // امتداد الصندوق يساراً (× ارتفاع كلمة "الموحد")
+    const NUM_GAP_RATIO  = 0.2;  // فجوة صغيرة قبل بداية نص التسمية
+    // [معايَرة] هامش رأسي ضيق عمداً: السطر التالي في الجدول قريب جداً،
+    // وأي هامش زائد (جُرِّب حتى 0.20) يلتقط شظايا من السطر التالي تُصنَّف
+    // خطأً كأصفار إضافية فتُفسد عدّ الخانات. 0.10 كافٍ لميل بسيط دون تسرّب.
+    const NUM_PADY_RATIO = 0.10;
+
+    function numberBoxFromAnchor(lines, W, H, leftRatio) {
+      const ratio = leftRatio || NUM_LEFT_RATIO;
+      for (const L of lines) {
+        const anchorWord = L.words.find(w => w.text.indexOf('الموحد') !== -1);
+        if (!anchorWord) continue;
+        let labelLeft = anchorWord.x0;
+        for (const w of L.words)
+          if (NUM_LABEL_WORDS.some(k => w.text.indexOf(k) !== -1)) labelLeft = Math.min(labelLeft, w.x0);
+        const anchorH = Math.max(8, anchorWord.y1 - anchorWord.y0);
+        const gap = NUM_GAP_RATIO * anchorH;
+        const x1 = labelLeft - gap;
+        const x0 = Math.max(0, x1 - ratio * anchorH);
+        const padY = NUM_PADY_RATIO * anchorH;
+        const box = {
+          x0: x0 / W, x1: Math.min(W, x1 + gap * 0.5) / W,
+          y0: Math.max(0, anchorWord.y0 - padY) / H,
+          y1: Math.min(H, anchorWord.y1 + padY) / H
+        };
+        if (box.x1 - box.x0 < 0.03) continue;
+        return box;
+      }
+      return null;
+    }
+
+    // =====================================================================
+    //  اسم الشركة — قراءتان: 'ara' للنص، و'ara+eng' لتحديد بداية الترجمة
+    // =====================================================================
+    const NAME_NOISE = ['نهاية', 'البيانات', 'البياتات', 'الكود', 'مدير', 'قومى', 'قومي',
+                        'السمة', 'الفرع', 'تاريخ', 'بقانون', 'لسنه', 'لسنة'];
+    const NAME_LEGAL = ['ذات مسئولية محدودة', 'ذات مسؤولية محدودة', 'ش.م.م'];
+
+    function cleanCompanyName(raw) {
+      if (!raw) return '';
+      let s = String(raw).replace(/\s{2,}/g, ' ').trim();
+      s = s.replace(/^\s*[\u0660-\u06692-9]\s*[-–—]\s*/, '');
+      s = s.replace(/^[\s:\-–—.,*()|!'"]+|[\s:\-–—.,*()|!'"]+$/g, '');
+      // Tesseract قد يضيف قبل أول كلمة حقيقية شظايا قصيرة من حدود الجدول
+      // (مثل «ات أن») في هذا القالب. نحذف هذه الشظايا فقط في بداية الاسم.
+      s = s.replace(/^(?:(?:ات|أن|ان)\s+)+/u, '').trim();
+      for (const w of NAME_LEGAL) { const i = s.indexOf(w); if (i !== -1) s = s.slice(0, i).trim(); }
+      s = s.replace(/\s{2,}/g, ' ').trim();
+      if (s.length > 8) s = s.replace(/(و|ال|لل|ل|ب|في|فى)$/, '').trim();
+      return s;
+    }
+
+    function isNameWord(w) {
+      const t = w.text.replace(/^[|!'"«»(){}\[\]:،,.*\-–—]+|[|!'"«»(){}\[\]:،,.*\-–—]+$/g, '');
+      if (t.length < 2) return null;
+      if (/[A-Za-z]/.test(t)) return null;
+      if (/[0-9\u0660-\u0669]/.test(t)) return null;
+      if (!/[\u0600-\u06FF]/.test(t)) return null;
+      // [إصلاح] كان 45 يُسقط كلمات صحيحة بثقة متوسطة (مثال واقعي:
+      // "توريدات" اختفت في كلا الاختبارين) — العمود ضيق ومزدحم فتقل ثقة
+      // Tesseract بشكل طبيعي حتى لو القراءة سليمة
+      if (w.conf < 32) return null;
+      if (NAME_NOISE.some(n => t.indexOf(n) !== -1)) return null;
+      return t;
+    }
+
+    // [إصلاح] القطع بالـ Y فقط (نهاية السطر العربي) لا يكفي: كلمة إنجليزية
+    // قد تقع على نفس سطر عربي مختلط (مثال واقعي: "البيطرية Standa vet" سطر
+    // واحد) فيقرأها ممر 'ara' كرموز عربية مشوَّهة ("أن استندا"). البديل:
+    // نستبعد أي كلمة عربية متداخلة أفقياً مع صندوق كلمة إنجليزية فعلية،
+    // بصرف النظر عن كونها في نفس السطر أو لا — لا نعتمد على قطع السطر وحده
+    function overlapsEnglishWord(w, engWords) {
+      if (!engWords || !engWords.length) return false;
+      for (const e of engWords) {
+        const oy = Math.min(w.y1, e.y1) - Math.max(w.y0, e.y0);
+        if (oy <= 0) continue;
+        const ox = Math.min(w.x1, e.x1) - Math.max(w.x0, e.x0);
+        const wWidth = Math.max(1, w.x1 - w.x0);
+        // لا نستبعد الكلمة العربية لمجرد أنها تقع على نفس الارتفاع
+        // مع الإنجليزية؛ القالب الرسمي يضع «البيطرية» بجوار Standa vet
+        // على نفس السطر. الاستبعاد هنا فقط إذا كان التداخل الأفقي شبه كامل.
+        if (ox > 0 && ox / wWidth > 0.80) return true;
+      }
+      return false;
+    }
+
+    const LATIN_TO_ARABIC = {
+      a:'ا', b:'ب', c:'ك', d:'د', e:'ي', f:'ف', g:'ج', h:'ه',
+      i:'ي', j:'ج', k:'ك', l:'ل', m:'م', n:'ن', o:'و', p:'ب',
+      q:'ق', r:'ر', s:'س', t:'ت', u:'و', v:'ف', w:'و', x:'كس',
+      y:'ي', z:'ز'
+    };
+
+    function normalizeArabicForCompare(s) {
+      return String(s || '')
+        .replace(/[إأآٱ]/g, 'ا')
+        .replace(/ى/g, 'ي')
+        .replace(/ة/g, 'ه')
+        .replace(/[ًٌٍَُِّْـ]/g, '');
+    }
+
+    function transliterateLatinTokenToArabic(s) {
+      const t = String(s || '').toLowerCase().replace(/[^a-z]/g, '');
+      if (!t) return '';
+      let out = '';
+      for (const ch of t) out += LATIN_TO_ARABIC[ch] || '';
+      return out;
+    }
+
+    function editDistance(a, b) {
+      const aa = Array.from(a || ''), bb = Array.from(b || '');
+      const prev = new Array(bb.length + 1);
+      const cur = new Array(bb.length + 1);
+      for (let j = 0; j <= bb.length; j++) prev[j] = j;
+      for (let i = 1; i <= aa.length; i++) {
+        cur[0] = i;
+        for (let j = 1; j <= bb.length; j++) {
+          const cost = aa[i - 1] === bb[j - 1] ? 0 : 1;
+          cur[j] = Math.min(cur[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+        }
+        for (let j = 0; j <= bb.length; j++) prev[j] = cur[j];
+      }
+      return prev[bb.length];
+    }
+
+    // تصحيح محافظ جداً: إذا أخطأ OCR في كلمة عربية منخفضة الثقة،
+    // وكان بجوارها اسم لاتيني واضح يمثل الكلمة نفسها تقريباً، نستخدم
+    // الكتابة العربية الأقرب للتهجئة اللاتينية. لا نلمس الكلمات عالية الثقة.
+    function correctArabicTokenFromEnglish(token, conf, englishWords) {
+      if (!token || conf >= 55 || !englishWords || !englishWords.length) return token;
+      const normalizedToken = normalizeArabicForCompare(token);
+      if (normalizedToken.length < 2) return token;
+
+      for (const e of englishWords) {
+        const latin = (e.text || '').replace(/[^A-Za-z]/g, '');
+        if (latin.length < 3 || e.conf < 70) continue;
+        const candidate = transliterateLatinTokenToArabic(latin);
+        if (candidate.length < 2) continue;
+        const distance = editDistance(normalizedToken, normalizeArabicForCompare(candidate));
+        if (distance <= 1 && distance / Math.max(normalizedToken.length, candidate.length) <= 0.34)
+          return candidate;
+      }
+      return token;
+    }
+
+    const NAME_COMMON_CORRECTIONS = [
+      ['نتجاره', 'لتجاره'], ['نتجارة', 'لتجاره'], ['التجاره', 'لتجاره'],
+      ['إوتوريدات', 'وتوريدات'], ['اوتوريدات', 'وتوريدات'], ['بوتوريدات', 'وتوريدات'],
+      ['اوريدات', 'وتوريدات'], ['الييضرية', 'البيطرية'], ['اليضرية', 'البيطرية']
+    ];
+
+    function correctCommonNameToken(token) {
+      let t = token;
+      const n = normalizeArabicForCompare(t);
+      for (const [bad, good] of NAME_COMMON_CORRECTIONS) {
+        if (n === normalizeArabicForCompare(bad)) return good;
+      }
+      return t;
+    }
+
+    function correctVetTokenFromEnglish(token, englishWords) {
+      if (!englishWords || !englishWords.length) return token;
+      const hasVet = englishWords.some(w => /\bvet\b/i.test(w.text || '') && w.conf >= 65);
+      if (!hasVet) return token;
+      const n = normalizeArabicForCompare(token);
+      if (n === normalizeArabicForCompare('فبت') ||
+          n === normalizeArabicForCompare('فوت') ||
+          n === normalizeArabicForCompare('فت') ||
+          n === normalizeArabicForCompare('افيت') ||
+          n === normalizeArabicForCompare('ا فيت')) return 'فيت';
+      return token;
+    }
+
+    function correctNameToken(token, englishWords) {
+      return correctVetTokenFromEnglish(correctCommonNameToken(token), englishWords);
+    }
+
+    function buildEnglishCompanyName(englishWords) {
+      if (!englishWords || !englishWords.length) return '';
+      const seen = new Set();
+      const words = englishWords.slice().sort((a, b) => {
+        const ay = (a.y0 + a.y1) / 2, by = (b.y0 + b.y1) / 2;
+        if (Math.abs(ay - by) > 8) return ay - by;
+        return a.x0 - b.x0;
+      });
+      return words.map(w => w.text.replace(/[^A-Za-z]/g, ''))
+        .filter(t => t.length >= 2 && !seen.has(t.toLowerCase()) && seen.add(t.toLowerCase()))
+        .join(' ').replace(/\s{2,}/g, ' ').trim();
+    }
+
+    function collectLatinWordsFromArabicPass(araWords) {
+      if (!araWords || !araWords.length) return [];
+      return araWords.filter(w => /^[A-Za-z]{3,}[A-Za-z0-9]*$/.test(String(w.text || '').replace(/[|!.,;:()\[\]{}]+/g, '')) && w.conf >= 35)
+        .map(w => ({ ...w, text: String(w.text).replace(/[^A-Za-z]/g, '') }));
+    }
+
+    function buildCompanyName(araWords, englishTop, englishWords) {
+      const latinFromArabic = collectLatinWordsFromArabicPass(araWords);
+      const allEnglish = (englishWords || []).concat(latinFromArabic);
+      if (!araWords || !araWords.length) return buildEnglishCompanyName(allEnglish);
+
+      const lines = groupWordsToLines(araWords);
+      const hs = lines.map(l => l.bot - l.top).sort((a, b) => a - b);
+      const lineH = hs.length ? hs[(hs.length / 2) | 0] : 20;
+
+      // مهم: لا نمد القراءة العربية حتى نهاية الإنجليزية. هذا كان سبباً
+      // مباشراً لظهور شظايا عربية مصطنعة مثل «ماعنا اله حت سي» من كلمات
+      // Trade/Supply/Distribution/Veterinary. نحتفظ فقط بالخط العربي حتى
+      // السطر المختلط الذي يحتوي «البيطرية Standa vet».
+      const englishTopY = (englishTop != null) ? englishTop : Infinity;
+      const arabicLimit = Number.isFinite(englishTopY)
+        ? englishTopY + lineH * 1.15
+        : Infinity;
+
+      const out = [];
+      let started = false;
+      for (const L of lines) {
+        if (L.top > arabicLimit) break;
+        L.words.sort((a, b) => b.x0 - a.x0);
+        const kept = L.words.map(w => {
+          const token = isNameWord(w);
+          if (!token) return null;
+          return correctNameToken(token, allEnglish);
+        }).filter(Boolean);
+
+        // نحذف فقط شظايا البداية المعروفة من OCR، وليس كلمات الاسم الفعلية.
+        while (kept.length > 1 && /^(?:ات|أن|ان)$/u.test(kept[0])) kept.shift();
+        if (!kept.length) { if (started) break; else continue; }
+        out.push(kept.join(' '));
+        started = true;
+        if (out.join(' ').length > 180) break;
+      }
+
+      const arabic = cleanCompanyName(out.join(' '));
+      const english = buildEnglishCompanyName(allEnglish);
+      if (!arabic) return english;
+      if (!english) return arabic;
+      return arabic + ' ' + english;
+    }
+
+    async function findEnglishWords(nameCanvas) {
+      try {
+        const mix = await getMixWorker();
+        const r = await ocrCanvas(mix, nameCanvas);
+        // and / Medicines في الصورة الفعلية ظهرت بثقة 68.8 / 51.8.
+        // حد 55 كان يسقط Medicines رغم أنها قراءة صحيحة. نعتمد 45 مع
+        // اشتراط كلمة لاتينية حقيقية من 3 أحرف على الأقل.
+        const lat = r.words.filter(w => /^[A-Za-z]{3,}[A-Za-z0-9]*$/.test(String(w.text || '').replace(/[|!.,;:()\[\]{}]+/g, '')) && w.conf >= 45);
+        if (!lat.length) return { top: null, words: [] };
+        const top = Math.min.apply(null, lat.map(w => w.y0));
+        console.log('[CR] english block top:', top, lat.slice(0, 8).map(w => w.text).join(' '));
+        return { top, words: lat };
+      } catch (e) { console.warn('[CR] mix pass failed', e); return { top: null, words: [] }; }
+    }
+
+
+    // =====================================================================
+    //  الوضع الليلي / الأوضاع / الحقول
+    // =====================================================================
+    const themeToggle = document.getElementById('themeToggle');
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      themeToggle.textContent = t === 'dark' ? '☀️' : '🌙';
+      try { localStorage.setItem('cr_theme', t); } catch (e) {}
+      const m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.content = t === 'dark' ? '#0f1115' : '#0d6efd';
+    }
+    (function () {
+      try {
+        const s = localStorage.getItem('cr_theme');
+        applyTheme(s || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+      } catch (e) { applyTheme('light'); }
+    })();
+    themeToggle.addEventListener('click', () =>
+      applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+    const langToggle = document.getElementById('langToggle');
+    if (langToggle) {
+      langToggle.addEventListener('click', () => {
+        formLangCode = formLangCode === 'ar' ? 'en' : 'ar';
+        try { localStorage.setItem('queue_form_lang_v1', formLangCode); } catch (e) {}
+        applyFormLanguage();
+      });
+    }
+
+    const regInput = document.getElementById('regNumber');
+    const companyInput = document.getElementById('companyName');
+    const clientInput = document.getElementById('clientNumber');
+        // رقم العميل: أرقام فقط من 1 إلى 500 + لوحة مفاتيح رقمية على الموبايل
+    clientInput.addEventListener('input', () => {
+      let v = String(clientInput.value || '')
+        .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+        .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+        .replace(/\D/g, '');
+      if (v.length > 1) v = v.replace(/^0+/, '') || '0';
+      if (v !== '' && Number(v) > 500) v = '500';
+      clientInput.value = v;
     });
-    await liveHub.start();
-    var deskNum=Number((employee&&employee.desk)||__desk||11);
-    await liveHub.invoke('JoinDesk',deskNum);
-  }catch(e){console.warn('SignalR employee',e);liveHub=null}
-}
-function schedulePoll(){
-  clearInterval(pollTimer);
-  // احتياطي فقط كل 15 ثانية إذا انقطع SignalR
-  pollTimer=setInterval(function(){
-    if(!liveHub||liveHub.state!=='Connected')refresh().catch(function(){});
-  },15000);
+    clientInput.addEventListener('keydown', (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const ok = ['Backspace','Delete','Tab','Enter','ArrowLeft','ArrowRight','Home','End'].includes(e.key);
+      if (ok) return;
+      if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+    });
+    clientInput.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const t = (e.clipboardData || window.clipboardData).getData('text') || '';
+      const digits = t.replace(/\D/g, '').replace(/^0+/, '').slice(0, 3);
+      let n = digits;
+      if (n !== '' && Number(n) > 500) n = '500';
+      clientInput.value = n;
+      clientInput.dispatchEvent(new Event('input'));
+    });
+    const regError = document.getElementById('regError');
+    const regNote = document.getElementById('regNote');
+    const reviewBox = document.getElementById('reviewBox');
+    const regZoneThumb = document.getElementById('regZoneThumb');
+    const regZoneImg = document.getElementById('regZoneImg');
+    const nameZoneThumb = document.getElementById('nameZoneThumb');
+    const nameZoneImg = document.getElementById('nameZoneImg');
+    const STORAGE_KEY = 'cr_form_draft';
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ['manual', 'upload', 'camera'].forEach(m =>
+          document.getElementById('panel-' + m).classList.remove('active'));
+        document.getElementById('panel-' + btn.dataset.mode).classList.add('active');
+        if (btn.dataset.mode === 'manual') {
+          reviewBox.classList.remove('show');
+          regZoneThumb.classList.remove('show');
+          nameZoneThumb.classList.remove('show');
+          regNote.classList.remove('show');
+        }
+      });
+    });
+
+    regZoneThumb.addEventListener('click', () => { if (regZoneImg.src) modalViewImage(regZoneImg.src, ft('reg')); });
+    nameZoneThumb.addEventListener('click', () => { if (nameZoneImg.src) modalViewImage(nameZoneImg.src, ft('company')); });
+
+    function showToast(msg) {
+      const t = document.getElementById('savedToast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 1800);
+    }
+    function saveDraft() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          reg: regInput.value, company: companyInput.value, client: clientInput.value, ts: Date.now()
+        }));
+        showToast(ft('saved'));
+      } catch (e) {}
+    }
+    (function loadDraft() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return;
+        const d = JSON.parse(raw);
+        if (Date.now() - (d.ts || 0) > 864e5) { localStorage.removeItem(STORAGE_KEY); return; }
+        if (d.reg) regInput.value = d.reg;
+        if (d.company) companyInput.value = d.company;
+        if (d.client) clientInput.value = d.client;
+        if (d.reg) regInput.dispatchEvent(new Event('input'));
+      } catch (e) {}
+    })();
+    function clearDraft() { try { localStorage.removeItem(STORAGE_KEY); } catch (e) {} }
+
+    let saveTimer = null;
+    const scheduleSave = () => { clearTimeout(saveTimer); saveTimer = setTimeout(saveDraft, 600); };
+    [regInput, companyInput, clientInput].forEach(el => el.addEventListener('input', scheduleSave));
+
+    function formatRegWhileTyping(input) {
+      const raw = input.value || '';
+      const caret = input.selectionStart == null ? raw.length : input.selectionStart;
+      const digitsBeforeCaret = extractDigitsOnly(raw.slice(0, caret)).length;
+      const digits = extractDigitsOnly(raw).slice(0, 15);
+      const formatted = formatRegDisplay(digits);
+      input.value = formatted;
+      const targetDigitCount = Math.min(digitsBeforeCaret, digits.length);
+      if (document.activeElement === input) {
+        let pos = targetDigitCount;
+        if (targetDigitCount > 5) pos += 1;
+        if (targetDigitCount > 10) pos += 1;
+        try { input.setSelectionRange(pos, pos); } catch (e) {}
+      }
+      return digits.length;
+    }
+
+    regInput.addEventListener('input', () => {
+      const n = formatRegWhileTyping(regInput);
+      regInput.classList.toggle('valid', n === 15);
+      regInput.classList.toggle('invalid', n > 0 && n !== 15);
+      regError.classList.toggle('show', n > 0 && n !== 15);
+    });
+    regInput.addEventListener('blur', () => {
+      const formatted = formatRegDisplay(regInput.value);
+      if (formatted !== regInput.value) regInput.value = formatted;
+    });
+
+    // =====================================================================
+    //  المسار الرئيسي
+    // =====================================================================
+    let lastUprightCanvas = null, lastUploadedFile = null, lastCameraFile = null;
+
+    async function ensureHeicConverter() {
+      if (typeof heic2any !== 'undefined') return true;
+      return await new Promise(resolve => {
+        const existing = document.querySelector('script[data-heic-converter="1"]');
+        if (existing) {
+          const t = setInterval(() => {
+            if (typeof heic2any !== 'undefined') { clearInterval(t); resolve(true); }
+          }, 100);
+          setTimeout(() => { clearInterval(t); resolve(typeof heic2any !== 'undefined'); }, 12000);
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+        script.async = true;
+        script.dataset.heicConverter = '1';
+        script.onload = () => resolve(typeof heic2any !== 'undefined');
+        script.onerror = () => resolve(false);
+        document.head.appendChild(script);
+      });
+    }
+
+    async function loadImageOriented(file) {
+      let workingFile = file;
+      const name = String(file && file.name || '').toLowerCase();
+      const type = String(file && file.type || '').toLowerCase();
+      const isHeic = type.indexOf('heic') !== -1 || type.indexOf('heif') !== -1 || /\.(heic|heif)$/i.test(name);
+
+      // بعض أجهزة iPhone قد تسلّم HEIC. التحويل هنا داخل المتصفح فقط؛
+      // لا يتم رفع الملف إلى أي خادم.
+      if (isHeic) {
+        const ok = await ensureHeicConverter();
+        if (!ok) throw new Error(ft('heicError'));
+        const converted = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.94 });
+        const blob = Array.isArray(converted) ? converted[0] : converted;
+        workingFile = new File([blob], 'mobile-heic-converted.jpg', { type: 'image/jpeg' });
+      }
+
+      try {
+        if (window.createImageBitmap) {
+          const bitmap = await createImageBitmap(workingFile, { imageOrientation: 'from-image' });
+          try { bitmap.__crOrientationApplied = true; } catch (e) {}
+          return bitmap;
+        }
+        throw new Error('no createImageBitmap');
+      } catch (e) {
+        const url = URL.createObjectURL(workingFile);
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = url;
+        await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+        img.__objectUrl = url;
+        return img;
+      }
+    }
+
+    async function toUprightFullRes(source, fillEl, textEl, base) {
+      let res;
+      if (source && source.__crOrientationApplied === true) {
+        // صور JPG/PNG المرفوعة أو الملتقطة بالكاميرا: createImageBitmap
+        // طبّق EXIF orientation بالفعل، فلا نستهلك OCR إضافياً لتحديد الاتجاه.
+        textEl.textContent = ft('preparing');
+        fillEl.style.width = (base + 4) + '%';
+        res = { degrees: 0, confident: true };
+      } else {
+        // PDF Canvas أو fallback Image: نحتفظ باختبار الاتجاه الكامل لأنه
+        // لا توجد metadata مضمونة يمكن الاعتماد عليها هنا.
+        textEl.textContent = ft('orientation');
+        fillEl.style.width = (base + 3) + '%';
+        res = await detectBestOrientation(source, () => { fillEl.style.width = (base + 8) + '%'; });
+      }
+      let up = res.degrees === 0 ? source : drawRotated(source, res.degrees);
+      const rasterLimit = isMobileLike() ? MOBILE_CFG.photoMaxDim : 4200;
+      if (Math.max(srcW(up), srcH(up)) > rasterLimit) up = downscaleTo(up, rasterLimit);
+      if (!(up instanceof HTMLCanvasElement)) {
+        const c = document.createElement('canvas');
+        c.width = srcW(up); c.height = srcH(up);
+        c.getContext('2d').drawImage(up, 0, 0);
+        up = c;
+      }
+      try { if (source.__objectUrl) URL.revokeObjectURL(source.__objectUrl); } catch (e) {}
+      return { canvas: up, confident: res.confident };
+    }
+
+    // =====================================================================
+    //  Mobile OCR Pipeline
+    // =====================================================================
+    // لا نستخدم مسح الترويسة الكامل على الهاتف؛ القالب الرسمي ثابت، ولذلك
+    // نقيس فقط مناطق الاسم والرقم مع هامش تصحيح حولها. هذا يقلل الـRAM بشكل
+    // حاد ويمنع أربع عمليات OCR لاتجاهات الصورة عندما يكون EXIF مطبقاً.
+    let mobileNameWorkerP = null;
+    function getMobileNameWorker() {
+      if (!mobileNameWorkerP) {
+        mobileNameWorkerP = makeWorker('ara+eng', { preserve_interword_spaces: '1', tessedit_pageseg_mode: '6' });
+        mobileNameWorkerP.catch(() => { mobileNameWorkerP = null; });
+      }
+      return mobileNameWorkerP;
+    }
+
+    function expandedBox(box, dx, dy) {
+      return {
+        x0: Math.max(0.01, box.x0 - dx),
+        y0: Math.max(0.01, box.y0 - dy),
+        x1: Math.min(0.99, box.x1 + dx),
+        y1: Math.min(0.99, box.y1 + dy)
+      };
+    }
+
+    function shiftBox(box, dx, dy) {
+      const w = box.x1 - box.x0, h = box.y1 - box.y0;
+      let x0 = box.x0 + dx, y0 = box.y0 + dy;
+      x0 = Math.max(0.01, Math.min(0.99 - w, x0));
+      y0 = Math.max(0.01, Math.min(0.99 - h, y0));
+      return { x0, y0, x1: x0 + w, y1: y0 + h };
+    }
+
+    function buildMobileNumberCandidates(baseBox) {
+      const out = [];
+      const shifts = [
+        [0,0],[0.012,0],[-0.012,0],[0.025,0],[-0.025,0],
+        [0,0.005],[0,-0.005],[0,0.010],[0,-0.010],
+        [0.015,0.006],[-0.015,0.006],[0.015,-0.006],[-0.015,-0.006]
+      ];
+      for (const [dx,dy] of shifts) {
+        const b = shiftBox(expandedBox(baseBox, 0.010, 0.006), dx, dy);
+        if (b.x1 > b.x0 && b.y1 > b.y0) out.push(b);
+      }
+      return out.slice(0, MOBILE_CFG.numberCandidates);
+    }
+
+    function readUnifiedFromBoxMobile(pageCanvas, box, thumbOut) {
+      let best = null, bestCanvas = null;
+      for (const targetH of [205, 275, 345]) {
+        let crop = null, gray = null;
+        try {
+          crop = cropPixels(pageCanvas, box, targetH, 0, 7);
+          gray = toGrayStretched(crop);
+          disposeCanvas(crop); crop = null;
+          const items = readDigitLine(gray, true);
+          if (!items) { disposeCanvas(gray); gray = null; continue; }
+          const r = assembleUnified(items);
+          if (r && (!best || r.minScore > best.minScore)) {
+            if (bestCanvas) disposeCanvas(bestCanvas);
+            best = r; bestCanvas = gray; gray = null;
+          }
+        } finally {
+          if (crop) disposeCanvas(crop);
+          if (gray) disposeCanvas(gray);
+        }
+      }
+      if (thumbOut && bestCanvas) thumbOut.src = bestCanvas.toDataURL('image/jpeg', 0.88);
+      if (bestCanvas && !thumbOut) disposeCanvas(bestCanvas);
+      return best;
+    }
+
+    function splitMobileNameWords(words) {
+      const clean = (words || []).filter(w => w && w.text);
+      const ara = clean.filter(w => /[\u0600-\u06FF]/.test(String(w.text)) && !/[A-Za-z]/.test(String(w.text)));
+      const eng = clean.filter(w => /^[A-Za-z][A-Za-z0-9.&-]{2,}$/.test(String(w.text).replace(/[|!.,;:()[\]{}]+/g, '')) && Number(w.conf) >= 35);
+      return { ara, eng };
+    }
+
+    async function runMobileNameOCR(nameCanvas) {
+      const worker = await getNameWorker();
+      const first = await ocrCanvas(worker, nameCanvas);
+      let split = splitMobileNameWords(first.words);
+      let company = buildCompanyName(split.ara, split.eng.length ? Math.min(...split.eng.map(w => w.y0)) : null, split.eng);
+
+      // إن كان النص العربي غائباً أو قصيراً بشكل غير معقول، نعيد المحاولة
+      // بممر ara+eng واحد بدلاً من فتح عدة عمال متزامنين.
+      if (!company || company.replace(/[^\u0600-\u06FFA-Za-z]/g,'').length < 5) {
+        const mixed = await getMobileNameWorker();
+        const second = await ocrCanvas(mixed, nameCanvas);
+        split = splitMobileNameWords(second.words);
+        company = buildCompanyName(split.ara, split.eng.length ? Math.min(...split.eng.map(w => w.y0)) : null, split.eng) || company;
+      }
+      return company;
+    }
+
+    async function runMobileOCR(upright, progressEl, fillEl, textEl, type, orientationConfident) {
+      lastUprightCanvas = upright;
+      progressEl.style.display = 'block';
+      const retryRow = document.getElementById(type === 'upload' ? 'uploadRetry' : 'cameraRetry');
+      retryRow.classList.remove('show');
+      regZoneThumb.classList.remove('show');
+      nameZoneThumb.classList.remove('show');
+      regNote.classList.remove('show');
+      fillEl.style.width = '12%';
+      textEl.textContent = ft('phoneOptimize');
+
+      try {
+        if (typeof Tesseract === 'undefined') throw new Error(ft('ocrNotLoaded'));
+
+        // نحدد تخطيطاً صغيراً جداً من الصورة — بدون OCR — لالتقاط تغيرات بسيطة
+        // في مكان الجدول/العمود بسبب الكاميرا.
+        fillEl.style.width = '25%';
+        const probe = toGrayStretched(downscaleTo(upright, 900));
+        const layout = deriveLayout(probe);
+        disposeCanvas(probe);
+
+        // ---------- الرقم الموحد ----------
+        textEl.textContent = ft('readNumberTemplate');
+        fillEl.style.width = '40%';
+        let regPicked = '';
+        let numberBest = null;
+        const numberBoxes = buildMobileNumberCandidates(FALLBACK_NUMBER_ZONE);
+        for (const box of numberBoxes) {
+          const r = readUnifiedFromBoxMobile(upright, box, null);
+          if (r && (!numberBest || r.minScore > numberBest.minScore)) numberBest = Object.assign({}, r, { box });
+          if (numberBest && numberBest.minScore >= 0.82) break;
+        }
+        if (numberBest) {
+          regPicked = numberBest.num;
+          readUnifiedFromBoxMobile(upright, numberBest.box, regZoneImg);
+          regZoneThumb.classList.add('show');
+        }
+
+        // ---------- اسم الشركة ----------
+        fillEl.style.width = '64%';
+        textEl.textContent = ft('readCompany');
+        const baseName = layout && layout.nameZone ? layout.nameZone : FALLBACK_NAME_ZONE;
+        const nameBoxes = [
+          expandedBox(baseName, 0.008, 0.010),
+          expandedBox(FALLBACK_NAME_ZONE, 0.010, 0.012),
+          shiftBox(expandedBox(FALLBACK_NAME_ZONE, 0.014, 0.014), -0.010, 0),
+          shiftBox(expandedBox(FALLBACK_NAME_ZONE, 0.014, 0.014), 0.010, 0)
+        ];
+
+        let companyName = '';
+        for (let i = 0; i < nameBoxes.length && !companyName; i++) {
+          const box = nameBoxes[i];
+          const nc = toGrayStretched(cropPixels(upright, box, MOBILE_CFG.nameMaxDim, 720, 7));
+          nameZoneImg.src = nc.toDataURL('image/jpeg', 0.88);
+          nameZoneThumb.classList.add('show');
+          companyName = await runMobileNameOCR(nc);
+          disposeCanvas(nc);
+        }
+
+        if (regPicked) { regInput.value = formatRegDisplay(regPicked); regInput.dispatchEvent(new Event('input')); }
+        if (companyName) companyInput.value = companyName;
+        if (regPicked || companyName) scheduleSave();
+
+        const lowNumberConfidence = !numberBest || numberBest.minScore < 0.68;
+        if (regPicked && lowNumberConfidence) {
+          regNote.textContent = ft('mediumConfidence');
+          regNote.classList.add('show');
+        } else if (!regPicked) {
+          regNote.textContent = ft('numberExtractFail');
+          regNote.classList.add('show');
+        }
+
+        fillEl.style.width = '94%';
+        reviewBox.classList.add('show');
+        progressEl.style.display = 'none';
+        fillEl.style.width = '0%';
+        retryRow.classList.add('show');
+
+        if (!regPicked && !companyName) {
+          await modalError(ft('noExtraction'), ft('noExtraction').split('\n')[0]);
+        } else if (!regPicked) {
+          await modalAlert(ft('numberReview'), ft('numberReviewTitle'));
+        } else if (!companyName) {
+          await modalAlert(ft('companyReview'), ft('companyReviewTitle'));
+        } else if (!orientationConfident) {
+          await modalAlert(ft('quickReview'), ft('quickReviewTitle'));
+        }
+        return { regNumber: regPicked, companyName };
+      } catch (err) {
+        console.error('[CR] Mobile OCR Error:', err);
+        progressEl.style.display = 'none';
+        fillEl.style.width = '0%';
+        retryRow.classList.add('show');
+        await modalError(ft('mobileError') + '\n\n' + (err && err.message ? err.message : String(err)), ft('mobileError').split('.')[0]);
+        return null;
+      }
+    }
+
+    async function runOCR(upright, progressEl, fillEl, textEl, type, orientationConfident) {
+      if (isMobileLike()) return await runMobileOCR(upright, progressEl, fillEl, textEl, type, orientationConfident);
+      lastUprightCanvas = upright;
+      progressEl.style.display = 'block';
+      fillEl.style.width = '20%';
+      textEl.textContent = ft('engine');
+      const retryRow = document.getElementById(type === 'upload' ? 'uploadRetry' : 'cameraRetry');
+      retryRow.classList.remove('show');
+      regZoneThumb.classList.remove('show');
+      nameZoneThumb.classList.remove('show');
+      regNote.classList.remove('show');
+      regNote.textContent = '';
+
+      if (typeof Tesseract === 'undefined') {
+        progressEl.style.display = 'none';
+        retryRow.classList.add('show');
+        await modalError(ft('ocrLibraryError'), ft('ocrLibraryError').split('.')[0]);
+        return null;
+      }
+
+      let regPicked = '', companyName = '', lowConfidence = false;
+
+      try {
+        const textWorker = await getTextWorker();
+
+        textEl.textContent = ft('header');
+        fillEl.style.width = '26%';
+        const probe = toGrayStretched(downscaleTo(upright, 1600));
+        const layout = deriveLayout(probe);
+
+        // ---------- الترويسة ----------
+        textEl.textContent = ft('readHeader');
+        fillEl.style.width = '34%';
+        const headerBox = { x0: 0, y0: 0, x1: 1, y1: Math.max(0.10, layout.tableTop) };
+        const headerCanvas = toGrayStretched(cropPixels(upright, headerBox, 620, 1900, 6));
+        const headerWorker = await getHeaderWorker();
+        const headerOCR = await ocrCanvas(headerWorker, headerCanvas);
+        const headerLines = groupWordsToLines(headerOCR.words);
+
+        // ---------- الرقم الموحد بمصنّف القوالب ----------
+        textEl.textContent = ft('readNumber');
+        fillEl.style.width = '48%';
+
+        let result = null;
+        const toPage = b => ({ x0: b.x0, x1: b.x1,
+          y0: headerBox.y0 + b.y0 * (headerBox.y1 - headerBox.y0),
+          y1: headerBox.y0 + b.y1 * (headerBox.y1 - headerBox.y0) });
+
+        // جرّب عدة نِسَب امتداد يسارية (معايَرة بين 13x-18x) لمقاومة
+        // اختلاف هوامش التصوير بين المستندات
+        for (const ratio of [17, 20, 13]) {
+          const anchorBox = numberBoxFromAnchor(headerLines, headerCanvas.width, headerCanvas.height, ratio);
+          if (!anchorBox) break;   // لا توجد كلمة "الموحد" مقروءة أصلاً — لا فائدة من التكرار
+          console.log('[CR] number box from anchor, ratio=', ratio);
+          result = readUnifiedFromBox(upright, toPage(anchorBox), true, regZoneImg);
+          if (result) break;
+        }
+        if (!result) {
+          // مسح كل أسطر الترويسة: أي سطر يعطي 15 خانة بنمط 5-5-5 هو الرقم
+          console.log('[CR] scanning header lines for a 5-5-5 pattern');
+          for (const L of headerLines) {
+            const h = Math.max(8, L.bot - L.top);
+            const width = L.maxX - L.minX;
+            const b = {
+              x0: Math.max(0, L.minX - h * 0.8) / headerCanvas.width,
+              x1: Math.min(headerCanvas.width, L.minX + width * 0.55) / headerCanvas.width,
+              y0: Math.max(0, L.top - h * 0.3) / headerCanvas.height,
+              y1: Math.min(headerCanvas.height, L.bot + h * 0.3) / headerCanvas.height
+            };
+            const r = readUnifiedFromBox(upright, toPage(b), true, null);
+            if (r && r.minScore >= 0.60) {
+              result = r;
+              readUnifiedFromBox(upright, toPage(b), true, regZoneImg);
+              break;
+            }
+          }
+        }
+        if (!result) {
+          console.log('[CR] anchor OCR did not locate the number; starting calibrated header search');
+          result = searchCalibratedNumberZone(upright, layout, regZoneImg);
+        }
+        if (!result) {
+          console.log('[CR] calibrated search failed; trying fixed official fallback zone');
+          result = readUnifiedFromBox(upright, FALLBACK_NUMBER_ZONE, true, regZoneImg);
+        }
+        if (regZoneImg.src) regZoneThumb.classList.add('show');
+
+        if (result) {
+          regPicked = result.num;
+          lowConfidence = result.minScore < 0.72;
+          console.log('[CR] unified number:', regPicked, 'minScore=', result.minScore.toFixed(3));
+        } else {
+          console.log('[CR] unified number: FAILED');
+        }
+
+        // ---------- اسم الشركة ----------
+        textEl.textContent = ft('readName');
+        fillEl.style.width = '68%';
+        const nameCanvas = toGrayStretched(cropPixels(upright, layout.nameZone, 900, 620, 6));
+        nameZoneImg.src = nameCanvas.toDataURL('image/png');
+        nameZoneThumb.classList.add('show');
+
+        // تم تحديث استدعاء الدالة للاسم الجديد وإرسال الكلمات الإنجليزية بدقة
+        const engRes = await findEnglishWords(nameCanvas);
+        fillEl.style.width = '82%';
+        const nameWorker = await getNameWorker();
+        const nameOCR = await ocrCanvas(nameWorker, nameCanvas);
+        companyName = buildCompanyName(nameOCR.words, engRes.top, engRes.words);
+        console.log('[CR] company name:', companyName);
+
+        if (!companyName && layout.source !== 'fallback') {
+          const altCanvas = toGrayStretched(cropPixels(upright, FALLBACK_NAME_ZONE, 900, 620, 6));
+          const altEngRes = await findEnglishWords(altCanvas);
+          const nameWorker = await getNameWorker();
+          const altOCR = await ocrCanvas(nameWorker, altCanvas);
+          companyName = buildCompanyName(altOCR.words, altEngRes.top, altEngRes.words);
+          if (companyName) {
+            nameZoneImg.src = altCanvas.toDataURL('image/png');
+            console.log('[CR] company name (fallback zone):', companyName);
+          }
+        }
+
+        fillEl.style.width = '94%';
+
+        if (regPicked) { regInput.value = formatRegDisplay(regPicked); regInput.dispatchEvent(new Event('input')); }
+        if (companyName) companyInput.value = companyName;
+        if (regPicked || companyName) scheduleSave();
+
+        if (lowConfidence) {
+          regNote.textContent = ft('lowConfidence');
+          regNote.classList.add('show');
+        } else if (!regPicked) {
+          regNote.textContent = ft('manualNumber');
+          regNote.classList.add('show');
+        }
+
+        reviewBox.classList.add('show');
+
+        setTimeout(async () => {
+          progressEl.style.display = 'none';
+          fillEl.style.width = '0%';
+          retryRow.classList.add('show');
+
+          if (!orientationConfident)
+            await modalAlert(ft('orientationUncertain'), ft('orientationTitle'));
+
+          if (!regPicked && !companyName)
+            await modalError(ft('nothingExtracted'), ft('nothingTitle'));
+          else if (!regPicked)
+            await modalAlert(ft('numberNotRead'), ft('numberNotReadTitle'));
+          else if (!companyName)
+            await modalAlert(ft('companyNotRead'), ft('companyNotReadTitle'));
+          else
+            await modalSuccess(
+              ft('regSummary') + ': ' + '\u2066' + formatRegDisplay(regPicked) + '\u2069' + '\n' + ft('companySummary') + ': ' + companyName +
+              (lowConfidence ? '\n\n⚠️ ' + ft('lowConfidenceAlert') : '') +
+              '\n\n' + ft('extractionCheck'), ft('extractionDone'));
+        }, 350);
+
+        return { regNumber: regPicked, companyName };
+      } catch (err) {
+        console.error('OCR Error:', err);
+        progressEl.style.display = 'none';
+        retryRow.classList.add('show');
+        await modalError(ft('extractionFailed') + '\n' + (err && err.message ? err.message : String(err)) + ft('extractionRetry'), ft('extractionFailedTitle'));
+        return null;
+      }
+    }
+
+    function showPreview(box, canvas) {
+      box.style.display = 'block';
+      box.innerHTML = '';
+      box.appendChild(downscaleTo(canvas, 900));
+    }
+
+    // =====================================================================
+    //  رفع ملف
+    // =====================================================================
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
+    const uploadPreview = document.getElementById('uploadPreview');
+
+    uploadZone.addEventListener('click', () => fileInput.click());
+    uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault(); uploadZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+    async function handleFile(file) {
+      if (!file) return;
+      lastUploadedFile = file;
+      const prog = document.getElementById('uploadProgress');
+      const fill = document.getElementById('uploadProgressFill');
+      const txt = document.getElementById('uploadProgressText');
+      prog.style.display = 'block';
+      fill.style.width = '5%';
+      txt.textContent = ft('fileRead') + ' ' + (file.name || ft('unnamedFile'));
+
+      try {
+        const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name || '');
+        const isImage = (file.type && file.type.indexOf('image/') === 0) ||
+                        /\.(jpe?g|png|webp|gif|bmp|heic)$/i.test(file.name || '');
+        let source;
+        if (isPdf) {
+          if (typeof pdfjsLib === 'undefined') {
+            prog.style.display = 'none';
+            await modalError(ft('pdfUnavailable'), 'PDF');
+            return;
+          }
+          txt.textContent = ft('pdfConvert');
+          fill.style.width = '10%';
+          const buf = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+          const page = await pdf.getPage(1);
+          const base = page.getViewport({ scale: 1.0 });
+          const pdfLimit = isMobileLike() ? MOBILE_CFG.pdfMaxDim : 3200;
+          const scale = Math.min(4.5, pdfLimit / Math.max(base.width, base.height));
+          const vp = page.getViewport({ scale });
+          const c = document.createElement('canvas');
+          c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+          await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+          source = c;
+        } else if (isImage) {
+          txt.textContent = ft('loadImage');
+          fill.style.width = '10%';
+          source = await loadImageOriented(file);
+        } else {
+          prog.style.display = 'none';
+          await modalError(ft('unsupportedFile'), ft('unsupportedFile').split('.')[0]);
+          return;
+        }
+
+        const up = await toUprightFullRes(source, fill, txt, 12);
+        showPreview(uploadPreview, up.canvas);
+        txt.textContent = ft('start');
+        await runOCR(up.canvas, prog, fill, txt, 'upload', up.confident);
+      } catch (err) {
+        console.error('handleFile error:', err);
+        prog.style.display = 'none';
+        document.getElementById('uploadRetry').classList.add('show');
+        await modalError(ft('processingError') + '\n' + (err && err.message ? err.message : String(err)), ft('processingTitle'));
+      }
+    }
+
+    document.getElementById('retryUploadBtn').addEventListener('click', () => {
+      if (lastUploadedFile) handleFile(lastUploadedFile);
+      else if (lastUprightCanvas)
+        runOCR(lastUprightCanvas, document.getElementById('uploadProgress'),
+          document.getElementById('uploadProgressFill'), document.getElementById('uploadProgressText'), 'upload', true);
+    });
+
+    // =====================================================================
+    //  الكاميرا
+    // =====================================================================
+    const cameraFileInput = document.getElementById('cameraFileInput');
+    const cameraPreviewBox = document.getElementById('cameraPreviewBox');
+
+    document.getElementById('nativeCameraBtn').addEventListener('click', () => {
+      cameraFileInput.value = ''; cameraFileInput.click();
+    });
+
+    cameraFileInput.addEventListener('change', async () => {
+      const file = cameraFileInput.files && cameraFileInput.files[0];
+      if (!file) return;
+      lastCameraFile = file;
+      const prog = document.getElementById('cameraProgress');
+      const fill = document.getElementById('cameraProgressFill');
+      const txt = document.getElementById('cameraProgressText');
+      prog.style.display = 'block';
+      fill.style.width = '8%';
+      txt.textContent = ft('loadImage');
+      try {
+        const source = await loadImageOriented(file);
+        const up = await toUprightFullRes(source, fill, txt, 10);
+        showPreview(cameraPreviewBox, up.canvas);
+        txt.textContent = ft('start');
+        await runOCR(up.canvas, prog, fill, txt, 'camera', up.confident);
+      } catch (e) {
+        console.error(e);
+        prog.style.display = 'none';
+        await modalError(ft('cameraReadError'), ft('cameraErrorTitle'));
+      }
+    });
+
+    document.getElementById('retryCameraBtn').addEventListener('click', () => {
+      if (lastCameraFile) {
+        const dt = new DataTransfer();
+        dt.items.add(lastCameraFile);
+        cameraFileInput.files = dt.files;
+        cameraFileInput.dispatchEvent(new Event('change'));
+      } else if (lastUprightCanvas)
+        runOCR(lastUprightCanvas, document.getElementById('cameraProgress'),
+          document.getElementById('cameraProgressFill'), document.getElementById('cameraProgressText'), 'camera', true);
+    });
+    document.getElementById('retakeBtn').addEventListener('click', () => {
+      cameraPreviewBox.style.display = 'none';
+      cameraPreviewBox.innerHTML = '';
+      document.getElementById('cameraRetry').classList.remove('show');
+      document.getElementById('cameraProgress').style.display = 'none';
+      cameraFileInput.value = '';
+      cameraFileInput.click();
+    });
+
+    // =====================================================================
+    //  الإرسال
+    // =====================================================================
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.addEventListener('click', async () => {
+      await refreshFormStatus();
+      if (!formIsOpen) { await modalAlert(ft('closedErr')); return; }
+      const regDigits = extractDigitsOnly(regInput.value);
+      const company = companyInput.value.trim();
+      const client = clientInput.value.trim();
+
+      if (!isValidRegNumber(regInput.value)) {
+        regInput.classList.add('invalid'); regError.classList.add('show'); regInput.focus();
+        await modalError(ft('invalidReg'), ft('invalidRegTitle'));
+        return;
+      }
+      if (!company) { companyInput.focus(); await modalError(ft('companyRequired'), ft('required')); return; }
+      if (!client) { clientInput.focus(); await modalError(ft('clientRequired'), ft('required')); return; }
+const clientNum = Number(String(client).replace(/\D/g, ''));
+if (!Number.isInteger(clientNum) || clientNum < 1 || clientNum > 500) {
+  clientInput.focus();
+  await modalError(ft('invalidClient'), ft('invalidClientTitle'));
+  return;
 }
 
-async function doLogin(){clearError();const u=$('username').value.trim(),p=$('password').value;if(!u||!p){showError('أدخل اسم المستخدم وكلمة المرور.');return}$('loginBtn').disabled=true;$('loginBtn').textContent='جاري التحقق...';try{const r=await run('loginEmployee',u,p);if(!r||!r.success){showError((r&&r.message)||'تعذر تسجيل الدخول.');return}sessionToken=r.sessionToken||r.token;__authToken=sessionToken;sessionStorage.setItem('cr_employee_session_v2',sessionToken);employee=r.employee;if(employee&&employee.desk){__desk=Number(employee.desk);sessionStorage.setItem('emp_desk',String(__desk))}await openDashboard()}catch(e){showError(e.message||String(e))}finally{$('loginBtn').disabled=false;$('loginBtn').textContent='دخول آمن'}}
-async function openDashboard(){const r=await run('getEmployeeBootstrap',sessionToken);employee=r.employee;$('loginCard').style.display='none';$('dashboard').style.display='block';$('logoutBtn').style.display='inline-flex';$('employeeIdentity').textContent=`${employee.username} · الشباك ${employee.desk}`;renderAll(r);startLiveQueue();schedulePoll();if(r.defaultSearchNumber){$('searchTicket').value=r.defaultSearchNumber;await searchTicket()}}
-function renderAll(r){renderQueue(r.queue);renderFormState(r.systemOpen);renderRecent(r.recent||[]);const m=r.metrics||{};$('waitingCount').textContent=Number(m.waitingCount||0);const mine=m.desks&&m.desks[String(employee.desk)];$('myCalls').textContent=mine?Number(mine.calls||0):0}
-function renderQueue(q){const arr=(q&&q.desks)||[];$('deskGrid').innerHTML=arr.map(d=>{const mine=String(d.desk)===String(employee?.desk);return `<div class="desk ${mine?'current':'other'}" data-live-desk="${esc(d.desk)}"><div class="topline"><span class="tag">الشباك رقم ${esc(d.desk)} ${mine?'· شباكي':''}</span><small>${mine?'تشغيل مباشر':'متابعة'}</small></div><strong>${d.current==null||d.current===''?'—':esc(d.current)}</strong><div class="time">${d.updatedAt?'آخر استدعاء: '+esc(fmtTime(d.updatedAt)):'لم يبدأ الاستدعاء بعد'}</div></div>`}).join('')}
+      const dataHtml =
+        '<div class="row"><span class="lbl">'+ft('reg')+'</span><span class="val">' + formatRegDisplay(regDigits) + '</span></div>' +
+        '<div class="row"><span class="lbl">'+ft('company')+'</span><span class="val" style="direction:rtl;text-align:right">' + company + '</span></div>' +
+        '<div class="row"><span class="lbl">'+ft('client')+'</span><span class="val">' + client + '</span></div>';
 
-let liveQueueUnsub=null;let liveQueueStarting=false;
-function loadExternalScriptOnce(src){return new Promise((resolve,reject)=>{const existing=document.querySelector('script[data-live-src="'+src+'"]');if(existing){existing.dataset.loaded==='1'?resolve():existing.addEventListener('load',resolve,{once:true});existing.addEventListener('error',()=>reject(new Error('تعذر تحميل مكوّن المتابعة اللحظية.')),{once:true});return}const sc=document.createElement('script');sc.src=src;sc.async=true;sc.dataset.liveSrc=src;sc.onload=()=>{sc.dataset.loaded='1';resolve()};sc.onerror=()=>reject(new Error('تعذر تحميل مكوّن المتابعة اللحظية.'));document.head.appendChild(sc)})}
-function updateLiveQueueNumbers(q){const desks=(q&&q.desks)||[];const map={};desks.forEach(d=>map[String(d.desk)]=d);document.querySelectorAll('[data-live-desk]').forEach(card=>{const d=map[card.dataset.liveDesk];const el=card.querySelector('strong');if(d&&el)el.textContent=d.current==null||d.current===''?'—':String(d.current)})}
-/* legacy Firestore live removed — SignalR above */
-function renderFormState(open){$('formPill').textContent=open?'مفتوح':'مغلق';$('formPill').className='pill '+(open?'open':'closed');$('formStatusText').textContent=open?'استقبال العملاء مفتوح':'استقبال العملاء مغلق';$('toggleFormBtn').textContent=open?'إغلاق شباك العملاء':'فتح شباك العملاء';$('toggleFormBtn').className='btn '+(open?'danger':'success');$('toggleFormBtn').dataset.open=open?'1':'0'}
-function renderRecent(rows){$('recentBody').innerHTML=rows.map(r=>`<tr><td>${esc(fmtTime(r.time))}</td><td dir="ltr">${esc(r.regNumber)}</td><td>${esc(r.companyName)}</td><td><button class="ticketBtn" data-ticket="${esc(r.clientNumber)}">${esc(r.clientNumber)}</button></td><td>${esc(r.source)}</td></tr>`).join('')||'<tr><td colspan="5">لا توجد تسجيلات اليوم.</td></tr>';$('recentBody').querySelectorAll('[data-ticket]').forEach(b=>b.onclick=()=>{$('searchTicket').value=b.dataset.ticket;$('searchBtn').click()})}
-let refreshInFlight=false;async function refresh(){if(refreshInFlight)return;refreshInFlight=true;try{const r=await run('getEmployeeBootstrap',sessionToken);renderAll(r)}catch(e){if(String(e.message||e).includes('جلسة'))logout()}finally{refreshInFlight=false}}
-/* schedulePoll replaced */
-async function searchTicket(){const n=$('searchTicket').value.replace(/\D/g,'');$('searchTicket').value=n;if(!n){$('results').innerHTML='<div class="hint">أدخل رقم العميل أولاً.</div>';return}$('results').innerHTML='<div class="hint">جاري البحث...</div>';try{const rows=await run('getRegistrationsByClientNumber',sessionToken,n);if(!rows.length){$('results').innerHTML='<div class="result">لا توجد تسجيلات لهذا الرقم اليوم.</div>';return}const dup=rows.length>1;$('results').innerHTML=rows.map((r,i)=>{const statusMap={WAITING:'في الانتظار',CALLED:'تم الاستدعاء',SKIPPED:'تم التخطي مؤقتاً',TRANSFERRED:'محول للمدير',CLOSED:'انتهت الخدمة',SKIPPED_EXPIRED:'انتهت مهلة الحضور'};const st=statusMap[r.status]||r.status||'غير محدد';const desk=r.desk?(' · شباك '+r.desk):'';return `<div class="result"><div>${dup?`<span class="dup">⚠️ تكرار رقم العميل — تسجيل ${i+1} من ${rows.length}</span>`:''}</div><div class="rrow"><div class="lbl">رقم العميل</div><div class="val">${esc(r.clientNumber)}</div></div><div class="rrow"><div class="lbl">اسم الشركة</div><div class="val">${esc(r.companyName)}</div></div><div class="rrow"><div class="lbl">الرقم الموحد</div><div class="val" dir="ltr">${esc(r.regNumber)}</div></div><div class="rrow"><div class="lbl">وقت التسجيل</div><div class="val">${esc(fmtTime(r.time))}</div></div><div class="rrow"><div class="lbl">الحالة</div><div class="val">${esc(st+desk)}</div></div><div class="copyRow"><button class="btn copy" data-copy="${encodeURIComponent(r.companyName)}">📋 نسخ اسم الشركة</button><button class="btn copy" data-copy="${encodeURIComponent(r.regNumber)}">📋 نسخ الرقم الموحد</button>${r.status==='TRANSFERRED'||r.status==='CLOSED'||r.status==='SKIPPED_EXPIRED'?'':`<button class="btn transfer" data-transfer-row="${r.registrationId}" data-company="${encodeURIComponent(r.companyName)}">↗ تحويل للمدير</button>`}</div></div>`}).join('');bindResults() }catch(e){$('results').innerHTML=`<div class="error show">${esc(e.message||String(e))}</div>`}}
-function bindResults(){$('results').querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const v=decodeURIComponent(b.dataset.copy);try{await navigator.clipboard.writeText(v)}catch(e){const ta=document.createElement('textarea');ta.value=v;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}toast('تم النسخ ✓')});$('results').querySelectorAll('[data-transfer-row]').forEach(b=>b.onclick=async()=>{const title=decodeURIComponent(b.dataset.company||'');const d=await openDialog('تحويل الحالة إلى المدير',`سيتم تحويل تسجيل شركة ${title} إلى المدير العام. ملاحظتك اختيارية ولن يطلع عليها العميل.`,'تحويل للمدير',true);if(!d||!d.confirmed)return;try{const r=await run('transferRegistrationToManager',sessionToken,Number(b.dataset.transferRow),d.note||'');if(r.success){toast(r.alreadyTransferred?'التسجيل محول مسبقاً.':'تم التحويل إلى المدير بنجاح ✓');await searchTicket();}}catch(e){toast(e.message||String(e))}})}
-async function toggleForm(){const open=$('toggleFormBtn').dataset.open==='1';const d=await openDialog(open?'إغلاق استقبال العملاء':'فتح استقبال العملاء',open?'سيتم إيقاف التسجيلات الجديدة فقط. متابعة الأرقام ستظل متاحة.':'سيتم السماح بتسجيل العملاء الجدد.','متابعة',false);if(!d||!d.confirmed)return;$('toggleFormBtn').disabled=true;try{const r=await run('setSystemOpenState',sessionToken,!open);renderFormState(r.isOpen);toast(r.isOpen?'تم فتح الفورم':'تم إغلاق الفورم')}catch(e){toast(e.message||String(e))}finally{$('toggleFormBtn').disabled=false}}
-async function callNext(){ $('nextBtn').disabled=true;$('nextBtn').textContent='جاري الاستدعاء...';try{const r=await run('callNextNumber',sessionToken);if(!r.success){toast(r.message||'لا يوجد رقم تالٍ');return}renderQueue(r.queue);$('waitingCount').textContent=Number(r.metrics?.waitingCount ?? $('waitingCount').textContent);toast(`تم استدعاء ${r.current} من الشباك ${r.desk}`);$('searchTicket').value=r.current;await searchTicket()}catch(e){toast(e.message||String(e))}finally{$('nextBtn').disabled=false;$('nextBtn').textContent='استدعاء الرقم التالي تصاعدياً'}}
-async function skipCurrent(){const d=await openDialog('تخطي الرقم الحالي','سيتم تخطي الرقم المستدعى حالياً لعدم حضور العميل. سيُقطع الاتصال معه بعد استدعاء 5 أرقام تالية إن لم يحضر.','تخطي',false);if(!d||!d.confirmed)return;$('skipBtn').disabled=true;try{const r=await run('skipCurrentNumber',sessionToken);if(!r.success){toast(r.message||'تعذر التخطي');return}renderQueue(r.queue);toast(r.message||('تم تخطي الرقم '+r.skipped));$('searchTicket').value='';$('results').innerHTML=''}catch(e){toast(e.message||String(e))}finally{$('skipBtn').disabled=false}}
-async function callManual(){const n=$('manualNumber').value.replace(/\D/g,'');$('manualNumber').value=n;if(!n){toast('أدخل الرقم المطلوب.');return}const d=await openDialog('استدعاء رقم محدد',`سيتم استدعاء الرقم ${n} من الشباك ${employee.desk}.`,'استدعاء',false);if(!d||!d.confirmed)return;$('manualBtn').disabled=true;try{const r=await run('callSpecificNumber',sessionToken,n);renderQueue(r.queue);toast(`تم استدعاء ${r.current} من الشباك ${r.desk}`);$('searchTicket').value=n;await searchTicket()}catch(e){toast(e.message||String(e))}finally{$('manualBtn').disabled=false}}
-function logout(){clearInterval(pollTimer);if(liveHub){try{liveHub.stop()}catch(_){ }liveHub=null}if(liveQueueUnsub){liveQueueUnsub();liveQueueUnsub=null}sessionToken='';employee=null;sessionStorage.removeItem('cr_employee_session_v2');$('dashboard').style.display='none';$('loginCard').style.display='block';$('password').value='';$('results').innerHTML=''}
-$('loginBtn').onclick=doLogin;$('password').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});$('logoutBtn').onclick=logout;$('searchBtn').onclick=searchTicket;$('searchTicket').addEventListener('keydown',e=>{if(e.key==='Enter')searchTicket()});$('toggleFormBtn').onclick=toggleForm;$('nextBtn').onclick=callNext;$('skipBtn').onclick=skipCurrent;$('manualBtn').onclick=callManual;$('refreshBtn').onclick=refresh;
-(async()=>{if(!sessionToken)return;try{await openDashboard()}catch(e){logout()}})();
-</script></body></html>
+      if (!(await modalConfirm(ft('reviewMsg'), ft('reviewTitle'), dataHtml))) return;
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      try {
+        let submitResult = null;
+        const guardToken = await formGuardTokenPromise;
+        const honeypotValue = (document.getElementById('website') || {}).value || '';
+
+        const resp = await fetch('/api/public/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({
+            regNumber: regDigits,
+            companyName: company,
+            clientNumber: client,
+            website: honeypotValue,
+            guardToken: guardToken
+          })
+        });
+        submitResult = await resp.json().catch(() => null);
+        if (!resp.ok || !submitResult || !submitResult.success) {
+          throw new Error(resp.status === 409 ? ft('closedErr') : ft('genericSend'));
+        }
+
+        clearDraft();
+        const trackTicket = String((submitResult && submitResult.ticket) || client || '').replace(/\D/g, '');
+        const trackToken = String((submitResult && (submitResult.trackToken || submitResult.token)) || '');
+        let trackUrl = (submitResult && submitResult.trackUrl) ? String(submitResult.trackUrl) : '';
+        if ((!trackUrl || trackUrl === 'undefined') && trackTicket && trackToken) {
+          trackUrl = window.location.origin + '/track/?ticket=' + encodeURIComponent(trackTicket) + '&token=' + encodeURIComponent(trackToken);
+        }
+        if (trackTicket && trackToken) {
+          try {
+            localStorage.setItem('cr_track_ticket_v2', trackTicket);
+            localStorage.setItem('cr_track_token_v2', trackToken);
+            localStorage.setItem('queue_ui_lang_v1', formLangCode);
+          } catch (e) {}
+        }
+        if (trackUrl && trackTicket && trackToken) {
+          $('submitText').textContent = ft('openingTracking');
+          window.location.replace(trackUrl);
+          return;
+        }
+        await modalSuccess(ft('registrationSavedNoLink'), ft('done'));
+      } catch (err) {
+        console.error(err);
+        await modalError((err && err.message) || ft('sendError'), ft('sendFailed'));
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+        if (submitBtn.querySelector('.btn-text')) submitBtn.querySelector('.btn-text').textContent = ft('submit');
+      }
+    });
+
+    if (typeof pdfjsLib !== 'undefined')
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
+</body>
+</html>
