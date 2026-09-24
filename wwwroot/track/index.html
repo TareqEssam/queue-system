@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="متابعة الدور" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <title>متابعة رقمك</title>
+  <style>
+    :root {
+      --bg0:#070b14; --bg1:#0f172a; --card:rgba(30,41,59,.92); --line:rgba(148,163,184,.18);
+      --text:#f1f5f9; --muted:#94a3b8; --primary:#3b82f6; --ok:#22c55e; --warn:#f59e0b; --danger:#ef4444;
+      --wa:#25D366; --glow:0 0 40px rgba(59,130,246,.25);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    body{
+      min-height:100dvh;color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:radial-gradient(1200px 600px at 100% -10%,#1e3a8a 0%,transparent 55%),
+                 radial-gradient(900px 500px at -10% 100%,#0f766e 0%,transparent 50%),
+                 linear-gradient(180deg,var(--bg0),var(--bg1));
+      padding:16px;padding-bottom:max(20px,env(safe-area-inset-bottom));
+    }
+    .shell{width:min(440px,100%);margin:0 auto;display:grid;gap:14px}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:22px;
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      box-shadow:0 20px 50px rgba(0,0,0,.35);padding:18px 18px 16px;
+    }
+    .hero{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:48px;height:48px;border-radius:16px;display:grid;place-items:center;
+      background:linear-gradient(135deg,#2563eb,#06b6d4);font-weight:900;font-size:1.2rem;
+      box-shadow:var(--glow);
+    }
+    .hero h1{font-size:1.05rem;font-weight:800}
+    .hero p{font-size:.78rem;color:var(--muted);margin-top:2px}
+    .lang{
+      margin-right:auto;border:1px solid var(--line);background:rgba(15,23,42,.6);
+      color:var(--text);border-radius:12px;padding:8px 10px;font-weight:700;font-size:.8rem;cursor:pointer
+    }
+    .ticket{
+      text-align:center;padding:8px 0 4px
+    }
+    .ticket .lbl{font-size:.8rem;color:var(--muted);font-weight:700}
+    .ticket .num{
+      font-size:4rem;font-weight:900;line-height:1.05;letter-spacing:1px;
+      background:linear-gradient(180deg,#fff,#93c5fd);-webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;margin-top:8px;
+      padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:800;
+      background:rgba(34,197,94,.15);color:#86efac;border:1px solid rgba(34,197,94,.25)
+    }
+    .badge.warn{background:rgba(245,158,11,.15);color:#fcd34d;border-color:rgba(245,158,11,.3)}
+    .badge.danger{background:rgba(239,68,68,.15);color:#fca5a5;border-color:rgba(239,68,68,.3)}
+    .badge.muted{background:rgba(148,163,184,.12);color:#cbd5e1;border-color:var(--line)}
+    .desks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .deskBox{
+      text-align:center;padding:14px 10px;border-radius:16px;
+      background:rgba(15,23,42,.65);border:1px solid var(--line)
+    }
+    .deskBox .d{font-size:.72rem;color:var(--muted);font-weight:700}
+    .deskBox .n{font-size:1.8rem;font-weight:900;margin-top:4px;color:#7dd3fc}
+    .remain{
+      margin-top:14px;text-align:center;padding:18px 12px;border-radius:18px;
+      background:linear-gradient(180deg,rgba(59,130,246,.18),rgba(15,23,42,.4));
+      border:1px solid rgba(59,130,246,.25)
+    }
+    .remain .big{font-size:3.4rem;font-weight:900;line-height:1;color:#fff}
+    .remain .sub{margin-top:6px;font-size:.85rem;color:var(--muted)}
+    .called{
+      margin-top:14px;text-align:center;padding:20px 12px;border-radius:18px;
+      background:linear-gradient(180deg,rgba(34,197,94,.22),rgba(15,23,42,.35));
+      border:1px solid rgba(34,197,94,.35);animation:pulse 1.6s ease-in-out infinite
+    }
+    .called .desk{font-size:2.6rem;font-weight:900;color:#86efac}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.25)}50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
+    .alert{
+      margin-top:12px;padding:14px;border-radius:16px;font-size:.88rem;line-height:1.55;
+      white-space:pre-wrap;text-align:right
+    }
+    .alert.warn{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);color:#fde68a}
+    .alert.danger{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#fecaca}
+    .alert.ok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#bbf7d0}
+    .progress{margin-top:12px}
+    .progress .bar{height:10px;border-radius:999px;background:rgba(15,23,42,.8);overflow:hidden;border:1px solid var(--line)}
+    .progress .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#f59e0b,#ef4444);transition:width .4s ease}
+    .progress .txt{margin-top:6px;font-size:.78rem;color:var(--muted);text-align:center}
+    .actions{display:grid;gap:10px;margin-top:14px}
+    .btn{
+      border:0;border-radius:14px;min-height:48px;padding:12px 14px;font-weight:800;font-size:.92rem;cursor:pointer
+    }
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-ghost{background:rgba(15,23,42,.7);color:var(--text);border:1px solid var(--line)}
+    .btn-wa{background:var(--wa);color:#052e16;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+    .hint{font-size:.75rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.45}
+    .hidden{display:none!important}
+    .banner{
+      position:fixed;left:12px;right:12px;bottom:max(14px,env(safe-area-inset-bottom));
+      background:#0f172a;border:1px solid rgba(59,130,246,.4);color:#fff;padding:14px 16px;
+      border-radius:16px;font-weight:800;text-align:center;z-index:50;
+      box-shadow:0 16px 40px rgba(0,0,0,.45)
+    }
+    .invalid{text-align:center;padding:24px 12px}
+    .invalid h2{margin:10px 0;font-size:1.1rem}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="card hero">
+      <div class="logo">Q</div>
+      <div>
+        <h1 id="title">متابعة رقمك</h1>
+        <p id="connection">جاري التحقق من حالتك…</p>
+      </div>
+      <button type="button" class="lang" id="langBtn">English</button>
+    </section>
+
+    <section id="invalidCard" class="card invalid hidden">
+      <div style="font-size:2rem">🔐</div>
+      <h2 id="invalidTitle">رابط المتابعة غير مكتمل</h2>
+      <p class="hint" id="invalidText">افتح رابط المتابعة الذي حصلت عليه بعد التسجيل. لا يمكن استعادة التذكرة بالرقم وحده.</p>
+    </section>
+
+    <section id="trackCard" class="card hidden">
+      <div class="ticket">
+        <div class="lbl" id="ticketLabel">رقم تذكرتك</div>
+        <div class="num" id="ticketNumber">—</div>
+        <div class="badge muted" id="liveBadge">جاري الاتصال</div>
+      </div>
+
+      <div class="desks">
+        <div class="deskBox"><div class="d" id="d11Label">الشباك 11</div><div class="n" id="d11">—</div></div>
+        <div class="deskBox"><div class="d" id="d12Label">الشباك 12</div><div class="n" id="d12">—</div></div>
+      </div>
+
+      <div id="remainPanel" class="remain">
+        <div class="lbl" id="remainLabel">المتبقي أمام دورك</div>
+        <div class="big" id="remainNumber">—</div>
+        <div class="sub" id="remainHint">فعّل التنبيهات لتصلك حتى بعد إغلاق الصفحة</div>
+      </div>
+
+      <div id="calledPanel" class="called hidden">
+        <div class="lbl" id="calledLabel">تم استدعاء رقمك</div>
+        <div class="desk" id="calledDesk">—</div>
+        <div class="sub" id="calledHint">توجه فوراً إلى الشباك</div>
+      </div>
+
+      <div id="skipPanel" class="hidden">
+        <div class="alert warn" id="skipText"></div>
+        <div class="progress">
+          <div class="bar"><div class="fill" id="skipFill" style="width:100%"></div></div>
+          <div class="txt" id="skipProgressText">المهلة: 5 استدعاءات متبقية</div>
+        </div>
+      </div>
+
+      <div id="terminalPanel" class="hidden"></div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="pushBtn">🔔 تفعيل التنبيهات</button>
+        <button type="button" class="btn btn-ghost" id="refreshBtn">🔄 تحديث الآن</button>
+      </div>
+      <div class="hint" id="pushStatus"></div>
+      <div class="hint hidden" id="iosHelp">على iPhone: أضف الصفحة للشاشة الرئيسية ثم افتحها من الأيقونة لتفعيل التنبيهات في الخلفية.</div>
+    </section>
+  </main>
+  <div id="banner" class="banner hidden" role="status" aria-live="assertive"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.8/dist/browser/signalr.min.js" crossorigin="anonymous"></script>
+  <script src="/firebase-config.js"></script>
+  <script src="/push-config.js"></script>
+  <script>
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const params=new URLSearchParams(location.search);
+  let ticket=(params.get('ticket')||'').replace(/\D/g,'');
+  let token=params.get('token')||'';
+  try{
+    if(!ticket) ticket=localStorage.getItem('cr_track_ticket_v2')||'';
+    if(!token) token=localStorage.getItem('cr_track_token_v2')||'';
+  }catch(_){}
+
+  let savedLang='ar';
+  try{ savedLang=localStorage.getItem('queue_ui_lang_v1')==='en'?'en':'ar'; }catch(_){}
+  const state={
+    lang:savedLang, terminal:false,status:'',desk:null,
+    d11:0,d12:0,maxDesk:0,remaining:0,skipCallsLeft:null,lastSeq:0,lastNear:null,
+    whatsappUrl:null,endMessage:null,administration:null,pushEnabled:false
+  };
+
+  const I={
+    ar:{title:'متابعة رقمك',connect:'جاري التحقق من حالتك…',live:'مباشر',connecting:'جاري الاتصال',ended:'انتهت',
+      ticketLabel:'رقم تذكرتك',remainLabel:'المتبقي أمام دورك',remainHint:'فعّل التنبيهات لتصلك التحديثات حتى بعد إغلاق الصفحة',
+      notStarted:'لم يبدأ الاستدعاء بعد',before:'آخر رقم على الشباكين: {n}',calledLabel:'تم استدعاء رقمك',calledHint:'توجه فوراً إلى الشباك',
+      d11:'الشباك 11',d12:'الشباك 12',nearTitle:'اقترب دورك',nearBody:'المتبقي أمام رقمك: {n}',calledTitle:'تم استدعاء رقمك',
+      calledBody:'توجه إلى الشباك رقم {n}',skipTitle:'تم تخطي رقمك مؤقتاً',pushOn:'التنبيهات مفعّلة ويمكنك إغلاق الصفحة بأمان',
+      pushReq:'جاري تفعيل التنبيهات…',pushNo:'تعذر تفعيل التنبيهات',pushDenied:'الإذن بالإشعارات مرفوض. افتح إعدادات الموقع واسمح بالإشعارات ثم أعد المحاولة.',
+      pushHttps:'التنبيهات الخلفية تحتاج إلى فتح الرابط عبر HTTPS.',pushIos:'على iPhone/iPad: أضف الموقع إلى الشاشة الرئيسية ثم افتحه من الأيقونة. بعد ذلك اضغط «تفعيل التنبيهات».',
+      pushAndroid:'على Android: اسمح بإشعارات هذا الموقع عند ظهور الطلب. إذا سبق رفضها: إعدادات Chrome ← إعدادات الموقع ← الإشعارات ← اسمح للموقع.',
+      refreshOk:'تم التحديث',invalidTitle:'رابط المتابعة غير مكتمل',invalidText:'افتح رابط المتابعة الصادر بعد التسجيل. لا يمكن استعادة التذكرة بالرقم وحده.',
+      skipLeft:'الاستدعاءات المتبقية في المهلة: {n} من 5',iosNote:'التنبيهات على iPhone تعمل بعد إضافة الموقع إلى الشاشة الرئيسية وفتحه كتطبيق ويب.',
+      adminFollow:'يمكنك متابعة حالة طلبك بعد التقديم من خلال كتابة «طلبات».',adminMenu:'ولخدمات الإدارة اكتب «100».',whatsapp:'💬 واتساب الإدارة',
+      terminalTransfer:'تم تحويل طلبك إلى الإدارة',terminalEnd:'انتهت الخدمة',terminalMissed:'انتهت مهلة حضورك',location:'موقع الإدارة',howTrack:'كيفية متابعة الطلب بعد التقديم',
+      closeNote:'تم إنهاء الاتصال المباشر بهذه التذكرة.',err:'تعذر تحديث الحالة حالياً.'},
+    en:{title:'Track your number',connect:'Checking your status…',live:'Live',connecting:'Connecting',ended:'Ended',
+      ticketLabel:'Your ticket',remainLabel:'Numbers remaining',remainHint:'Enable alerts to stay updated even after closing the page',
+      notStarted:'Calling has not started yet',before:'Last number at desks: {n}',calledLabel:'Your number was called',calledHint:'Please go to the desk now',
+      d11:'Desk 11',d12:'Desk 12',nearTitle:'Your turn is near',nearBody:'Remaining: {n}',calledTitle:'Your number was called',
+      calledBody:'Go to desk {n}',skipTitle:'Temporarily skipped',pushOn:'Alerts are enabled — you can close the page safely',
+      pushReq:'Enabling alerts…',pushNo:'Could not enable alerts',pushDenied:'Notification permission is blocked. Open site settings, allow notifications, then try again.',
+      pushHttps:'Background notifications require an HTTPS address.',pushIos:'On iPhone/iPad: add this website to the Home Screen and open it from the icon. Then tap “Enable alerts”.',
+      pushAndroid:'On Android: allow notifications when the browser asks. If previously blocked: Chrome Settings → Site settings → Notifications → allow this site.',
+      refreshOk:'Refreshed',invalidTitle:'Incomplete tracking link',invalidText:'Open the tracking link issued after registration. The ticket cannot be recovered from the number alone.',
+      skipLeft:'Grace calls left: {n} of 5',iosNote:'On iPhone, background web push requires the site to be added to the Home Screen and opened as a web app.',
+      adminFollow:'You can follow your request after submission by typing “requests”.',adminMenu:'For administration services, type “100”.',whatsapp:'💬 Administration WhatsApp',
+      terminalTransfer:'Your request was transferred to administration',terminalEnd:'Service completed',terminalMissed:'Your grace period ended',location:'Administration location',howTrack:'How to follow your request after submission',
+      closeNote:'Live connection to this ticket has ended.',err:'The status could not be refreshed right now.'}
+  };
+  const t=(k,v)=>{let s=(I[state.lang]||I.ar)[k]||I.ar[k]||k;if(v)Object.keys(v).forEach(x=>s=s.replace('{'+x+'}',String(v[x])));return s;};
+  const show=e=>e&&e.classList.remove('hidden'); const hide=e=>e&&e.classList.add('hidden');
+  const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const setBadge=(text,cls)=>{$('liveBadge').className='badge '+(cls||'');$('liveBadge').textContent=text;};
+  function banner(msg){const b=$('banner');b.textContent=msg;show(b);clearTimeout(banner._t);banner._t=setTimeout(()=>hide(b),6500);}
+  function vibrate(strong){try{navigator.vibrate&&navigator.vibrate(strong?[200,80,200,80,200]:[120,60,120]);}catch(_) {}}
+  function tone(kind){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=kind==='called'?880:kind==='near'?720:540;g.gain.value=.14;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);o.stop(c.currentTime+.55);setTimeout(()=>c.close(),700);}catch(_) {}}
+  function notify(title,body){try{if('Notification'in window&&Notification.permission==='granted')new Notification(title,{body,dir:state.lang==='ar'?'rtl':'ltr'});}catch(_) {}}
+  function isIOS(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);}
+  function isStandalone(){return navigator.standalone===true||window.matchMedia('(display-mode: standalone)').matches;}
+  function isTerminal(s){return s==='CLOSED'||s==='TRANSFERRED'||s==='SKIPPED_EXPIRED';}
+
+  function applyLang(){
+    document.documentElement.lang=state.lang;document.documentElement.dir=state.lang==='ar'?'rtl':'ltr';
+    document.title=t('title');
+    $('title').textContent=t('title');$('ticketLabel').textContent=t('ticketLabel');$('remainLabel').textContent=t('remainLabel');
+    $('calledLabel').textContent=t('calledLabel');$('calledHint').textContent=t('calledHint');$('d11Label').textContent=t('d11');$('d12Label').textContent=t('d12');
+    $('invalidTitle').textContent=t('invalidTitle');$('invalidText').textContent=t('invalidText');$('pushBtn').textContent='🔔 '+(state.lang==='ar'?'تفعيل التنبيهات':'Enable alerts');$('refreshBtn').textContent='🔄 '+(state.lang==='ar'?'تحديث الآن':'Refresh now');
+    $('langBtn').textContent=state.lang==='ar'?'English':'العربية';$('iosHelp').textContent=isIOS() ? t('pushIos') : (state.lang==='ar'?t('pushAndroid'):t('pushAndroid'));
+    if(!state.terminal)$('connection').textContent=t('connect');
+    render();
+  }
+
+  function saveLocal(){
+    try{
+      localStorage.setItem('cr_track_ticket_v2',String(state.ticketNumber||ticket));
+      localStorage.setItem('cr_track_token_v2',token);
+      localStorage.setItem('cr_track_cache_v1',JSON.stringify({ticket:state.ticketNumber||ticket,status:state.status,d11:state.d11,d12:state.d12,remaining:state.remaining,desk:state.desk,skipCallsLeft:state.skipCallsLeft,at:Date.now()}));
+    }catch(_){}
+  }
+  function loadCache(){try{const raw=localStorage.getItem('cr_track_cache_v1');if(!raw)return;const c=JSON.parse(raw);if(c&&String(c.ticket)===String(ticket)){state.status=c.status||'';state.d11=c.d11||0;state.d12=c.d12||0;state.remaining=c.remaining||0;state.desk=c.desk;state.skipCallsLeft=c.skipCallsLeft;}}catch(_) {}}
+
+  function terminalContent(){
+    const transfer=state.status==='TRANSFERRED';
+    const title=transfer?t('terminalTransfer'):(state.status==='SKIPPED_EXPIRED'?t('terminalMissed'):t('terminalEnd'));
+    const msg=state.endMessage||title;
+    const admin=state.administration||{};
+    const image=admin.locationImageUrl?'<img src="'+esc(admin.locationImageUrl)+'" alt="'+esc(t('location'))+'" style="width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-top:12px" loading="lazy">':'';
+    return '<div class="alert '+(transfer?'ok':'danger')+'" style="white-space:pre-wrap"><strong>'+esc(title)+'</strong>\n\n'+esc(msg)+'</div>'+
+      (admin.name?'<div style="margin-top:12px;font-weight:900">'+esc(admin.name)+'</div>':'')+
+      (admin.locationText?'<div class="hint" style="text-align:right">'+esc(admin.locationText)+'</div>':'')+image+
+      '<div class="hint" style="margin-top:14px;text-align:right"><strong>'+esc(t('howTrack'))+'</strong><br>'+esc(t('adminFollow'))+'<br>'+esc(t('adminMenu'))+'</div>'+
+      '<a class="btn btn-wa" style="margin-top:12px" href="'+esc(state.whatsappUrl||'https://wa.me/201154202333')+'" target="_blank" rel="noopener">'+esc(t('whatsapp'))+'</a>'+
+      '<div class="hint">'+esc(t('closeNote'))+'</div>';
+  }
+
+  function render(){
+    if(!ticket||!token){hide($('trackCard'));show($('invalidCard'));return;}
+    hide($('invalidCard'));show($('trackCard'));state.ticketNumber=state.ticketNumber||ticket;
+    $('ticketNumber').textContent=state.ticketNumber;$('d11').textContent=state.d11||'—';$('d12').textContent=state.d12||'—';
+    if(state.terminal||isTerminal(state.status)){
+      state.terminal=true;hide($('remainPanel'));hide($('calledPanel'));hide($('skipPanel'));show($('terminalPanel'));setBadge(t('ended'),'danger');hide($('pushBtn'));hide($('refreshBtn'));hide($('iosHelp'));$('terminalPanel').innerHTML=terminalContent();$('connection').textContent=t('closeNote');disconnectHub();return;
+    }
+    hide($('terminalPanel'));show($('pushBtn'));show($('refreshBtn'));show($('iosHelp'));
+    $('iosHelp').textContent=isIOS()?t('pushIos'):t('pushAndroid');
+    if(state.status==='CALLED'){
+      hide($('remainPanel'));hide($('skipPanel'));show($('calledPanel'));$('calledDesk').textContent=state.desk?(state.lang==='ar'?'شباك '+state.desk:'Desk '+state.desk):'—';setBadge(t('live'),'');
+    }else if(state.status==='SKIPPED'){
+      show($('remainPanel'));show($('skipPanel'));hide($('calledPanel'));$('skipText').textContent=state.skipWarning||t('skipTitle');
+      const left=state.skipCallsLeft!=null?state.skipCallsLeft:5;$('skipFill').style.width=Math.max(0,Math.min(100,(left/5)*100))+'%';$('skipProgressText').textContent=t('skipLeft',{n:left});setBadge(t('skipTitle'),'warn');updateRemain();
+    }else{show($('remainPanel'));hide($('calledPanel'));hide($('skipPanel'));setBadge(t('live'),'');updateRemain();}
+  }
+  function updateRemain(){const n=Math.max(0,state.remaining!=null?state.remaining:(parseInt(state.ticketNumber,10)-(state.maxDesk||0)));$('remainNumber').textContent=n;$('remainHint').textContent=state.maxDesk>0?t('before',{n:state.maxDesk}):t('notStarted');}
+
+  function apply(data){
+    if(!data||!data.success)return;
+    const prev=state.status;state.ticketNumber=String(data.clientNumber||ticket);state.status=data.status||'';state.desk=data.desk||null;state.d11=data.d11||0;state.d12=data.d12||0;state.maxDesk=data.maxDeskCurrent||Math.max(state.d11,state.d12);state.remaining=data.remaining!=null?data.remaining:Math.max(0,parseInt(state.ticketNumber,10)-state.maxDesk);state.skipCallsLeft=data.skipCallsLeft!=null?data.skipCallsLeft:null;state.skipWarning=data.skipWarning||null;state.endMessage=data.endMessage||null;state.whatsappUrl=data.whatsappUrl||null;state.transferMessage=data.transferMessage||null;state.administration=data.administration||state.administration;
+    if(data.liveEventSeq&&data.liveEventSeq>state.lastSeq)state.lastSeq=data.liveEventSeq;
+    if(isTerminal(state.status))state.terminal=true;saveLocal();render();return prev;
+  }
+  async function fetchStatus(){
+    const url='/api/public/ticket-status?ticket='+encodeURIComponent(ticket)+'&token='+encodeURIComponent(token)+'&lang='+state.lang;
+    const res=await fetch(url,{credentials:'same-origin',cache:'no-store'});const data=await res.json().catch(()=>null);if(!res.ok||!data||!data.success)throw new Error((data&&data.message)||t('err'));return apply(data);
+  }
+
+  async function sha256Hex(str){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+  let trackHub=null,hubStarting=false;
+  let lastHandledNotificationKey='';
+  function notificationKey(payload){
+    return [payload?.clientNumber||state.ticketNumber||ticket,payload?.status||'',payload?.nearRemaining||'',payload?.liveEventSeq||'0'].join('|');
+  }
+  function markNotification(payload){
+    const key=notificationKey(payload);
+    const duplicate=key===lastHandledNotificationKey;
+    lastHandledNotificationKey=key;
+    return {key,duplicate};
+  }
+  function disconnectHub(){const h=trackHub;trackHub=null;if(h){try{h.stop();}catch(_) {}}}
+  async function connectHub(){
+    if(state.terminal||hubStarting||trackHub||!window.signalR)return;hubStarting=true;
+    try{
+      const h=new signalR.HubConnectionBuilder().withUrl('/hubs/public').withAutomaticReconnect([0,1000,2000,5000,10000]).build();trackHub=h;
+      h.on('reconnecting',()=>setBadge(t('connecting'),'muted'));
+      h.on('reconnected',()=>setBadge(t('live'),''));
+      h.onclose(()=>{if(trackHub===h)trackHub=null;if(!state.terminal)setBadge(t('connecting'),'muted');});
+      h.on('TicketUpdated',payload=>{
+        if(!payload||state.terminal)return;
+        const eventNumber=String(payload.clientNumber||'');
+        const mine=eventNumber===String(state.ticketNumber||ticket);
+        if(payload.status==='NEAR'&&mine){const event=markNotification(payload);const n=Number(payload.nearRemaining||0);if(n&&state.lastNear!==n&&!event.duplicate){state.lastNear=n;vibrate(false);tone('near');banner(t('nearTitle')+' — '+t('nearBody',{n}));notify(t('nearTitle'),t('nearBody',{n}));}}
+        if(mine && payload.status!=='NEAR'){
+          const event=markNotification(payload);
+          const prev=apply(Object.assign({},payload,{d11:payload.d11??state.d11,d12:payload.d12??state.d12,maxDeskCurrent:payload.maxDeskCurrent??state.maxDesk}));
+          fetchStatus().catch(()=>{});
+          if(!event.duplicate){
+            if(payload.status==='CALLED'&&prev!=='CALLED'){vibrate(true);tone('called');banner(t('calledTitle')+' — '+t('calledBody',{n:payload.desk||''}));notify(t('calledTitle'),t('calledBody',{n:payload.desk||''}));}
+            else if(payload.status==='SKIPPED'&&prev!=='SKIPPED'){vibrate(true);tone('near');banner(t('skipTitle'));notify(t('skipTitle'),t('skipTitle'));}
+            else if(isTerminal(payload.status)){vibrate(true);tone('called');}
+          }
+        } else if(payload.maxDeskCurrent!=null){state.maxDesk=Number(payload.maxDeskCurrent);if(mine)updateRemain();}
+      });
+      await h.start();
+      await h.invoke('JoinTicket',await sha256Hex(token));
+      setBadge(t('live'),'');
+    }catch(e){if(trackHub)try{trackHub.stop();}catch(_){}trackHub=null;setBadge(t('connecting'),'muted');}
+    finally{hubStarting=false;}
+  }
+
+  function base64UrlToBytes(value){
+    const pad='='.repeat((4-(value.length%4))%4);
+    const binary=atob((value+pad).replace(/-/g,'+').replace(/_/g,'/'));
+    const bytes=new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+    return bytes;
+  }
+
+  async function registerStandardWebPush(){
+    const publicKey=globalThis.QUEUE_PUSH?.publicVapidKey||'';
+    if(!publicKey||!('serviceWorker' in navigator)||!('PushManager' in window))return false;
+
+    const reg=await navigator.serviceWorker.register('/push-service-worker.js',{scope:'/'});
+    await navigator.serviceWorker.ready;
+    let sub=await reg.pushManager.getSubscription();
+    if(!sub){
+      sub=await reg.pushManager.subscribe({
+        userVisibleOnly:true,
+        applicationServerKey:base64UrlToBytes(publicKey)
+      });
+    }
+
+    const json=sub.toJSON();
+    const endpoint=json.endpoint||sub.endpoint;
+    const p256dh=json.keys?.p256dh;
+    const auth=json.keys?.auth;
+    if(!endpoint||!p256dh||!auth)throw new Error(t('pushNo'));
+
+    const res=await fetch('/api/public/push-register',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({
+      ticket,token,lang:state.lang,pushType:'webpush',endpoint,p256dh,auth,fcmToken:''
+    })});
+    const data=await res.json().catch(()=>null);
+    if(!res.ok||!data||!data.success)throw new Error((data&&data.message)||t('pushNo'));
+    state.pushEnabled=true;
+    $('pushStatus').textContent=t('pushOn');
+    return true;
+  }
+
+  async function registerFirebaseFallback(){
+    const fb=globalThis.QUEUE_FIREBASE;
+    if(!fb||!fb.enabled||!fb.config||!fb.config.apiKey||!fb.vapidKey)return false;
+    const [{getApps,initializeApp},{getMessaging,register:onRegisterFcm,onRegistered,onUnregistered,isSupported,onMessage}]=await Promise.all([
+      import('https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.19.0/firebase-messaging.js')]);
+    if(!(await isSupported()))return false;
+    const app=getApps().find(a=>a.name==='queue-system')||initializeApp(fb.config,'queue-system');
+    const messaging=getMessaging(app);
+    const reg=await navigator.serviceWorker.register('/firebase-messaging-sw.js',{scope:'/'});
+    await navigator.serviceWorker.ready;
+    const installationId=await new Promise((resolve,reject)=>{
+      let settled=false,unsubscribe=()=>{},timeout=null;
+      const finish=(fn,value)=>{if(settled)return;settled=true;if(timeout)clearTimeout(timeout);try{unsubscribe();}catch(_){}fn(value);};
+      unsubscribe=onRegistered(messaging,fid=>{if(fid)finish(resolve,fid);});
+      timeout=setTimeout(()=>finish(reject,new Error(t('pushNo'))),15000);
+      onRegisterFcm(messaging,{vapidKey:fb.vapidKey,serviceWorkerRegistration:reg}).catch(err=>finish(reject,err));
+    });
+    if(!installationId)return false;
+    onUnregistered(messaging,fid=>{
+      if(!fid)return;
+      fetch('/api/public/push-unregister',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({ticket,token,fcmToken:fid,pushType:'fcm'})}).catch(()=>{});
+    });
+    onMessage(messaging,payload=>{
+      const d=payload?.data||{};
+      if(String(d.clientNumber||state.ticketNumber||ticket)!==String(state.ticketNumber||ticket))return;
+      const event=markNotification(d);if(event.duplicate)return;
+      const title=d.title||t('title'),body=d.body||'';
+      if(d.status==='NEAR'){banner(t('nearTitle')+' — '+t('nearBody',{n:Number(d.nearRemaining||0)}));vibrate(false);tone('near');}
+      else {banner(title+(body?' — '+body:''));vibrate(true);tone('called');}
+      notify(title,body);fetchStatus().catch(()=>{});
+    });
+    const res=await fetch('/api/public/push-register',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({ticket,token,fcmToken:installationId,lang:state.lang,pushType:'fcm'})});
+    const data=await res.json().catch(()=>null);if(!res.ok||!data||!data.success)throw new Error((data&&data.message)||t('pushNo'));
+    state.pushEnabled=true;$('pushStatus').textContent=t('pushOn');return true;
+  }
+
+  async function enablePush(){
+    $('pushStatus').textContent=t('pushReq');
+    try{
+      const secure=location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
+      if(!secure){$('pushStatus').textContent=t('pushHttps');return;}
+      if(isIOS()&&!isStandalone()){$('pushStatus').textContent=t('pushIos');show($('iosHelp'));return;}
+      if(!('Notification'in window)){ $('pushStatus').textContent=t('pushNo');return; }
+      if(Notification.permission==='denied'){$('pushStatus').textContent=t('pushDenied');return;}
+      const perm=await Notification.requestPermission();if(perm!=='granted'){$('pushStatus').textContent=perm==='denied'?t('pushDenied'):t('pushNo');return;}
+
+      // Standard Web Push is the primary transport because it supports Safari/iOS Home Screen web apps.
+      if(await registerStandardWebPush())return;
+      if(await registerFirebaseFallback())return;
+      $('pushStatus').textContent=t('pushNo');
+    }catch(e){console.warn('Push',e);$('pushStatus').textContent=(e&&e.message)||t('pushNo');}
+  }
+
+  $('langBtn').onclick=()=>{state.lang=state.lang==='ar'?'en':'ar';try{localStorage.setItem('queue_ui_lang_v1',state.lang);}catch(_){}applyLang();fetchStatus().catch(()=>{});};
+  $('refreshBtn').onclick=async()=>{try{await fetchStatus();$('pushStatus').textContent=t('refreshOk');}catch(e){$('pushStatus').textContent=e.message||t('err');}};
+  $('pushBtn').onclick=enablePush;
+  applyLang();
+  if(!ticket||!token){render();return;}
+  loadCache();render();
+  fetchStatus().then(connectHub).catch(err=>{if(String(err.message||'').includes('التذكرة')||String(err.message||'').includes('ticket')){$('connection').textContent=err.message;show($('invalidCard'));hide($('trackCard'));}else{$('connection').textContent=err.message||t('err');connectHub();}});
+  setInterval(()=>{if(state.terminal)return;if(!trackHub||trackHub.state!=='Connected')fetchStatus().catch(()=>{});},15000);
+})();
+  </script>
+</body>
+</html>

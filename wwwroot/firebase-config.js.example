@@ -1,0 +1,13 @@
+// Firebase Web Messaging fallback only. The primary production transport is standard Web Push/VAPID.
+globalThis.QUEUE_FIREBASE = {
+  enabled: false,
+  vapidKey: "",
+  config: {
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: ""
+  }
+};

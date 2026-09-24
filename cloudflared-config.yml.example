@@ -1,0 +1,25 @@
+# انسخ هذا الملف إلى: cloudflared-config.yml
+# ثم عدّل القيم حسب نفقك في Cloudflare.
+#
+# إنشاء النفق (مرة واحدة):
+#   cloudflared.exe tunnel login
+#   cloudflared.exe tunnel create queue-system
+#
+# الملف credentials يُحفظ عادة في:
+#   %USERPROFILE%\.cloudflared\<TUNNEL-ID>.json
+# انسخه بجانب البرنامج أو أشر إلى مساره الكامل أدناه.
+
+tunnel: queue-system
+credentials-file: C:\QueueSystem\REPLACE_WITH_TUNNEL_ID.json
+
+ingress:
+  # استبدل queue.example.com بنطاقك المربوط على Cloudflare
+  - hostname: queue.example.com
+    service: http://127.0.0.1:5000
+  - service: http_status:404
+
+# في appsettings.json ضع:
+# "Tunnel": { "Mode": "named", "NamedTunnel": "queue-system", "ConfigPath": "cloudflared-config.yml" }
+#
+# في DNS عند Cloudflare:
+# Type: CNAME | Name: queue | Target: <TUNNEL-ID>.cfargotunnel.com | Proxy: ON

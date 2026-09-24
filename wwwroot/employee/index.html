@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a"><title>شاشة تحكم الباحث </title>
+<style>
+:root{--bg:#f4f7fb;--card:rgba(255,255,255,.93);--text:#122033;--muted:#667085;--line:#e5eaf1;--primary:#1769e0;--primary2:#0f4fb8;--success:#168b57;--danger:#c53030;--warning:#9b6500;--shadow:0 20px 50px rgba(17,37,70,.10)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#eaf2ff 0,#f6f8fb 42%,#eef2f7 100%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;color:var(--text)}button,input{font:inherit}button{cursor:pointer}.wrap{max-width:1200px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#163f91,#1769e0);box-shadow:0 10px 28px rgba(23,105,224,.24);font-size:21px}.brand h1{margin:0;font-size:22px}.sub{margin-top:4px;color:var(--muted);font-size:12px}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:800;transition:.18s}.btn:disabled{opacity:.52;cursor:not-allowed}.primary{background:var(--primary);color:#fff}.success{background:var(--success);color:#fff}.ghost{background:#fff;border:1px solid var(--line);color:var(--text)}.danger{background:#fff1f1;border:1px solid #ffd3d3;color:var(--danger)}.card{background:var(--card);backdrop-filter:blur(15px);border:1px solid rgba(220,228,240,.9);border-radius:22px;box-shadow:var(--shadow)}.login{max-width:440px;margin:10vh auto;padding:28px}.field{margin-bottom:14px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:7px}.field input,.lookup input,.manual input{width:100%;padding:13px 14px;background:#fff;border:1px solid var(--line);border-radius:14px;outline:none}.field input:focus,.lookup input:focus,.manual input:focus{border-color:#8ab5f8;box-shadow:0 0 0 4px rgba(23,105,224,.08)}.error{display:none;margin-top:12px;padding:11px;border-radius:12px;background:#fff2f2;color:#b42318;font-size:13px}.error.show{display:block}.dashboard{display:none}.hero{padding:20px;margin-bottom:14px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}.heroTitle{font-weight:900;font-size:15px}.heroMeta{font-size:12px;color:var(--muted);margin-top:4px}.stats{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}.stat{min-width:150px;padding:14px 17px;border-radius:18px;border:1px solid #e4e9f2;background:linear-gradient(180deg,#fff,#f8fbff)}.stat small{display:block;color:var(--muted);font-weight:700}.stat strong{display:block;font-size:28px;margin-top:2px}.deskgrid{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;margin-bottom:14px}.desk{min-height:180px;padding:20px;border-radius:24px;border:1px solid rgba(203,213,229,.9);position:relative;overflow:hidden;transition:.2s}.desk .topline{display:flex;justify-content:space-between;gap:12px;align-items:center}.desk .tag{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900;background:#eef3f9}.desk strong{display:block;font-size:48px;line-height:1;margin-top:15px}.desk .time{margin-top:12px;color:var(--muted);font-size:12px}.desk.current{background:linear-gradient(135deg,#0f4fb8 0%,#1769e0 58%,#2687ed 100%);border-color:#1f65cd;box-shadow:0 22px 45px rgba(23,105,224,.30);transform:scale(1.015)}.desk.current:after{content:"";position:absolute;inset:auto -30px -45px auto;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.10)}.desk.current .tag,.desk.current .time,.desk.current small{color:rgba(255,255,255,.84)}.desk.current strong{color:#fff}.desk.current .tag{background:rgba(255,255,255,.15)}.desk.other{background:linear-gradient(135deg,#fbfcfe,#f0f4f9);transform:scale(.985)}.panel{padding:18px;margin-top:14px}.panelTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font-weight:900}.lookup{display:grid;grid-template-columns:1fr auto;gap:9px}.actions{display:grid;grid-template-columns:1fr auto;gap:10px}.manual{display:grid;grid-template-columns:1fr auto;gap:8px}.results{display:grid;gap:10px;margin-top:12px}.result{padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff}.rrow{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px dashed #edf0f4}.rrow:last-of-type{border-bottom:0}.lbl{color:var(--muted);font-size:12px;font-weight:800}.val{font-weight:800;word-break:break-word}.dup{display:inline-flex;padding:7px 10px;border-radius:999px;background:#fff7e8;color:#895b00;font-size:11px;font-weight:900;margin-bottom:8px}.copyRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.copy{background:#f5f8fc;border:1px solid #e2e8f0;color:#122033}.transfer{background:#fff6eb;border:1px solid #f1d4aa;color:#8b5a00}.hint{color:var(--muted);font-size:12px;line-height:1.7}.pill{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:900}.open{background:#e9f8f0;color:#126a40}.closed{background:#fff0f0;color:#a72318}.tableWrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px;border-bottom:1px solid #edf0f4;font-size:11px;white-space:nowrap;text-align:right}.table th{background:#f8fafc;position:sticky;top:0}.ticketBtn{background:#eef4ff;border:1px solid #d5e3ff;border-radius:9px;padding:5px 9px;font-weight:800}.toast{position:fixed;left:16px;bottom:16px;background:#111827;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.22);opacity:0;pointer-events:none;transform:translateY(15px);transition:.2s;z-index:20}.toast.show{opacity:1;transform:none}.overlay{position:fixed;inset:0;background:rgba(10,16,27,.42);backdrop-filter:blur(4px);display:none;place-items:center;z-index:30;padding:18px}.overlay.show{display:grid}.dialog{max-width:470px;width:100%;background:#fff;border-radius:22px;padding:22px;box-shadow:0 25px 70px rgba(0,0,0,.22)}.dialog h3{margin:0 0 8px}.dialog p{white-space:pre-line;color:#475467;line-height:1.8;font-size:13px}.dialog textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:14px;padding:12px;resize:vertical}.dialogActions{display:flex;justify-content:flex-start;gap:8px;margin-top:14px}@media(max-width:760px){.hero{grid-template-columns:1fr}.deskgrid{grid-template-columns:1fr}.desk.current{transform:none}.actions{grid-template-columns:1fr}.manual,.lookup{grid-template-columns:1fr}.rrow{grid-template-columns:1fr}.top{align-items:flex-start}}
+</style><script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.8/dist/browser/signalr.min.js" crossorigin="anonymous"></script>
+</head>
+<body><div class="wrap">
+<section class="card login" id="loginCard"><div class="brand"><div class="logo">◉</div><div><h1>دخول الباحث</h1><div class="sub">الوصول محمي بحساب الباحث والصلاحيات المخصصة للشباك.</div></div></div><div style="height:18px"></div><div class="field"><label>اسم المستخدم</label><input id="username" autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">دخول آمن</button><div class="error" id="loginError"></div></section>
+<section class="dashboard" id="dashboard"><div class="top"><div class="brand"><div class="logo">◉</div><div><h1>شاشة تحكم الباحث </h1><div class="sub" id="employeeIdentity">—</div></div></div><button class="btn ghost" id="logoutBtn">تسجيل الخروج</button></div>
+<section class="card hero"><div><div class="heroTitle">مؤشر التشغيل اليومي</div><div class="heroMeta">تحديث تلقائي للبيانات أثناء العمل.</div></div><div class="stats"><div class="stat"><small>الأرقام المتبقية</small><strong id="waitingCount">0</strong></div><div class="stat"><small>استدعاءات شباكي</small><strong id="myCalls">0</strong></div></div></section>
+<section class="deskgrid" id="deskGrid"></section>
+<section class="card panel"><div class="panelTitle"><span>التحكم في استقبال العملاء</span><div id="formPill" class="pill">—</div></div><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><span class="hint" id="formStatusText">—</span><button class="btn ghost" id="toggleFormBtn">—</button></div><div class="panelTitle" style="margin-top:18px"><span>استدعاء الرقم</span></div><div class="actions"><button class="btn success" id="nextBtn">استدعاء الرقم التالي تصاعدياً</button><button class="btn danger" id="skipBtn" title="تخطي الرقم الحالي لعدم حضور العميل">تخطي الرقم (عدم حضور)</button><div class="manual"><input id="manualNumber" inputmode="numeric" placeholder="رقم محدد"><button class="btn primary" id="manualBtn">استدعاء رقم محدد</button></div></div></section>
+<section class="card panel"><div class="panelTitle"><span>البحث في تسجيلات العملاء</span><span class="hint">يُملأ تلقائياً بآخر رقم استدعاه شباكك.</span></div><div class="lookup"><input id="searchTicket" inputmode="numeric" placeholder="رقم العميل"><button class="btn primary" id="searchBtn">عرض البيانات</button></div><div class="results" id="results"></div></section>
+<section class="card panel"><div class="panelTitle"><span>آخر التسجيلات اليوم</span><button class="btn ghost" id="refreshBtn">تحديث</button></div><div class="tableWrap"><table class="table"><thead><tr><th>الوقت</th><th>السجل الموحد</th><th>اسم الشركة</th><th>رقم العميل</th><th>المصدر</th></tr></thead><tbody id="recentBody"></tbody></table></div></section>
+</section></div>
+<div class="toast" id="toast"></div><div class="overlay" id="overlay"><div class="dialog"><h3 id="dialogTitle">تأكيد</h3><p id="dialogText"></p><textarea id="dialogNote" placeholder="ملاحظة الباحث (اختيارية، لا تظهر للعميل)"></textarea><div class="dialogActions"><button class="btn ghost" id="dialogCancel">إلغاء</button><button class="btn danger" id="dialogOk">تأكيد</button></div></div></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);let sessionToken=sessionStorage.getItem('cr_employee_session_v2')||'';let employee=null;let pollTimer=null;let dialogResolver=null;
+const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const fmtTime=s=>{if(!s)return '—';try{return new Date(s).toLocaleString('ar-EG',{dateStyle:'short',timeStyle:'short'})}catch(e){return s}};
+
+/* === Adapter: Google Apps Script → Local API === */
+const API_BASE = '';
+let __authToken = sessionStorage.getItem('cr_employee_session_v2') || sessionStorage.getItem('emp_token') || '';
+let __desk = Number(sessionStorage.getItem('emp_desk') || 11);
+
+async function __api(path, opts={}) {
+  const headers = Object.assign({'Content-Type':'application/json'}, opts.headers||{});
+  if (__authToken) headers['Authorization'] = 'Bearer ' + __authToken;
+  if (__desk) headers['X-Desk'] = String(__desk);
+  const res = await fetch(API_BASE + path, Object.assign({}, opts, {headers}));
+  const data = await res.json().catch(()=>({}));
+  if (res.status === 401) throw new Error('انتهت جلسة الباحث أو أنها غير صالحة. يرجى تسجيل الدخول مرة أخرى.');
+  if (!res.ok && data.message) throw new Error(data.message);
+  return data;
+}
+
+async function __mapRun(fn, args) {
+  switch (fn) {
+    case 'loginEmployee': {
+      const [username, password] = args;
+      const data = await __api('/api/auth/login', {method:'POST', body: JSON.stringify({username, password})});
+      if (!data.success) throw new Error(data.message || 'فشل الدخول');
+      __authToken = data.token;
+      sessionStorage.setItem('cr_employee_session_v2', __authToken);
+      sessionStorage.setItem('emp_token', __authToken);
+      if (data.employee.desk != null) { __desk = Number(data.employee.desk); sessionStorage.setItem('emp_desk', String(__desk)); }
+      return {
+        success: true,
+        sessionToken: __authToken,
+        employee: {
+          username: data.employee.username,
+          desk: data.employee.desk == null ? null : String(data.employee.desk),
+          role: (data.employee.role||'').toLowerCase() === 'manager' ? 'manager' : 'employee',
+          displayName: data.employee.displayName
+        }
+      };
+    }
+    case 'getEmployeeBootstrap': {
+      return await __api('/api/compat/employee-bootstrap');
+    }
+    case 'getManagerBootstrap': {
+      return await __api('/api/compat/manager-bootstrap');
+    }
+    case 'getRegistrationsByClientNumber': {
+      const n = args[1];
+      const rows = await __api('/api/employee/lookup?clientNumber=' + encodeURIComponent(n));
+      return (Array.isArray(rows)?rows:[]).map(r => ({
+        registrationId: r.registrationId,
+        row: r.registrationId,
+        time: r.time,
+        regNumber: r.regNumber,
+        companyName: r.companyName,
+        clientNumber: String(r.clientNumber),
+        source: r.source || 'Form',
+        status: r.status,
+        desk: r.desk
+      }));
+    }
+    case 'callNextNumber': {
+      const r = await __api('/api/queue/next', {method:'POST', body: JSON.stringify({desk: __desk})});
+      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
+      return {
+        success: !!r.success,
+        message: r.message,
+        current: r.clientNumber,
+        desk: r.desk || __desk,
+        queue: boot.queue || {},
+        metrics: boot.metrics || {}
+      };
+    }
+    case 'callSpecificNumber': {
+      const n = args[1];
+      const r = await __api('/api/queue/call-specific', {method:'POST', body: JSON.stringify({desk: __desk, clientNumber: Number(n)})});
+      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
+      return {
+        success: !!r.success,
+        message: r.message,
+        current: r.clientNumber,
+        desk: r.desk || __desk,
+        queue: boot.queue || {},
+        metrics: boot.metrics || {}
+      };
+    }
+    case 'skipCurrentNumber': {
+      const r = await __api('/api/queue/skip', {method:'POST', body: JSON.stringify({desk: __desk})});
+      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
+      return {
+        success: !!r.success,
+        message: r.message,
+        skipped: r.clientNumber,
+        queue: boot.queue || {},
+        metrics: boot.metrics || {}
+      };
+    }
+    case 'transferRegistrationToManager': {
+      const regId = args[1];
+      const note = args[2] || '';
+      const r = await __api('/api/queue/transfer', {method:'POST', body: JSON.stringify({registrationId: Number(regId), note})});
+      return { success: !!r.success, message: r.message, alreadyTransferred: false };
+    }
+    case 'setSystemOpenState': {
+      const isOpen = args[1];
+      const r = await __api('/api/manager/system-open', {method:'POST', body: JSON.stringify({isOpen: !!isOpen})});
+      return { success: true, isOpen: r.isOpen };
+    }
+    case 'getFirebasePublicSettings': {
+      return { enabled: false };
+    }
+    default:
+      throw new Error('دالة غير مدعومة: ' + fn);
+  }
+}
+
+function run(fn,...args){
+  return __mapRun(fn, args);
+}
+
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function showError(m){$('loginError').textContent=m;$('loginError').classList.add('show')}function clearError(){$('loginError').classList.remove('show')}
+function openDialog(title,text,okText='تأكيد',withNote=false){return new Promise(resolve=>{dialogResolver=resolve;$('dialogTitle').textContent=title;$('dialogText').textContent=text;$('dialogOk').textContent=okText;$('dialogNote').style.display=withNote?'block':'none';$('dialogNote').value='';$('overlay').classList.add('show')})}
+function closeDialog(value){$('overlay').classList.remove('show');if(dialogResolver){const r=dialogResolver;dialogResolver=null;r(value)}}
+$('dialogCancel').onclick=()=>closeDialog(null);$('dialogOk').onclick=()=>closeDialog({confirmed:true,note:$('dialogNote').value.trim()});
+
+let liveHub=null;
+async function startLiveQueue(){
+  if(liveHub||!window.signalR||!__authToken)return;
+  try{
+    liveHub=new signalR.HubConnectionBuilder()
+      .withUrl('/hubs/queue?access_token='+encodeURIComponent(__authToken))
+      .withAutomaticReconnect([0,1000,2000,5000,10000])
+      .build();
+    liveHub.on('QueueUpdated',function(){
+      // الـ payload قد يتضمن تحديثاً لنتيجة حالية أو إغلاقاً؛ الـ bootstrap هو المصدر الكامل للحقيقة.
+      refresh().catch(function(){});
+    });
+    liveHub.on('SystemStateChanged',function(payload){
+      if(payload&&typeof payload.isOpen==='boolean') renderFormState(payload.isOpen);
+      refresh().catch(function(){});
+    });
+    await liveHub.start();
+    var deskNum=Number((employee&&employee.desk)||__desk||11);
+    await liveHub.invoke('JoinDesk',deskNum);
+  }catch(e){console.warn('SignalR employee',e);liveHub=null}
+}
+function schedulePoll(){
+  clearInterval(pollTimer);
+  // احتياطي فقط كل 15 ثانية إذا انقطع SignalR
+  pollTimer=setInterval(function(){
+    if(!liveHub||liveHub.state!=='Connected')refresh().catch(function(){});
+  },15000);
+}
+
+async function doLogin(){clearError();const u=$('username').value.trim(),p=$('password').value;if(!u||!p){showError('أدخل اسم المستخدم وكلمة المرور.');return}$('loginBtn').disabled=true;$('loginBtn').textContent='جاري التحقق...';try{const r=await run('loginEmployee',u,p);if(!r||!r.success){showError((r&&r.message)||'تعذر تسجيل الدخول.');return}sessionToken=r.sessionToken||r.token;__authToken=sessionToken;sessionStorage.setItem('cr_employee_session_v2',sessionToken);employee=r.employee;if(employee&&employee.desk){__desk=Number(employee.desk);sessionStorage.setItem('emp_desk',String(__desk))}await openDashboard()}catch(e){showError(e.message||String(e))}finally{$('loginBtn').disabled=false;$('loginBtn').textContent='دخول آمن'}}
+async function openDashboard(){const r=await run('getEmployeeBootstrap',sessionToken);employee=r.employee;$('loginCard').style.display='none';$('dashboard').style.display='block';$('logoutBtn').style.display='inline-flex';$('employeeIdentity').textContent=`${employee.username} · الشباك ${employee.desk}`;renderAll(r);startLiveQueue();schedulePoll();if(r.defaultSearchNumber){$('searchTicket').value=r.defaultSearchNumber;await searchTicket()}}
+function renderAll(r){renderQueue(r.queue);renderFormState(r.systemOpen);renderRecent(r.recent||[]);const m=r.metrics||{};$('waitingCount').textContent=Number(m.waitingCount||0);const mine=m.desks&&m.desks[String(employee.desk)];$('myCalls').textContent=mine?Number(mine.calls||0):0}
+function renderQueue(q){const arr=(q&&q.desks)||[];$('deskGrid').innerHTML=arr.map(d=>{const mine=String(d.desk)===String(employee?.desk);return `<div class="desk ${mine?'current':'other'}" data-live-desk="${esc(d.desk)}"><div class="topline"><span class="tag">الشباك رقم ${esc(d.desk)} ${mine?'· شباكي':''}</span><small>${mine?'تشغيل مباشر':'متابعة'}</small></div><strong>${d.current==null||d.current===''?'—':esc(d.current)}</strong><div class="time">${d.updatedAt?'آخر استدعاء: '+esc(fmtTime(d.updatedAt)):'لم يبدأ الاستدعاء بعد'}</div></div>`}).join('')}
+
+let liveQueueUnsub=null;let liveQueueStarting=false;
+function loadExternalScriptOnce(src){return new Promise((resolve,reject)=>{const existing=document.querySelector('script[data-live-src="'+src+'"]');if(existing){existing.dataset.loaded==='1'?resolve():existing.addEventListener('load',resolve,{once:true});existing.addEventListener('error',()=>reject(new Error('تعذر تحميل مكوّن المتابعة اللحظية.')),{once:true});return}const sc=document.createElement('script');sc.src=src;sc.async=true;sc.dataset.liveSrc=src;sc.onload=()=>{sc.dataset.loaded='1';resolve()};sc.onerror=()=>reject(new Error('تعذر تحميل مكوّن المتابعة اللحظية.'));document.head.appendChild(sc)})}
+function updateLiveQueueNumbers(q){const desks=(q&&q.desks)||[];const map={};desks.forEach(d=>map[String(d.desk)]=d);document.querySelectorAll('[data-live-desk]').forEach(card=>{const d=map[card.dataset.liveDesk];const el=card.querySelector('strong');if(d&&el)el.textContent=d.current==null||d.current===''?'—':String(d.current)})}
+/* legacy Firestore live removed — SignalR above */
+function renderFormState(open){$('formPill').textContent=open?'مفتوح':'مغلق';$('formPill').className='pill '+(open?'open':'closed');$('formStatusText').textContent=open?'استقبال العملاء مفتوح':'استقبال العملاء مغلق';$('toggleFormBtn').textContent=open?'إغلاق شباك العملاء':'فتح شباك العملاء';$('toggleFormBtn').className='btn '+(open?'danger':'success');$('toggleFormBtn').dataset.open=open?'1':'0'}
+function renderRecent(rows){$('recentBody').innerHTML=rows.map(r=>`<tr><td>${esc(fmtTime(r.time))}</td><td dir="ltr">${esc(r.regNumber)}</td><td>${esc(r.companyName)}</td><td><button class="ticketBtn" data-ticket="${esc(r.clientNumber)}">${esc(r.clientNumber)}</button></td><td>${esc(r.source)}</td></tr>`).join('')||'<tr><td colspan="5">لا توجد تسجيلات اليوم.</td></tr>';$('recentBody').querySelectorAll('[data-ticket]').forEach(b=>b.onclick=()=>{$('searchTicket').value=b.dataset.ticket;$('searchBtn').click()})}
+let refreshInFlight=false;async function refresh(){if(refreshInFlight)return;refreshInFlight=true;try{const r=await run('getEmployeeBootstrap',sessionToken);renderAll(r)}catch(e){if(String(e.message||e).includes('جلسة'))logout()}finally{refreshInFlight=false}}
+/* schedulePoll replaced */
+async function searchTicket(){const n=$('searchTicket').value.replace(/\D/g,'');$('searchTicket').value=n;if(!n){$('results').innerHTML='<div class="hint">أدخل رقم العميل أولاً.</div>';return}$('results').innerHTML='<div class="hint">جاري البحث...</div>';try{const rows=await run('getRegistrationsByClientNumber',sessionToken,n);if(!rows.length){$('results').innerHTML='<div class="result">لا توجد تسجيلات لهذا الرقم اليوم.</div>';return}const dup=rows.length>1;$('results').innerHTML=rows.map((r,i)=>{const statusMap={WAITING:'في الانتظار',CALLED:'تم الاستدعاء',SKIPPED:'تم التخطي مؤقتاً',TRANSFERRED:'محول للمدير',CLOSED:'انتهت الخدمة',SKIPPED_EXPIRED:'انتهت مهلة الحضور'};const st=statusMap[r.status]||r.status||'غير محدد';const desk=r.desk?(' · شباك '+r.desk):'';return `<div class="result"><div>${dup?`<span class="dup">⚠️ تكرار رقم العميل — تسجيل ${i+1} من ${rows.length}</span>`:''}</div><div class="rrow"><div class="lbl">رقم العميل</div><div class="val">${esc(r.clientNumber)}</div></div><div class="rrow"><div class="lbl">اسم الشركة</div><div class="val">${esc(r.companyName)}</div></div><div class="rrow"><div class="lbl">الرقم الموحد</div><div class="val" dir="ltr">${esc(r.regNumber)}</div></div><div class="rrow"><div class="lbl">وقت التسجيل</div><div class="val">${esc(fmtTime(r.time))}</div></div><div class="rrow"><div class="lbl">الحالة</div><div class="val">${esc(st+desk)}</div></div><div class="copyRow"><button class="btn copy" data-copy="${encodeURIComponent(r.companyName)}">📋 نسخ اسم الشركة</button><button class="btn copy" data-copy="${encodeURIComponent(r.regNumber)}">📋 نسخ الرقم الموحد</button>${r.status==='TRANSFERRED'||r.status==='CLOSED'||r.status==='SKIPPED_EXPIRED'?'':`<button class="btn transfer" data-transfer-row="${r.registrationId}" data-company="${encodeURIComponent(r.companyName)}">↗ تحويل للمدير</button>`}</div></div>`}).join('');bindResults() }catch(e){$('results').innerHTML=`<div class="error show">${esc(e.message||String(e))}</div>`}}
+function bindResults(){$('results').querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const v=decodeURIComponent(b.dataset.copy);try{await navigator.clipboard.writeText(v)}catch(e){const ta=document.createElement('textarea');ta.value=v;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}toast('تم النسخ ✓')});$('results').querySelectorAll('[data-transfer-row]').forEach(b=>b.onclick=async()=>{const title=decodeURIComponent(b.dataset.company||'');const d=await openDialog('تحويل الحالة إلى المدير',`سيتم تحويل تسجيل شركة ${title} إلى المدير العام. ملاحظتك اختيارية ولن يطلع عليها العميل.`,'تحويل للمدير',true);if(!d||!d.confirmed)return;try{const r=await run('transferRegistrationToManager',sessionToken,Number(b.dataset.transferRow),d.note||'');if(r.success){toast(r.alreadyTransferred?'التسجيل محول مسبقاً.':'تم التحويل إلى المدير بنجاح ✓');await searchTicket();}}catch(e){toast(e.message||String(e))}})}
+async function toggleForm(){const open=$('toggleFormBtn').dataset.open==='1';const d=await openDialog(open?'إغلاق استقبال العملاء':'فتح استقبال العملاء',open?'سيتم إيقاف التسجيلات الجديدة فقط. متابعة الأرقام ستظل متاحة.':'سيتم السماح بتسجيل العملاء الجدد.','متابعة',false);if(!d||!d.confirmed)return;$('toggleFormBtn').disabled=true;try{const r=await run('setSystemOpenState',sessionToken,!open);renderFormState(r.isOpen);toast(r.isOpen?'تم فتح الفورم':'تم إغلاق الفورم')}catch(e){toast(e.message||String(e))}finally{$('toggleFormBtn').disabled=false}}
+async function callNext(){ $('nextBtn').disabled=true;$('nextBtn').textContent='جاري الاستدعاء...';try{const r=await run('callNextNumber',sessionToken);if(!r.success){toast(r.message||'لا يوجد رقم تالٍ');return}renderQueue(r.queue);$('waitingCount').textContent=Number(r.metrics?.waitingCount ?? $('waitingCount').textContent);toast(`تم استدعاء ${r.current} من الشباك ${r.desk}`);$('searchTicket').value=r.current;await searchTicket()}catch(e){toast(e.message||String(e))}finally{$('nextBtn').disabled=false;$('nextBtn').textContent='استدعاء الرقم التالي تصاعدياً'}}
+async function skipCurrent(){const d=await openDialog('تخطي الرقم الحالي','سيتم تخطي الرقم المستدعى حالياً لعدم حضور العميل. سيُقطع الاتصال معه بعد استدعاء 5 أرقام تالية إن لم يحضر.','تخطي',false);if(!d||!d.confirmed)return;$('skipBtn').disabled=true;try{const r=await run('skipCurrentNumber',sessionToken);if(!r.success){toast(r.message||'تعذر التخطي');return}renderQueue(r.queue);toast(r.message||('تم تخطي الرقم '+r.skipped));$('searchTicket').value='';$('results').innerHTML=''}catch(e){toast(e.message||String(e))}finally{$('skipBtn').disabled=false}}
+async function callManual(){const n=$('manualNumber').value.replace(/\D/g,'');$('manualNumber').value=n;if(!n){toast('أدخل الرقم المطلوب.');return}const d=await openDialog('استدعاء رقم محدد',`سيتم استدعاء الرقم ${n} من الشباك ${employee.desk}.`,'استدعاء',false);if(!d||!d.confirmed)return;$('manualBtn').disabled=true;try{const r=await run('callSpecificNumber',sessionToken,n);renderQueue(r.queue);toast(`تم استدعاء ${r.current} من الشباك ${r.desk}`);$('searchTicket').value=n;await searchTicket()}catch(e){toast(e.message||String(e))}finally{$('manualBtn').disabled=false}}
+function logout(){clearInterval(pollTimer);if(liveHub){try{liveHub.stop()}catch(_){ }liveHub=null}if(liveQueueUnsub){liveQueueUnsub();liveQueueUnsub=null}sessionToken='';employee=null;sessionStorage.removeItem('cr_employee_session_v2');$('dashboard').style.display='none';$('loginCard').style.display='block';$('password').value='';$('results').innerHTML=''}
+$('loginBtn').onclick=doLogin;$('password').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});$('logoutBtn').onclick=logout;$('searchBtn').onclick=searchTicket;$('searchTicket').addEventListener('keydown',e=>{if(e.key==='Enter')searchTicket()});$('toggleFormBtn').onclick=toggleForm;$('nextBtn').onclick=callNext;$('skipBtn').onclick=skipCurrent;$('manualBtn').onclick=callManual;$('refreshBtn').onclick=refresh;
+(async()=>{if(!sessionToken)return;try{await openDashboard()}catch(e){logout()}})();
+</script></body></html>

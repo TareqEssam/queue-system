@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><meta name="theme-color" content="#182230"><title>لوحة المدير</title>
+<style>
+:root{--bg:#f4f6fa;--card:rgba(255,255,255,.95);--text:#162233;--muted:#667085;--line:#e4e9f0;--accent:#243b68;--accent2:#345b9f;--warn:#9b6500;--danger:#b42318;--shadow:0 18px 48px rgba(20,30,50,.11)}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f4f7fb,#edf2f7);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;color:var(--text)}button,input{font:inherit}.wrap{max-width:1260px;margin:auto;padding:18px}.card{background:var(--card);backdrop-filter:blur(14px);border:1px solid rgba(220,228,238,.9);border-radius:22px;box-shadow:var(--shadow)}.login{max-width:450px;margin:9vh auto;padding:28px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#243b68,#345b9f);font-size:21px}.brand h1{margin:0;font-size:22px}.sub{color:var(--muted);font-size:12px;margin-top:4px}.field{margin-bottom:14px}.field label{display:block;font-weight:800;font-size:13px;margin-bottom:7px}.field input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff}.btn{padding:11px 14px;border:0;border-radius:13px;font-weight:800;cursor:pointer}.btn:disabled{opacity:.55}.primary{background:#345b9f;color:#fff}.ghost{background:#fff;border:1px solid var(--line)}.error{display:none;margin-top:12px;padding:11px;background:#fff1f0;color:#b42318;border-radius:12px;font-size:13px}.error.show{display:block}.dashboard{display:none}.hero{padding:18px;margin-bottom:14px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}.metrics{display:flex;flex-wrap:wrap;gap:10px}.metric{min-width:170px;padding:13px 16px;border:1px solid #e6eaf0;border-radius:18px;background:#fff}.metric small{display:block;color:var(--muted);font-weight:700}.metric strong{display:block;font-size:28px;margin-top:2px}.desks{display:grid;grid-template-columns:1.12fr 1fr;gap:15px}.desk{padding:22px;border-radius:24px;min-height:190px;border:1px solid #dce3ed;position:relative;overflow:hidden}.desk11{background:linear-gradient(145deg,#edf5ff,#e0ebfb);box-shadow:0 16px 34px rgba(52,91,159,.13)}.desk12{background:linear-gradient(145deg,#f5f7fb,#e9edf4);box-shadow:0 12px 26px rgba(37,50,70,.08)}.desk .title{font-weight:900}.desk .num{font-size:52px;font-weight:900;line-height:1;margin-top:16px}.desk .meta{margin-top:10px;color:var(--muted);font-size:12px}.transfers,.recent{padding:18px;margin-top:15px}.panelTitle{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px;font-weight:900}.tableWrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px;border-bottom:1px solid #edf0f4;font-size:11px;text-align:right;vertical-align:top}.table th{background:#f8fafc;white-space:nowrap}.note{white-space:pre-wrap;line-height:1.65;min-width:220px}.pill{display:inline-flex;padding:6px 10px;border-radius:999px;background:#fff4e5;color:#8b5a00;font-size:11px;font-weight:900}.employees{padding:18px;margin-top:15px}.employeeForm{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:10px;align-items:end}.employeeForm label{display:block;font-size:11px;font-weight:900;margin-bottom:6px}.employeeForm input,.employeeForm select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:#fff}.employeeActions{display:flex;gap:6px;flex-wrap:wrap}.smallBtn{padding:7px 9px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:800;cursor:pointer}.smallBtn.warn{background:#fff7e8;color:#8b5a00;border-color:#f0d49e}.smallBtn.danger{background:#fff1f0;color:#b42318;border-color:#ffd0ca}.employeeMsg{margin-top:10px;font-size:12px;color:var(--muted)}@media(max-width:950px){.employeeForm{grid-template-columns:1fr 1fr}}
+.toast{position:fixed;left:16px;bottom:16px;background:#111827;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}@media(max-width:800px){.desks{grid-template-columns:1fr}.top{align-items:flex-start}}
+</style><script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.8/dist/browser/signalr.min.js" crossorigin="anonymous"></script>
+</head><body><div class="wrap"><section class="card login" id="loginCard"><div class="brand"><div class="logo">★</div><div><h1>دخول المدير</h1><div class="sub">هذه اللوحة تعرض حالة الشباكين وحالات التحويل إلى المدير.</div></div></div><div style="height:18px"></div><div class="field"><label>اسم المستخدم</label><input id="username" autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn" style="width:100%">دخول آمن</button><div class="error" id="loginError"></div></section>
+<section class="dashboard" id="dashboard"><div class="top"><div class="brand"><div class="logo">★</div><div><h1>لوحة المدير</h1><div class="sub" id="identity">—</div></div></div><button class="btn ghost" id="logoutBtn">تسجيل الخروج</button></div>
+<section class="card hero"><div><div style="font-weight:900">المتابعة اليومية</div><div class="sub">تتحدث الصفحة لحظياً، مع تحقق احتياطي عند انقطاع الاتصال.</div><div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span id="formPill" style="display:inline-block;padding:6px 12px;border-radius:999px;font-weight:800;font-size:12px;background:#eaf8f1;color:#126a40">الفورم: —</span><button class="btn ghost" id="toggleFormBtn" type="button">إغلاق شباك العملاء</button></div><div id="formAudit" class="employeeMsg" style="margin-top:8px">—</div></div><div class="metrics"><div class="metric"><small>الأرقام المتبقية</small><strong id="waiting">0</strong></div><div class="metric"><small>استدعاءات شباك 11</small><strong id="calls11">0</strong></div><div class="metric"><small>استدعاءات شباك 12</small><strong id="calls12">0</strong></div><div class="metric"><small>المحولون للمدير</small><strong id="transferCount">0</strong></div></div></section>
+<section class="desks" id="desks"></section>
+<section class="card employees"><div class="panelTitle"><span>إدارة الباحثين</span><button class="btn ghost" id="employeesRefreshBtn">تحديث</button></div><div class="employeeForm"><div><label>اسم المستخدم</label><input id="empUsername" autocomplete="off" maxlength="20" placeholder="مثال: ahmed11"></div><div><label>اسم الباحث</label><input id="empDisplayName" maxlength="100" placeholder="الاسم الظاهر"></div><div><label>كلمة المرور</label><input id="empPassword" type="password" autocomplete="new-password" placeholder="8 أحرف فأكثر"></div><div><label>الشباك</label><select id="empDesk"><option value="11">شباك 11</option><option value="12">شباك 12</option></select></div><button class="btn primary" id="createEmployeeBtn">إنشاء باحث</button></div><div class="employeeMsg" id="employeeMsg">اسم المستخدم: يبدأ بحرف إنجليزي ثم حروف/أرقام فقط (4–20).</div><div class="tableWrap" style="margin-top:14px"><table class="table"><thead><tr><th>الباحث</th><th>اسم المستخدم</th><th>الشباك</th><th>الحالة</th><th>آخر دخول</th><th>إجراءات</th></tr></thead><tbody id="employeesBody"></tbody></table></div></section>
+<section class="card transfers"><div class="panelTitle"><span>الحالات المحولة من الشباكين</span><button class="btn ghost" id="refreshBtn">تحديث</button></div><div class="tableWrap"><table class="table"><thead><tr><th>الوقت</th><th>الشباك</th><th>الموظف</th><th>رقم العميل</th><th>اسم الشركة</th><th>الرقم الموحد</th><th>ملاحظة الموظف</th></tr></thead><tbody id="transferBody"></tbody></table></div></section>
+<section class="card recent"><div class="panelTitle"><span>آخر تسجيلات اليوم (سجل الطلبات)</span><input id="recentSearch" type="search" placeholder="بحث باسم الشركة أو الرقم الموحد..." style="max-width:280px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:13px"></div><div class="tableWrap"><table class="table"><thead><tr><th>الوقت</th><th>رقم العميل</th><th>اسم الشركة</th><th>الرقم الموحد</th><th>الموظف</th><th>الشباك</th></tr></thead><tbody id="recentBody"></tbody></table></div></section>
+</section></div><div class="toast" id="toast"></div>
+<script>
+'use strict';const $=id=>document.getElementById(id);let sessionToken=sessionStorage.getItem('cr_manager_session_v2')||'';let timer=null;let recentData=[];const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));const fmt=s=>{if(!s)return '—';try{return new Date(s).toLocaleString('ar-EG',{dateStyle:'short',timeStyle:'short'})}catch(e){return s}};
+/* === Adapter: Google Apps Script → Local API === */
+const API_BASE = '';
+let __authToken = sessionStorage.getItem('cr_employee_session_v2') || sessionStorage.getItem('emp_token') || '';
+let __desk = Number(sessionStorage.getItem('emp_desk') || 11);
+
+async function __api(path, opts={}) {
+  const headers = Object.assign({'Content-Type':'application/json'}, opts.headers||{});
+  if (__authToken) headers['Authorization'] = 'Bearer ' + __authToken;
+  if (__desk) headers['X-Desk'] = String(__desk);
+  const res = await fetch(API_BASE + path, Object.assign({}, opts, {headers}));
+  const data = await res.json().catch(()=>({}));
+  if (res.status === 401) throw new Error('انتهت جلسة الباحث أو أنها غير صالحة. يرجى تسجيل الدخول مرة أخرى.');
+  if (!res.ok && data.message) throw new Error(data.message);
+  return data;
+}
+
+async function __mapRun(fn, args) {
+  switch (fn) {
+    case 'loginEmployee': {
+      const [username, password, desk] = args;
+      __desk = Number(desk || 11);
+      const data = await __api('/api/auth/login', {method:'POST', body: JSON.stringify({username, password})});
+      if (!data.success) throw new Error(data.message || 'فشل الدخول');
+      __authToken = data.token;
+      sessionStorage.setItem('cr_employee_session_v2', __authToken);
+      sessionStorage.setItem('emp_token', __authToken);
+      sessionStorage.setItem('emp_desk', String(__desk));
+      return {
+        success: true,
+        sessionToken: __authToken,
+        employee: {
+          username: data.employee.username,
+          desk: String(__desk),
+          role: (data.employee.role||'').toLowerCase() === 'manager' ? 'manager' : 'employee',
+          displayName: data.employee.displayName
+        }
+      };
+    }
+    case 'getEmployeeBootstrap': {
+      return await __api('/api/compat/employee-bootstrap');
+    }
+    case 'getManagerBootstrap': {
+      return await __api('/api/compat/manager-bootstrap');
+    }
+    case 'getRegistrationsByClientNumber': {
+      const n = args[1];
+      const rows = await __api('/api/employee/lookup?clientNumber=' + encodeURIComponent(n));
+      return (Array.isArray(rows)?rows:[]).map(r => ({
+        row: r.registrationId,
+        time: r.time,
+        regNumber: r.regNumber,
+        companyName: r.companyName,
+        clientNumber: String(r.clientNumber),
+        source: r.source || 'Form',
+        status: r.status,
+        desk: r.desk
+      }));
+    }
+    case 'callNextNumber': {
+      const r = await __api('/api/queue/next', {method:'POST', body: JSON.stringify({desk: __desk})});
+      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
+      return {
+        success: !!r.success,
+        message: r.message,
+        current: r.clientNumber,
+        desk: r.desk || __desk,
+        queue: boot.queue || {},
+        metrics: boot.metrics || {}
+      };
+    }
+    case 'callSpecificNumber': {
+      const n = args[1];
+      const r = await __api('/api/queue/call-specific', {method:'POST', body: JSON.stringify({desk: __desk, clientNumber: Number(n)})});
+      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
+      return {
+        success: !!r.success,
+        message: r.message,
+        current: r.clientNumber,
+        desk: r.desk || __desk,
+        queue: boot.queue || {},
+        metrics: boot.metrics || {}
+      };
+    }
+    case 'skipCurrentNumber': {
+      const r = await __api('/api/queue/skip', {method:'POST', body: JSON.stringify({desk: __desk})});
+      const boot = await __api('/api/compat/employee-bootstrap').catch(()=>({}));
+      return {
+        success: !!r.success,
+        message: r.message,
+        skipped: r.clientNumber,
+        queue: boot.queue || {},
+        metrics: boot.metrics || {}
+      };
+    }
+    case 'transferRegistrationToManager': {
+      const regId = args[1];
+      const note = args[2] || '';
+      const r = await __api('/api/queue/transfer', {method:'POST', body: JSON.stringify({registrationId: Number(regId), note})});
+      return { success: !!r.success, message: r.message, alreadyTransferred: false };
+    }
+    case 'setSystemOpenState': {
+      const isOpen = args[1];
+      const r = await __api('/api/manager/system-open', {method:'POST', body: JSON.stringify({isOpen: !!isOpen})});
+      return { success: true, isOpen: r.isOpen };
+    }
+    case 'getEmployees': { return await __api('/api/manager/employees'); }
+    case 'createEmployee': {
+      const body = {username: args[1], password: args[2], displayName: args[3], role: 'Employee', desk: Number(args[4])};
+      return await __api('/api/manager/employees', {method:'POST', body: JSON.stringify(body)});
+    }
+    case 'setEmployeeStatus': {
+      return await __api('/api/manager/employees/' + Number(args[1]) + '/status', {method:'POST', body: JSON.stringify({isActive: !!args[2]})});
+    }
+    case 'setEmployeeDesk': {
+      return await __api('/api/manager/employees/' + Number(args[1]) + '/desk', {method:'POST', body: JSON.stringify({desk: Number(args[2])})});
+    }
+    case 'resetEmployeePassword': {
+      return await __api('/api/manager/employees/' + Number(args[1]) + '/reset-password', {method:'POST', body: JSON.stringify({password: args[2]})});
+    }
+    case 'getFirebasePublicSettings': {
+      return { enabled: false };
+    }
+    default:
+      throw new Error('دالة غير مدعومة: ' + fn);
+  }
+}
+
+function run(fn,...args){ return __mapRun(fn, args); }
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2300)}function err(m){$('loginError').textContent=m;$('loginError').classList.add('show')}function clearErr(){$('loginError').classList.remove('show')}
+function renderRecentTable(list){const q=($('recentSearch')?.value||'').trim().toLowerCase();const filtered=!q?list:list.filter(x=>{const name=String(x.companyName||'').toLowerCase();const reg=String(x.regNumber||'').toLowerCase();const num=String(x.clientNumber||'').toLowerCase();return name.includes(q)||reg.includes(q)||num.includes(q)});$('recentBody').innerHTML=filtered.map(x=>`<tr><td>${esc(fmt(x.time))}</td><td>${esc(x.clientNumber)}</td><td>${esc(x.companyName)}</td><td dir="ltr">${esc(x.regNumber)}</td><td>${esc(x.calledBy||'—')}</td><td>${esc(x.calledDesk||'—')}</td></tr>`).join('')||`<tr><td colspan="6">${q?'لا نتائج مطابقة للبحث.':'لا توجد تسجيلات اليوم.'}</td></tr>`}
+async function login(){clearErr();const u=$('username').value.trim(),p=$('password').value;if(!u||!p){err('أدخل اسم المستخدم وكلمة المرور.');return}$('loginBtn').disabled=true;$('loginBtn').textContent='جاري التحقق...';try{const r=await run('loginEmployee',u,p);if(!r.success||r.employee.role!=='manager'){err('بيانات المدير غير صحيحة أو الحساب ليس حساب مدير.');return}sessionToken=r.sessionToken||r.token;__authToken=sessionToken;sessionStorage.setItem('cr_manager_session_v2',sessionToken);await open()}catch(e){err(e.message||String(e))}finally{$('loginBtn').disabled=false;$('loginBtn').textContent='دخول آمن'}}
+async function open(){const r=await run('getManagerBootstrap',sessionToken);$('loginCard').style.display='none';$('dashboard').style.display='block';$('identity').textContent=r.manager.username;await loadEmployees();render(r);startLiveQueue();schedule()}function renderFormState(open,audit){const pill=$('formPill');const btn=$('toggleFormBtn');if(!pill||!btn)return;pill.textContent=open?'الفورم: مفتوح':'الفورم: مغلق';pill.style.background=open?'#eaf8f1':'#fff1f0';pill.style.color=open?'#126a40':'#a42318';btn.textContent=open?'إغلاق شباك العملاء':'فتح شباك العملاء';btn.dataset.open=open?'1':'0';const a=$('formAudit');if(a){const x=audit||{};const closed=x.lastClosedAt?(('آخر إغلاق: '+fmt(x.lastClosedAt))+' · بواسطة '+(x.lastClosedBy||'—')):'لم يتم تسجيل إغلاق بعد';const opened=x.lastOpenedAt?(('آخر فتح: '+fmt(x.lastOpenedAt))+' · بواسطة '+(x.lastOpenedBy||'—')):'';a.textContent=closed+(opened?' · '+opened:'')}}
+function render(r){renderFormState(!!r.systemOpen,r.closeAudit||r.system);const m=r.metrics||{};$('waiting').textContent=Number(m.waitingCount||0);$('calls11').textContent=Number(m.desks?.['11']?.calls||0);$('calls12').textContent=Number(m.desks?.['12']?.calls||0);$('transferCount').textContent=(r.transfers||[]).length;const q=r.queue?.desks||[];$('desks').innerHTML=q.map(d=>`<div class="desk ${d.desk==='11'?'desk11':'desk12'}" data-live-desk="${esc(d.desk)}"><div class="title">الشباك رقم ${esc(d.desk)}</div><div class="num">${d.current==null||d.current===''?'—':esc(d.current)}</div><div class="meta">${d.updatedAt?'آخر استدعاء: '+esc(fmt(d.updatedAt)):'لم يبدأ الاستدعاء بعد'} · ${m.desks?.[String(d.desk)]?.calls||0} استدعاء اليوم</div></div>`).join('');$('transferBody').innerHTML=(r.transfers||[]).map(x=>`<tr><td>${esc(fmt(x.time))}</td><td>${esc(x.calledDesk||'—')}</td><td>${esc(x.transferredBy)}</td><td>${esc(x.clientNumber)}</td><td>${esc(x.companyName)}</td><td dir="ltr">${esc(x.regNumber)}</td><td class="note">${esc(x.note||'—')}</td></tr>`).join('')||'<tr><td colspan="7">لا توجد حالات محولة اليوم.</td></tr>';recentData=r.recent||[];renderRecentTable(recentData)}
+async function loadEmployees(){
+  const body=$('employeesBody');
+  body.innerHTML='<tr><td colspan="6">جاري تحميل الحسابات...</td></tr>';
+  try{
+    const r=await run('getEmployees');
+    const list=r.employees||[];
+    body.innerHTML=list.map(e=>{
+      const active=!!e.isActive;
+      const locked=e.lockedUntil && new Date(e.lockedUntil)>new Date();
+      const status=active?(locked?'مقفل مؤقتاً':'نشط'):'معطل';
+      const desk=e.desk==null?'مدير':'شباك '+e.desk;
+      const actions=e.role==='Employee'
+        ? `<button class="smallBtn ${active?'danger':'warn'}" data-emp-status="${e.id}" data-active="${active?0:1}">${active?'تعطيل':'تفعيل'}</button><button class="smallBtn" data-emp-desk="${e.id}" data-desk="${e.desk===11?12:11}">نقل إلى شباك ${e.desk===11?12:11}</button><button class="smallBtn" data-emp-pass="${e.id}">تغيير كلمة المرور</button>`
+        : '<span class="pill">مدير</span>';
+      return `<tr><td>${esc(e.displayName)}</td><td dir="ltr">${esc(e.username)}</td><td>${esc(desk)}</td><td>${esc(status)}</td><td>${esc(fmt(e.lastLoginAt))}</td><td><div class="employeeActions">${actions}</div></td></tr>`;
+    }).join('')||'<tr><td colspan="6">لا توجد حسابات.</td></tr>';
+    body.querySelectorAll('[data-emp-status]').forEach(b=>b.onclick=async()=>{try{b.disabled=true;await run('setEmployeeStatus',sessionToken,Number(b.dataset.empStatus),b.dataset.active==='1');toast(b.dataset.active==='1'?'تم تفعيل الحساب ✓':'تم تعطيل الحساب ✓');await loadEmployees()}catch(e){toast(e.message||String(e))}finally{b.disabled=false}});
+    body.querySelectorAll('[data-emp-desk]').forEach(b=>b.onclick=async()=>{try{b.disabled=true;await run('setEmployeeDesk',sessionToken,Number(b.dataset.empDesk),Number(b.dataset.desk));toast('تم نقل الباحث إلى الشباك '+b.dataset.desk+' ✓');await loadEmployees()}catch(e){toast(e.message||String(e))}finally{b.disabled=false}});
+    body.querySelectorAll('[data-emp-pass]').forEach(b=>b.onclick=async()=>{const pass=window.prompt('أدخل كلمة المرور الجديدة (8 أحرف على الأقل):');if(pass===null)return;try{b.disabled=true;await run('resetEmployeePassword',sessionToken,Number(b.dataset.empPass),pass);toast('تم تغيير كلمة المرور ✓')}catch(e){toast(e.message||String(e))}finally{b.disabled=false}});
+  }catch(e){body.innerHTML='<tr><td colspan="6">تعذر تحميل الحسابات.</td></tr>';toast(e.message||String(e))}
+}
+async function createEmployee(){
+  const u=$('empUsername').value.trim(),n=$('empDisplayName').value.trim(),p=$('empPassword').value,d=Number($('empDesk').value);
+  if(!u||!n||!p){toast('أكمل بيانات الباحث أولاً.');return}
+  $('createEmployeeBtn').disabled=true;$('createEmployeeBtn').textContent='جاري الإنشاء...';
+  try{await run('createEmployee',sessionToken,u,p,n,d);toast('تم إنشاء حساب الباحث ✓');$('empUsername').value='';$('empDisplayName').value='';$('empPassword').value='';await loadEmployees()}
+  catch(e){toast(e.message||String(e))}
+  finally{$('createEmployeeBtn').disabled=false;$('createEmployeeBtn').textContent='إنشاء باحث'}
+}
+let liveQueueUnsub=null;let liveQueueStarting=false;
+function loadExternalScriptOnce(src){return new Promise((resolve,reject)=>{const existing=document.querySelector('script[data-live-src="'+src+'"]');if(existing){existing.dataset.loaded==='1'?resolve():existing.addEventListener('load',resolve,{once:true});existing.addEventListener('error',()=>reject(new Error('تعذر تحميل مكوّن المتابعة اللحظية.')),{once:true});return}const sc=document.createElement('script');sc.src=src;sc.async=true;sc.dataset.liveSrc=src;sc.onload=()=>{sc.dataset.loaded='1';resolve()};sc.onerror=()=>reject(new Error('تعذر تحميل مكوّن المتابعة اللحظية.'));document.head.appendChild(sc)})}
+function updateLiveQueueNumbers(q){const desks=(q&&q.desks)||[];const map={};desks.forEach(d=>map[String(d.desk)]=d);document.querySelectorAll('[data-live-desk]').forEach(card=>{const d=map[card.dataset.liveDesk];const el=card.querySelector('.num');if(d&&el)el.textContent=d.current==null||d.current===''?'—':String(d.current)})}
+async function startLiveQueue(){
+  if(window.__mgrHub||!window.signalR||!__authToken)return;
+  try{
+    window.__mgrHub=new signalR.HubConnectionBuilder()
+      .withUrl('/hubs/queue?access_token='+encodeURIComponent(__authToken))
+      .withAutomaticReconnect([0,1000,2000,5000,10000]).build();
+    window.__mgrHub.on('QueueUpdated',function(){refresh().catch(function(){})});
+    window.__mgrHub.on('SystemStateChanged',function(payload){renderFormState(!!payload?.isOpen,payload);refresh().catch(function(){});});
+    window.__mgrHub.on('reconnected',function(){refresh().catch(function(){})});
+    await window.__mgrHub.start();
+    await window.__mgrHub.invoke('JoinManager');
+  }catch(e){console.warn('SignalR manager',e);window.__mgrHub=null}
+}
+let refreshInFlight=false;async function refresh(){if(refreshInFlight)return;refreshInFlight=true;try{render(await run('getManagerBootstrap',sessionToken))}catch(e){if(String(e.message||e).includes('جلسة'))logout()}finally{refreshInFlight=false}}function schedule(){clearInterval(timer);timer=setInterval(function(){
+  if(!window.__mgrHub||window.__mgrHub.state!=='Connected')refresh().catch(function(){});
+},15000)}function logout(){clearInterval(timer);if(window.__mgrHub){try{window.__mgrHub.stop()}catch(_){ }window.__mgrHub=null}if(liveQueueUnsub){liveQueueUnsub();liveQueueUnsub=null}sessionToken='';sessionStorage.removeItem('cr_manager_session_v2');$('dashboard').style.display='none';$('loginCard').style.display='block';$('password').value=''}$('loginBtn').onclick=login;$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logoutBtn').onclick=logout;$('refreshBtn').onclick=refresh;
+$('recentSearch')&&$('recentSearch').addEventListener('input',()=>renderRecentTable(recentData));$('employeesRefreshBtn').onclick=loadEmployees;$('createEmployeeBtn').onclick=createEmployee;
+$('toggleFormBtn').onclick=async()=>{const open=$('toggleFormBtn').dataset.open==='1';$('toggleFormBtn').disabled=true;try{const r=await run('setSystemOpenState',sessionToken,!open);renderFormState(r.isOpen);toast(r.isOpen?'تم فتح شباك العملاء':'تم إغلاق شباك العملاء')}catch(e){toast(e.message||String(e))}finally{$('toggleFormBtn').disabled=false}};(async()=>{if(!sessionToken)return;try{await open()}catch(e){logout()}})();
+</script></body></html>

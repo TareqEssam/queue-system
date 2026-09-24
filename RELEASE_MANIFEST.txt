@@ -1,0 +1,47 @@
+QueueSystem – Production Candidate Release Manifest
+====================================================
+Date: 2026-09-24
+Source: original uploaded QueueSystem.zip
+
+Implemented / verified in source:
+- Live SignalR updates for manager/employee staff dashboards.
+- Customer registration broadcasts a live staff event.
+- Customer tracking page receives per-ticket live updates and disconnects on terminal states.
+- Near-turn notifications at remaining 2 and 1 numbers, with browser/system notification fallback, vibration/tone/banner when supported.
+- Standard Web Push with VAPID for Push API browsers, including iPhone/iPad Home Screen web apps.
+- Firebase FCM fallback path using Firebase Installation ID; data-only push payload to avoid duplicate foreground/background display.
+- Bilingual customer form and tracking screen; language switch added to initial registration screen; tracking language follows the registration screen on successful redirect.
+- After successful customer submission, tracking opens immediately and ticket/token are persisted in localStorage.
+- Re-opening the site can restore the saved tracking page from localStorage.
+- Terminal customer states: served/closed, transferred to manager, and skipped-expired after five subsequent queue calls; terminal UI includes administration message, tracking instructions, location text/image and WhatsApp link.
+- Duplicate customer-number handling: calling a number activates ALL current-day active registrations carrying that same number; each customer's tracking channel receives the event. Employee lookup shows all duplicate registrations with company, unified number, time and state.
+- Manager transfer view includes customer number, company, unified number, time, transferring employee, desk and note.
+- Form open/close audit stores timestamp and employee who performed the action and broadcasts live system-state changes.
+- Public read rate limit widened to avoid one shared office/public IP throttling 200+ waiting customers; write endpoints remain protected.
+- Public tracking URLs use HTTPS-aware / reverse-proxy-aware origin construction.
+- Original project files preserved; only additive production fixes/config/docs/icons were added and targeted source files changed.
+
+Static validation completed:
+- JSON + webmanifest parse: PASS
+- QueueSystem.csproj XML parse: PASS
+- All standalone JavaScript syntax checks: PASS
+- All inline HTML JavaScript syntax checks: PASS
+- HTML shell and duplicate-id checks: PASS
+- Critical source-contract checks: PASS
+- Production secret-shaped value scan: PASS (explicit example/template files excluded)
+- Original source-file preservation check: PASS (45 original files retained)
+- Release tree contains no bin/ or obj/ output.
+
+Not verifiable in this environment:
+- dotnet restore / build / publish (the environment does not contain dotnet, csc or msbuild)
+- Live deployment against MonsterASP.NET
+- Real Android/iPhone device push-delivery test
+- 200+ concurrent-client load test
+- Production Firebase/VAPID configuration with the customer's actual credentials
+
+Production configuration still required before enabling push:
+- appsettings.json / deployment configuration: WebPush:Enabled=true plus real VAPID Subject/PublicKey/PrivateKey
+- wwwroot/push-config.js: real VAPID public key
+- For optional FCM fallback: Firebase web config + service account, then Firebase:Enabled=true
+- Administration:LocationTextAr/En and LocationImageUrl must be set to the real administration location.
+- PublicBaseUrl should be set to the final HTTPS hostname in production when a fixed canonical URL is desired.
