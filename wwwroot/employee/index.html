@@ -57,11 +57,12 @@
       padding: 0 12px;
       margin-top: 6px;
     }
-    .header-tools { position: absolute; top: 12px; inset-inline-start: 12px; display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: flex-start; z-index: 10; }
-    .theme-toggle, .lang-toggle { position: static; flex: 0 0 auto; height: 38px; border-radius: 20px; border: none; background: rgba(255,255,255,0.18); color: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; }
-    .theme-toggle { width: 38px; min-width: 38px; padding: 0; font-size: 1.15rem; }
-    .lang-toggle { min-width: 82px; width: auto; padding: 0 12px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
-    .header-tools button { touch-action: manipulation; }
+     
+     .header-tools { position: static !important; width: 0 !important; height: 0 !important; }
+     .header-tools .theme-toggle, .header-tools .lang-toggle { position: absolute !important; top: 12px !important; z-index: 1000 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; margin: 0 !important; box-sizing: border-box !important; float: none !important; transform: none !important; }
+     .header-tools .theme-toggle { right: 12px !important; left: auto !important; width: 38px !important; min-width: 38px !important; height: 38px !important; padding: 0 !important; border-radius: 20px !important; border: none !important; background: rgba(255,255,255,0.18) !important; color: white !important; cursor: pointer !important; font-size: 1.15rem !important; }
+     .header-tools .lang-toggle { left: 12px !important; right: auto !important; width: auto !important; min-width: 82px !important; height: 38px !important; padding: 0 12px !important; border-radius: 20px !important; border: none !important; background: rgba(255,255,255,0.18) !important; color: white !important; cursor: pointer !important; font-size: 0.78rem !important; font-weight: 700 !important; white-space: nowrap !important; }
+     .header-tools button { touch-action: manipulation; }
     .status-bar { padding: 9px 14px; font-size: 0.82rem; font-weight: 600; text-align: center; background: #d1e7dd; color: #0f5132; }
     [data-theme="dark"] .status-bar { background: #0d3b2a; color: #75e0b0; }
     .body { padding: 18px 14px 24px; }
@@ -2134,7 +2135,7 @@ if (!Number.isInteger(clientNum) || clientNum < 1 || clientNum > 500) {
           } catch (e) {}
         }
         if (trackUrl && trackTicket && trackToken) {
-          $('submitText').textContent = ft('openingTracking');
+          document.getElementById('submitText').textContent = ft('openingTracking');
           window.location.replace(trackUrl);
           return;
         }
