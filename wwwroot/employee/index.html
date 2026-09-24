@@ -9,6 +9,7 @@
   <title>تسجيل بيانات الطلب للخدمات الحكومية </title>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" crossorigin="anonymous"></script>
   <script>
     window.__libsReady = { tesseract: false, pdfjs: false };
     window.addEventListener('load', function () {
@@ -41,7 +42,7 @@
       padding-top: max(10px, env(safe-area-inset-top)); transition: background 0.25s, color 0.25s;
     }
     .container { max-width: 480px; margin: 0 auto; background: var(--card); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
-    .header { background: var(--header-grad); color: white; padding: 18px 16px 16px; text-align: center; position: relative; }
+    .header { background: var(--header-grad); color: white; padding: 62px 16px 16px; text-align: center; position: relative; }
     .header h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; letter-spacing: -0.02em; }
     .header p { font-size: 0.8rem; opacity: 0.88; }
     .header .header-agency {
@@ -56,11 +57,11 @@
       padding: 0 12px;
       margin-top: 6px;
     }
-    .header-tools { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; z-index: 20; direction: ltr; pointer-events: none; }
-    .header-tools > button { pointer-events: auto; }
-    .theme-toggle, .lang-toggle { height: 38px; border-radius: 20px; border: none; background: rgba(255,255,255,0.18); color: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-    .theme-toggle { width: 38px; font-size: 1.15rem; }
-    .lang-toggle { min-width: 78px; padding: 0 12px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+    .header-tools { position: absolute; top: 12px; inset-inline-start: 12px; display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: flex-start; z-index: 10; }
+    .theme-toggle, .lang-toggle { position: static; flex: 0 0 auto; height: 38px; border-radius: 20px; border: none; background: rgba(255,255,255,0.18); color: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; }
+    .theme-toggle { width: 38px; min-width: 38px; padding: 0; font-size: 1.15rem; }
+    .lang-toggle { min-width: 82px; width: auto; padding: 0 12px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+    .header-tools button { touch-action: manipulation; }
     .status-bar { padding: 9px 14px; font-size: 0.82rem; font-weight: 600; text-align: center; background: #d1e7dd; color: #0f5132; }
     [data-theme="dark"] .status-bar { background: #0d3b2a; color: #75e0b0; }
     .body { padding: 18px 14px 24px; }
@@ -145,28 +146,25 @@
     .modal-actions .btn { width: 100%; padding: 13px 10px; border-radius: 12px; font-size: 0.9rem; min-height: 46px; }
     .modal-actions.horizontal .btn { flex: 1; width: auto; }
     .candidate-btn { font-variant-numeric: tabular-nums; letter-spacing: 0.5px; }
-    @media (max-width: 380px) { .mode-btn { font-size: 0.68rem; padding: 10px 2px; } .header h1 { font-size: 1.1rem; } }
+    @media (max-width: 380px) { .mode-btn { font-size: 0.68rem; padding: 10px 2px; } .header { padding-top: 58px; } .header h1 { font-size: 1.1rem; } .lang-toggle { min-width: 76px; padding-inline: 9px; font-size: 0.72rem; } }
    </style>
     <base target="_blank">
     </head>
       <body>
       <div class="container">
       <div class="header">
-      <div class="header-tools">
-        <button type="button" class="lang-toggle" id="langToggle" aria-label="تغيير اللغة">English</button>
-        <button type="button" class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي">🌙</button>
-      </div>
+      <div class="header-tools"><button type="button" class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي">🌙</button><button type="button" class="lang-toggle" id="langToggle" aria-label="تغيير اللغة">English</button></div>
       <h1 id="formTitle">الإدارة العامة للخدمات الحكومية</h1>
-      <p class="header-agency" id="formAgency">خدمة تتيح لك بعد الحصول على رقمك من ماكينة الأرقام تسجيل بيانات شركتك، ثم متابعة دورك في الشباك عن بُعد، مما يتيح لك إنجاز مهام أخرى بالهيئة دون الإنتظار أمام الشباك .</p>
+      <p class="header-agency" id="formAgencyDesc">خدمة تتيح لك بعد الحصول على رقمك من ماكينة الأرقام تسجيل بيانات شركتك، ثم متابعة دورك في الشباك عن بُعد، مما يتيح لك إنجاز مهام أخرى بالهيئة دون الإنتظار أمام الشباك .</p>
       <p class="header-desc" id="formWarning">🚨 يجب التواجد امام الشباك بمدة كافية حتي لا تخسر دورك</p>
     </div> 
-    <div class="status-bar" id="formStatus">النظام مفتوح حالياً · يمكنك التسجيل</div>
+    <div class="status-bar" id="formStatusBar">النظام مفتوح حالياً · يمكنك التسجيل</div>
     <div class="body">
-      <div class="section-title" id="inputTitle">① اختر طريقة الإدخال</div>
+      <div class="section-title" id="inputMethodTitle">① اختر طريقة الإدخال</div>
       <div class="mode-selector">
-        <button type="button" class="mode-btn active" data-mode="manual"><span>⌨️</span><span id="modeManualText">يدوي</span></button>
-        <button type="button" class="mode-btn" data-mode="upload"><span>📄</span><span id="modeUploadText">رفع ملف</span></button>
-        <button type="button" class="mode-btn" data-mode="camera"><span>📷</span><span id="modeCameraText">كاميرا</span></button>
+        <button type="button" class="mode-btn active" data-mode="manual" id="modeManual"><span>⌨️</span><span>يدوي</span></button>
+        <button type="button" class="mode-btn" data-mode="upload" id="modeUpload"><span>📄</span><span>رفع ملف</span></button>
+        <button type="button" class="mode-btn" data-mode="camera" id="modeCamera"><span>📷</span><span>كاميرا</span></button>
       </div>
 
       <div id="panel-manual" class="panel active">
@@ -176,8 +174,8 @@
       <div id="panel-upload" class="panel">
         <div class="upload-zone" id="uploadZone">
           <div class="upload-icon">📁</div>
-          <div class="upload-text">اضغط أو اسحب صورة / PDF السجل</div>
-          <div class="upload-hint">PDF أو JPG أو PNG · بأي اتجاه · يُعالج على جهازك فقط</div>
+          <div class="upload-text" id="uploadText">اضغط أو اسحب صورة / PDF السجل</div>
+          <div class="upload-hint" id="uploadHint">PDF أو JPG أو PNG · بأي اتجاه · يُعالج على جهازك فقط</div>
           <input type="file" id="fileInput" accept="image/*,image/heic,image/heif,application/pdf" />
         </div>
         <div class="preview-box" id="uploadPreview"></div>
@@ -192,7 +190,7 @@
 
       <div id="panel-camera" class="panel">
         <div class="camera-zone">
-          <p style="font-size:0.82rem;margin-bottom:10px;">صوّر أول صفحة من السجل التجاري بإضاءة جيدة ودون ميل</p>
+          <p id="cameraHint" style="font-size:0.82rem;margin-bottom:10px;">صوّر أول صفحة من السجل التجاري بإضاءة جيدة ودون ميل</p>
           <input type="file" id="cameraFileInput" accept="image/*,image/heic,image/heif" capture="environment" style="display:none;" />
           <div class="camera-controls">
             <button type="button" class="btn btn-primary" id="nativeCameraBtn" style="min-width:200px;">📷 فتح كاميرا الهاتف</button>
@@ -213,7 +211,7 @@
         <div class="section-title" id="dataTitle">② البيانات المستخرجة / المدخلة</div>
 
         <div class="form-group">
-          <label for="regNumber"><span id="regLabel">رقم السجل التجاري الموحد</span> <span class="hint" id="regHint">(15 رقمًا فقط)</span></label>
+          <label for="regNumber" id="regLabel">رقم السجل التجاري الموحد <span class="hint" id="regLabelHint">(15 رقمًا فقط)</span></label>
           <input type="tel" id="regNumber" inputmode="numeric" maxlength="17" placeholder="مثال: 12345 67891 12345" autocomplete="off" aria-describedby="regError" />
           <div class="error-msg" id="regError">يجب أن يكون 15 رقمًا فقط (عربية أو هندية مقبولة)</div>
           <div class="field-note" id="regNote"></div>
@@ -241,7 +239,7 @@
         </div>
 
         <div class="form-group">
-          <label for="clientNumber"><span id="clientLabel">رقمي (من نظام الطابور - ماكينة الأرقام)</span> <span class="hint">Queuing System</span></label>
+          <label for="clientNumber" id="clientLabel">رقمي (من نظام الطابور - ماكينة الأرقام) <span class="hint">Queuing System</span></label>
           <input type="tel" id="clientNumber" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="رقم من 1 إلى 500" autocomplete="off" enterkeyhint="done" />
         </div>
       </div>
@@ -257,9 +255,9 @@
         </button>
       </div>
 
-      <div class="footer-note">
-        <span id="footerText">جميع عمليات المسح والاستخراج تتم محلياً على متصفحك فقط.<br>
-        لا يتم رفع صورة السجل التجاري إلى أي خادم.<br></span>
+      <div class="footer-note" id="privacyNote">
+        جميع عمليات المسح والاستخراج تتم محلياً على متصفحك فقط.<br>
+        لا يتم رفع صورة السجل التجاري إلى أي خادم.<br>
         </div>
     </div>
   </div>
@@ -278,7 +276,73 @@
 
   <script>
     'use strict';
-    console.info('[QueueSystem Form] STABLE-HOTFIX-2026-09-24');
+
+    // واجهة العميل ثنائية اللغة: النصوص الأساسية ورسائل OCR/الإرسال تتبدل
+    // من مكان واحد، مع حفظ الاختيار على الجهاز.
+    let formLangCode = (() => { try { return localStorage.getItem('queue_form_lang_v1') === 'en' ? 'en' : 'ar'; } catch (_) { return 'ar'; } })();
+    const FORM_I18N = {
+      ar: {
+        toggle:'English', title:'الإدارة العامة للخدمات الحكومية', agency:'خدمة تتيح لك بعد الحصول على رقمك من ماكينة الأرقام تسجيل بيانات شركتك، ثم متابعة دورك في الشباك عن بُعد، مما يتيح لك إنجاز مهام أخرى بالهيئة دون الإنتظار أمام الشباك.', warning:'🚨 يجب التواجد امام الشباك بمدة كافية حتي لا تخسر دورك', open:'النظام مفتوح حالياً · يمكنك التسجيل', closed:'التسجيل مغلق حالياً · المتابعة للأرقام المسجلة ما زالت متاحة',
+        input:'① اختر طريقة الإدخال', manual:'⌨️ يدوي', upload:'📄 رفع ملف', camera:'📷 كاميرا', manualHint:'أدخل البيانات يدوياً. الأرقام العربية أو الهندية مقبولة.', uploadText:'اضغط أو اسحب صورة / PDF السجل', uploadHint:'PDF أو JPG أو PNG · بأي اتجاه · يُعالج على جهازك فقط', cameraHint:'صوّر أول صفحة من السجل التجاري بإضاءة جيدة ودون ميل', openCamera:'📷 فتح كاميرا الهاتف', retry:'🔄 إعادة المحاولة', retake:'📷 التقاط من جديد',
+        dataTitle:'② البيانات المستخرجة / المدخلة', reg:'رقم السجل التجاري الموحد (15 رقمًا فقط)', regHint:'(15 رقمًا فقط)', regErr:'يجب أن يكون 15 رقمًا فقط (عربية أو هندية مقبولة)', compareNum:'🔍 قارن الرقم بالصورة — اضغط للتكبير', company:'اسم الشركة / المنشأة', compareName:'🔍 قارن الاسم بالصورة — اضغط للتكبير', client:'رقمي (من نظام الطابور - ماكينة الأرقام)', review:'⚠️ برجاء مراجعة البيانات بدقة قبل الإرسال', reviewText:'قارن الرقم والاسم بصورة المنطقة الظاهرة تحت كل حقل، وصحّح يدوياً إن لزم قبل الإرسال.', submit:'إرسال البيانات', privacy:'جميع عمليات المسح والاستخراج تتم محلياً على متصفحك فقط.\nلا يتم رفع صورة السجل التجاري إلى أي خادم.', closedErr:'التسجيل مغلق حالياً. يمكنك متابعة رقمك السابق من رابط المتابعة.', alert:'تنبيه', ok:'حسناً', done:'تم بنجاح',
+        preparing:'جاري تجهيز الصورة...', orientation:'جاري تحديد اتجاه المستند...', phoneOptimize:'جاري تحسين الصورة للهاتف...', engine:'جاري تجهيز المحرك...', header:'تحليل تخطيط المستند...', readHeader:'قراءة ترويسة المستند...', readNumber:'قراءة الرقم الموحد...', readName:'قراءة عمود اسم الشركة...', loadImage:'جاري تحميل الصورة...', start:'بدء التعرف الذكي...', processing:'جاري المعالجة...', extracting:'جاري استخراج البيانات...',
+        submitOpening:'جاري فتح المتابعة…', genericSend:'حدث خطأ أثناء التسجيل', required:'حقل مطلوب', invalidReg:'رقم السجل التجاري الموحد يجب أن يكون 15 رقماً فقط.', invalidRegTitle:'رقم السجل غير صحيح', companyRequired:'يرجى إدخال اسم الشركة / المنشأة.', clientRequired:'يرجى إدخال رقمك الحاصل عليه من ماكينة الارقام (من 1 إلى 500).', invalidClient:'رقمك يجب أن يكون رقماً فقط بين 1 و 500.', invalidClientTitle:'رقم غير صالح', reviewMsg:'برجاء مراجعة البيانات بدقة قبل الإرسال.', reviewTitle:'تأكيد الإرسال', cancel:'إلغاء', confirm:'تأكيد الإرسال',
+        copied:'تم النسخ ✓', manualInput:'إدخال يدوي', confirmNumber:'أكد الرقم الموحد', multipleReadings:'تم العثور على أكثر من قراءة محتملة.\nقارن بالصورة واختر الصحيح:', numberZone:'منطقة الرقم', referenceDocument:'مرجع من المستند', close:'إغلاق', saved:'تم الحفظ مؤقتاً ✓',
+        heicError:'تعذرت معالجة صورة HEIC على هذا الهاتف لأن أداة التحويل المحلية غير متاحة. اختر "الأكثر توافقاً" في إعدادات الصور أو استخدم الإدخال اليدوي.', ocrNotLoaded:'لم يتم تحميل محرك OCR.', readNumberTemplate:'قراءة الرقم الموحد من القالب الرسمي...', readCompany:'قراءة اسم الشركة من عمود الاسم...', mediumConfidence:'تمت قراءة الرقم آلياً لكن الثقة متوسطة. قارن الخانات مع الصورة المرجعية قبل الإرسال.', numberExtractFail:'تعذر استخراج الرقم آلياً. راجع الصورة المرجعية وأدخل الرقم يدوياً كآخر خطوة.', noExtraction:'لم يتم استخراج البيانات تلقائياً.\n\nلم نرسل المستند إلى أي خدمة خارجية. راجع الصور المرجعية وأدخل البيانات يدوياً.', numberReview:'تم استخراج اسم الشركة، لكن الرقم الموحد لم يُقرأ بثقة كافية. أدخل الرقم يدوياً بعد مراجعته من الصورة.', companyReview:'تم استخراج الرقم الموحد، لكن اسم الشركة يحتاج إدخالاً يدوياً بعد مراجعة الصورة.', quickReview:'تمت المعالجة، لكن اتجاه الصورة لم يكن مؤكداً بالكامل. راجع النتيجة قبل الإرسال.', mobileError:'تعذر تشغيل معالجة الهاتف. لم يتم إرسال الصورة إلى أي خدمة خارجية. استخدم الإدخال اليدوي أو أعد التصوير بصورة أوضح.', ocrLibraryError:'تعذر تحميل مكتبة التعرف الضوئي.\nتأكد من الإنترنت أو أدخل البيانات يدوياً.', lowConfidence:'القراءة تمت بثقة منخفضة — قارن كل خانة بالصورة المرجعية قبل الإرسال.', manualNumber:'تعذّرت القراءة الآلية للرقم. كبّر الصورة المرجعية بالأسفل وأدخل الخانات الخمس عشرة يدوياً.', orientationUncertain:'لم يتحدّد اتجاه المستند بثقة كافية — قد تكون الصورة غير واضحة أو مقصوصة.\nراجع النتيجة بعناية أو أعد التصوير للصفحة كاملة.', nothingExtracted:'لم يتم التعرف على الرقم أو الاسم تلقائياً.\n\nراجع الصورتين المرجعيتين تحت الحقلين وأدخل البيانات يدوياً، أو أعد المحاولة بصورة أوضح.', numberNotRead:'تم التعرف على اسم الشركة، لكن الرقم الموحد لم يُقرأ.\n\nاضغط على الصورة المرجعية تحت حقل الرقم لتكبيرها وأدخل الرقم يدوياً.', companyNotRead:'تم التعرف على الرقم الموحد، لكن اسم الشركة لم يُقرأ.\n\nاضغط على الصورة المرجعية تحت حقل الاسم لتكبيرها وأدخل الاسم يدوياً.', extractionCheck:'برجاء مراجعة البيانات مقارنة بالصور المرجعية قبل الإرسال.', extractionDone:'تم الاستخراج', lowConfidenceAlert:'ثقة القراءة منخفضة — راجع كل خانة.', numberReviewTitle:'الرقم يحتاج مراجعة', companyReviewTitle:'اسم الشركة يحتاج مراجعة', quickReviewTitle:'مراجعة سريعة', orientationTitle:'اتجاه المستند غير مؤكد', nothingTitle:'لم يتم الاستخراج', numberNotReadTitle:'الرقم لم يُقرأ', companyNotReadTitle:'الاسم لم يُقرأ', regSummary:'رقم السجل', companySummary:'اسم الشركة', extractionFailed:'فشل التعرف الضوئي:', extractionFailedTitle:'خطأ في الاستخراج', extractionRetry:'\n\nجرّب صورة أوضح أو أدخل البيانات يدوياً.', fileRead:'جاري قراءة الملف:', unnamedFile:'ملف', pdfUnavailable:'مكتبة قراءة PDF غير محمّلة. استخدم صورة بدلاً من PDF.', pdfConvert:'تحويل أول صفحة من PDF بدقة عالية...', unsupportedFile:'يرجى اختيار صورة (JPG/PNG) أو ملف PDF فقط.', processingError:'فشل معالجة الملف:', processingTitle:'خطأ في المعالجة', cameraReadError:'تعذر قراءة الصورة الملتقطة. حاول مرة أخرى.', cameraErrorTitle:'خطأ في الصورة', registrationSavedNoLink:'تم تسجيل البيانات، لكن تعذر إنشاء رابط المتابعة. أعد تحميل الصفحة أو تواصل مع الموظف.', sendError:'حدث خطأ أثناء الإرسال. تحقق من الاتصال وحاول مرة أخرى.', sendFailed:'فشل الإرسال', openingTracking:'جاري فتح المتابعة…'
+      },
+      en: {
+        toggle:'العربية', title:'Government Services Administration', agency:'After taking your queue number, enter your company details and follow your turn remotely so you can complete other tasks without waiting at the service desk.', warning:'🚨 Please stay near the service desk in time so you do not lose your turn', open:'Registration is currently open · you can register', closed:'Registration is currently closed · tracking for existing tickets remains available',
+        input:'① Choose an input method', manual:'⌨️ Manual', upload:'📄 Upload file', camera:'📷 Camera', manualHint:'Enter the details manually. Arabic and English digits are accepted.', uploadText:'Tap or drop a commercial register image / PDF', uploadHint:'PDF, JPG or PNG · any orientation · processed on your device only', cameraHint:'Capture the first page in good light without tilt', openCamera:'📷 Open phone camera', retry:'🔄 Retry', retake:'📷 Retake',
+        dataTitle:'② Extracted / entered data', reg:'Unified commercial registration number (15 digits)', regHint:'(15 digits only)', regErr:'Must be exactly 15 digits (Arabic or English digits accepted)', compareNum:'🔍 Compare the number with the image — tap to enlarge', company:'Company / establishment name', compareName:'🔍 Compare the name with the image — tap to enlarge', client:'My queue number (queue system ticket)', review:'⚠️ Please review the data carefully before sending', reviewText:'Compare the number and name with the reference image under each field and correct them manually when needed.', submit:'Submit data', privacy:'All scanning and extraction are performed locally in your browser.\nThe commercial register image is not uploaded to any server.', closedErr:'Registration is currently closed. You can still track an existing ticket from its tracking link.', alert:'Notice', ok:'OK', done:'Done',
+        preparing:'Preparing image...', orientation:'Detecting document orientation...', phoneOptimize:'Optimizing image for phone...', engine:'Preparing recognition engine...', header:'Analyzing document layout...', readHeader:'Reading document header...', readNumber:'Reading unified number...', readName:'Reading company-name column...', loadImage:'Loading image...', start:'Starting smart recognition...', processing:'Processing...', extracting:'Extracting data...',
+        submitOpening:'Opening tracking…', genericSend:'An error occurred during registration', required:'Required field', invalidReg:'The unified commercial registration number must contain exactly 15 digits.', invalidRegTitle:'Invalid registration number', companyRequired:'Please enter the company / establishment name.', clientRequired:'Please enter your queue number (1 to 500).', invalidClient:'The queue number must be a number between 1 and 500.', invalidClientTitle:'Invalid number', reviewMsg:'Please review the data carefully before sending.', reviewTitle:'Confirm submission', cancel:'Cancel', confirm:'Confirm submission',
+        copied:'Copied ✓', manualInput:'Enter manually', confirmNumber:'Confirm unified number', multipleReadings:'More than one possible reading was found.\nCompare with the image and choose the correct one:', numberZone:'Number area', referenceDocument:'Document reference', close:'Close', saved:'Saved temporarily ✓',
+        heicError:'This phone provided a HEIC image, but the local converter is unavailable. Choose "Most Compatible" in Photos settings or use manual entry.', ocrNotLoaded:'The OCR engine has not loaded.', readNumberTemplate:'Reading the unified number from the official template...', readCompany:'Reading the company name from the name column...', mediumConfidence:'The number was read automatically with medium confidence. Compare each digit with the reference image before sending.', numberExtractFail:'The number could not be extracted automatically. Check the reference image and enter it manually as the final step.', noExtraction:'The data could not be extracted automatically.\n\nThe document was not sent to any external service. Check the reference images and enter the data manually.', numberReview:'The company name was extracted, but the unified number was not read confidently enough. Review the image and enter the number manually.', companyReview:'The unified number was extracted, but the company name requires manual entry after checking the image.', quickReview:'Processing completed, but document orientation was not fully confirmed. Review the result before sending.', mobileError:'Phone processing could not be started. The image was not sent to any external service. Use manual entry or retake a clearer photo.', ocrLibraryError:'The OCR library could not be loaded.\nCheck your internet connection or enter the data manually.', lowConfidence:'The reading has low confidence — compare every digit with the reference image before sending.', manualNumber:'The number could not be read automatically. Enlarge the reference image below and enter all 15 digits manually.', orientationUncertain:'Document orientation could not be confirmed with enough confidence — the image may be unclear or cropped.\nReview the result carefully or retake the full page.', nothingExtracted:'The number or name could not be recognized automatically.\n\nCheck the two reference images below the fields and enter the data manually, or retry with a clearer image.', numberNotRead:'The company name was recognized, but the unified number was not.\n\nTap the reference image under the number field to enlarge it and enter the number manually.', companyNotRead:'The unified number was recognized, but the company name was not.\n\nTap the reference image under the company field to enlarge it and enter the name manually.', extractionCheck:'Please review the data against the reference images before sending.', extractionDone:'Extraction complete', lowConfidenceAlert:'Low reading confidence — review every digit.', numberReviewTitle:'Number needs review', companyReviewTitle:'Company name needs review', quickReviewTitle:'Quick review', orientationTitle:'Document orientation uncertain', nothingTitle:'Extraction failed', numberNotReadTitle:'Number not read', companyNotReadTitle:'Name not read', regSummary:'Registration number', companySummary:'Company name', extractionFailed:'OCR recognition failed:', extractionFailedTitle:'Extraction error', extractionRetry:'\n\nTry a clearer image or enter the data manually.', fileRead:'Reading file:', unnamedFile:'file', pdfUnavailable:'The PDF reader library is not loaded. Use an image instead of PDF.', pdfConvert:'Converting the first PDF page at high resolution...', unsupportedFile:'Please choose an image (JPG/PNG) or PDF only.', processingError:'File processing failed:', processingTitle:'Processing error', cameraReadError:'The captured image could not be read. Try again.', cameraErrorTitle:'Image error', registrationSavedNoLink:'Your registration was saved, but a tracking link could not be generated. Reload the page or contact staff.', sendError:'An error occurred while sending. Check your connection and try again.', sendFailed:'Send failed', openingTracking:'Opening tracking…'
+      }
+    };
+    const ft = key => (FORM_I18N[formLangCode] && FORM_I18N[formLangCode][key]) || FORM_I18N.ar[key] || key;
+    function applyFormLanguage() {
+      document.documentElement.lang = formLangCode; document.documentElement.dir = formLangCode === 'ar' ? 'rtl' : 'ltr';
+      const text = { formTitle:'title', formAgencyDesc:'agency', formWarning:'warning', inputMethodTitle:'input', modeManual:'manual', modeUpload:'upload', modeCamera:'camera', manualHint:'manualHint', uploadText:'uploadText', uploadHint:'uploadHint', cameraHint:'cameraHint', nativeCameraBtn:'openCamera', retryUploadBtn:'retry', retryCameraBtn:'retry', retakeBtn:'retake', dataTitle:'dataTitle', regLabel:'reg', regLabelHint:'regHint', regError:'regErr', regZoneThumb:'compareNum', companyLabel:'company', nameZoneThumb:'compareName', clientLabel:'client', reviewTitle:'review', reviewText:'reviewText', submitText:'submit', privacyNote:'privacy' };
+      Object.keys(text).forEach(id => { const el=document.getElementById(id); if(el) el.textContent=ft(text[id]); });
+      const tgl=document.getElementById('langToggle'); if(tgl) tgl.textContent=ft('toggle');
+      const sp1=document.getElementById('uploadProgressText'), sp2=document.getElementById('cameraProgressText'); if(sp1&&(!sp1.textContent||sp1.dataset.i18nState)) sp1.textContent=ft('processing'); if(sp2&&(!sp2.textContent||sp2.dataset.i18nState)) sp2.textContent=ft('processing');
+    }
+    let formIsOpen = true;
+    let formStatusHub = null;
+    function renderFormStatus(open) {
+      formIsOpen = !!open;
+      const bar = document.getElementById('formStatusBar');
+      if (bar) bar.textContent = ft(open ? 'open' : 'closed');
+    }
+    async function refreshFormStatus() {
+      try {
+        const r = await fetch('/api/public/system-status', { credentials:'same-origin', cache:'no-store' });
+        if (!r.ok) throw new Error('status');
+        const d = await r.json();
+        renderFormStatus(d.isOpen !== false);
+        return d;
+      } catch (_) {
+        // لا نعتمد على حالة محلية قديمة لرفض التسجيل؛ السيرفر هو صاحب القرار عند POST.
+        return null;
+      }
+    }
+    async function connectFormLive() {
+      if (!window.signalR || formStatusHub) return;
+      try {
+        const h = new signalR.HubConnectionBuilder().withUrl('/hubs/public').withAutomaticReconnect([0,1000,2000,5000,10000]).build();
+        formStatusHub = h;
+        h.on('SystemStateChanged', payload => { if (payload && typeof payload.isOpen === 'boolean') renderFormStatus(payload.isOpen); });
+        h.onclose(() => { if (formStatusHub === h) formStatusHub = null; });
+        await h.start();
+        await h.invoke('JoinSystem');
+      } catch (_) { formStatusHub = null; }
+    }
+    document.querySelector('script[src*="microsoft-signalr"]') || (()=>{})();
+    applyFormLanguage();
+    refreshFormStatus();
+    connectFormLive();
+    setInterval(() => { if (!formStatusHub || formStatusHub.state !== 'Connected') refreshFormStatus(); }, 15000);
 
     // حماية من الإرسال الآلي: نطلب رمز التحقق الموقّع من السيرفر فور تحميل
     // الصفحة، مش عند الإرسال — بكده أي مستخدم حقيقي بيملأ 3 حقول ويراجع
@@ -304,14 +368,14 @@
     function showModal(opts) {
       return new Promise(resolve => {
         modalIcon.textContent = opts.icon || 'ℹ️';
-        modalTitle.textContent = opts.title || 'تنبيه';
+        modalTitle.textContent = opts.title || ft('alert');
         modalMsg.textContent = opts.message || '';
         modalBox.classList.toggle('modal-box-wide', !!opts.wide);
         if (opts.dataHtml) { modalData.innerHTML = opts.dataHtml; modalData.style.display = 'block'; }
         else { modalData.style.display = 'none'; modalData.innerHTML = ''; }
         modalActions.innerHTML = '';
         modalActions.className = 'modal-actions' + (opts.horizontal ? ' horizontal' : '');
-        (opts.buttons || [{ text: 'حسناً', class: 'btn-primary', value: true }]).forEach(btn => {
+        (opts.buttons || [{ text: ft('ok'), class: 'btn-primary', value: true }]).forEach(btn => {
           const el = document.createElement('button');
           el.type = 'button';
           el.className = 'btn ' + (btn.class || 'btn-primary') + (btn.candidate ? ' candidate-btn' : '');
@@ -326,25 +390,25 @@
     function closeModal() { modalOverlay.classList.remove('show'); document.body.style.overflow = ''; }
     modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
 
-    const modalAlert = (m, t, i) => showModal({ icon: i || 'ℹ️', title: t || 'تنبيه', message: m, buttons: [{ text: 'حسناً', class: 'btn-primary', value: true }] });
-    const modalSuccess = (m, t, d) => showModal({ icon: '✅', title: t || 'تم بنجاح', message: m, dataHtml: d, buttons: [{ text: 'حسناً', class: 'btn-success', value: true }] });
-    const modalError = (m, t) => showModal({ icon: '⚠️', title: t || 'تنبيه', message: m, buttons: [{ text: 'حسناً', class: 'btn-primary', value: true }] });
+    const modalAlert = (m, t, i) => showModal({ icon: i || 'ℹ️', title: t || ft('alert'), message: m, buttons: [{ text: ft('ok'), class: 'btn-primary', value: true }] });
+    const modalSuccess = (m, t, d) => showModal({ icon: '✅', title: t || ft('done'), message: m, dataHtml: d, buttons: [{ text: ft('ok'), class: 'btn-success', value: true }] });
+    const modalError = (m, t) => showModal({ icon: '⚠️', title: t || ft('alert'), message: m, buttons: [{ text: ft('ok'), class: 'btn-primary', value: true }] });
     const modalConfirm = (m, t, d) => showModal({
-      icon: '📋', title: t || 'تأكيد الإرسال', message: m, dataHtml: d, horizontal: true,
-      buttons: [{ text: 'إلغاء', class: 'btn-outline', value: false }, { text: 'تأكيد الإرسال', class: 'btn-success', value: true }]
+      icon: '📋', title: t || ft('reviewTitle'), message: m, dataHtml: d, horizontal: true,
+      buttons: [{ text: ft('cancel'), class: 'btn-outline', value: false }, { text: ft('confirm'), class: 'btn-success', value: true }]
     });
     function modalPickCandidate(cands, img) {
       const buttons = cands.map((c, i) => ({ text: c.num, class: i === 0 ? 'btn-success' : 'btn-outline', value: c.num, candidate: true }));
-      buttons.push({ text: 'إدخال يدوي', class: 'btn-danger', value: null });
+      buttons.push({ text: ft('manualInput'), class: 'btn-danger', value: null });
       return showModal({
-        icon: '🔢', title: 'أكد الرقم الموحد',
-        message: 'تم العثور على أكثر من قراءة محتملة.\nقارن بالصورة واختر الصحيح:',
-        dataHtml: img ? ('<img src="' + img + '" alt="منطقة الرقم">') : null, wide: !!img, buttons
+        icon: '🔢', title: ft('confirmNumber'),
+        message: ft('multipleReadings'),
+        dataHtml: img ? ('<img src="' + img + '" alt="' + ft('numberZone') + '">') : null, wide: !!img, buttons
       });
     }
     const modalViewImage = (src, title) => showModal({
-      icon: '🔍', title: title || 'مرجع من المستند', wide: true,
-      dataHtml: '<img src="' + src + '" alt="">', buttons: [{ text: 'إغلاق', class: 'btn-primary', value: true }]
+      icon: '🔍', title: title || ft('referenceDocument'), wide: true,
+      dataHtml: '<img src="' + src + '" alt="">', buttons: [{ text: ft('close'), class: 'btn-primary', value: true }]
     });
 
     function escapeHtml(v) {
@@ -1271,28 +1335,6 @@
 
 
     // =====================================================================
-    //  اللغة — معزولة عن مسار التسجيل وOCR
-    // =====================================================================
-    const FORM_LANG_KEY = 'queue_form_lang_v3';
-    let formLang = 'ar';
-    try { formLang = localStorage.getItem(FORM_LANG_KEY) === 'en' ? 'en' : 'ar'; } catch (e) {}
-    const FORM_TEXT = {
-      ar: { toggle:'English', title:'الإدارة العامة للخدمات الحكومية', agency:'خدمة تتيح لك بعد الحصول على رقمك من ماكينة الأرقام تسجيل بيانات شركتك، ثم متابعة دورك في الشباك عن بُعد، مما يتيح لك إنجاز مهام أخرى بالهيئة دون الإنتظار أمام الشباك .', warning:'🚨 يجب التواجد امام الشباك بمدة كافية حتي لا تخسر دورك', status:'النظام مفتوح حالياً · يمكنك التسجيل', input:'① اختر طريقة الإدخال', manual:'يدوي', upload:'رفع ملف', camera:'كاميرا', hint:'أدخل البيانات يدوياً. الأرقام العربية أو الهندية مقبولة.', data:'② البيانات المستخرجة / المدخلة', reg:'رقم السجل التجاري الموحد', regHint:'(15 رقمًا فقط)', company:'اسم الشركة / المنشأة', client:'رقمي (من نظام الطابور - ماكينة الأرقام)', review:'⚠️ برجاء مراجعة البيانات بدقة قبل الإرسال', reviewText:'قارن الرقم والاسم بصورة المنطقة الظاهرة تحت كل حقل، وصحّح يدوياً إن لزم قبل الإرسال.', submit:'إرسال البيانات', footer:'جميع عمليات المسح والاستخراج تتم محلياً على متصفحك فقط.<br>لا يتم رفع صورة السجل التجاري إلى أي خادم.<br>' },
-      en: { toggle:'العربية', title:'Government Services Administration', agency:'After receiving your queue number, enter your company details and follow your turn remotely so you can complete other tasks without waiting at the service desk.', warning:'🚨 Please stay near the service desk in time so you do not lose your turn', status:'Registration is currently open · you can register', input:'① Choose an input method', manual:'Manual', upload:'Upload file', camera:'Camera', hint:'Enter the details manually. Arabic and English digits are accepted.', data:'② Extracted / entered data', reg:'Unified commercial registration number', regHint:'(15 digits only)', company:'Company / establishment name', client:'My queue number (queue machine ticket)', review:'⚠️ Please review the data carefully before sending', reviewText:'Compare the number and name with the reference image under each field and correct them manually when needed.', submit:'Submit data', footer:'All scanning and extraction are performed locally in your browser.<br>The commercial register image is not uploaded to any server.<br>' }
-    };
-    function applyFormLanguage() {
-      const t=FORM_TEXT[formLang];
-      document.documentElement.lang=formLang;
-      document.documentElement.dir=formLang==='ar'?'rtl':'ltr';
-      const set=(id,v,html=false)=>{const e=document.getElementById(id);if(e)html?e.innerHTML=v:e.textContent=v;};
-      set('langToggle',t.toggle); set('formTitle',t.title); set('formAgency',t.agency); set('formWarning',t.warning); set('formStatus',t.status); set('inputTitle',t.input);
-      set('modeManualText',t.manual); set('modeUploadText',t.upload); set('modeCameraText',t.camera); set('manualHint',t.hint); set('dataTitle',t.data); set('regLabel',t.reg); set('regHint',t.regHint); set('companyLabel',t.company); set('clientLabel',t.client); set('reviewTitle',t.review); set('reviewText',t.reviewText); set('submitText',t.submit); set('footerText',t.footer,true);
-      try{localStorage.setItem(FORM_LANG_KEY,formLang);}catch(e){}
-    }
-    document.getElementById('langToggle').addEventListener('click',()=>{formLang=formLang==='ar'?'en':'ar';applyFormLanguage();});
-    applyFormLanguage();
-
-    // =====================================================================
     //  الوضع الليلي / الأوضاع / الحقول
     // =====================================================================
     const themeToggle = document.getElementById('themeToggle');
@@ -1311,6 +1353,14 @@
     })();
     themeToggle.addEventListener('click', () =>
       applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+    const langToggle = document.getElementById('langToggle');
+    if (langToggle) {
+      langToggle.addEventListener('click', () => {
+        formLangCode = formLangCode === 'ar' ? 'en' : 'ar';
+        try { localStorage.setItem('queue_form_lang_v1', formLangCode); } catch (e) {}
+        applyFormLanguage();
+      });
+    }
 
     const regInput = document.getElementById('regNumber');
     const companyInput = document.getElementById('companyName');
@@ -1365,8 +1415,8 @@
       });
     });
 
-    regZoneThumb.addEventListener('click', () => { if (regZoneImg.src) modalViewImage(regZoneImg.src, 'منطقة الرقم الموحد'); });
-    nameZoneThumb.addEventListener('click', () => { if (nameZoneImg.src) modalViewImage(nameZoneImg.src, 'منطقة اسم الشركة'); });
+    regZoneThumb.addEventListener('click', () => { if (regZoneImg.src) modalViewImage(regZoneImg.src, ft('reg')); });
+    nameZoneThumb.addEventListener('click', () => { if (nameZoneImg.src) modalViewImage(nameZoneImg.src, ft('company')); });
 
     function showToast(msg) {
       const t = document.getElementById('savedToast');
@@ -1378,7 +1428,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           reg: regInput.value, company: companyInput.value, client: clientInput.value, ts: Date.now()
         }));
-        showToast('تم الحفظ مؤقتاً ✓');
+        showToast(ft('saved'));
       } catch (e) {}
     }
     (function loadDraft() {
@@ -1462,7 +1512,7 @@
       // لا يتم رفع الملف إلى أي خادم.
       if (isHeic) {
         const ok = await ensureHeicConverter();
-        if (!ok) throw new Error('هذا الهاتف سلّم الصورة بصيغة HEIC ولم تتوفر أداة التحويل المحلية. اختر "الأكثر توافقاً" في إعدادات الصور أو استخدم الإدخال اليدوي.');
+        if (!ok) throw new Error(ft('heicError'));
         const converted = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.94 });
         const blob = Array.isArray(converted) ? converted[0] : converted;
         workingFile = new File([blob], 'mobile-heic-converted.jpg', { type: 'image/jpeg' });
@@ -1491,13 +1541,13 @@
       if (source && source.__crOrientationApplied === true) {
         // صور JPG/PNG المرفوعة أو الملتقطة بالكاميرا: createImageBitmap
         // طبّق EXIF orientation بالفعل، فلا نستهلك OCR إضافياً لتحديد الاتجاه.
-        textEl.textContent = 'جاري تجهيز الصورة...';
+        textEl.textContent = ft('preparing');
         fillEl.style.width = (base + 4) + '%';
         res = { degrees: 0, confident: true };
       } else {
         // PDF Canvas أو fallback Image: نحتفظ باختبار الاتجاه الكامل لأنه
         // لا توجد metadata مضمونة يمكن الاعتماد عليها هنا.
-        textEl.textContent = 'جاري تحديد اتجاه المستند...';
+        textEl.textContent = ft('orientation');
         fillEl.style.width = (base + 3) + '%';
         res = await detectBestOrientation(source, () => { fillEl.style.width = (base + 8) + '%'; });
       }
@@ -1618,10 +1668,10 @@
       nameZoneThumb.classList.remove('show');
       regNote.classList.remove('show');
       fillEl.style.width = '12%';
-      textEl.textContent = 'جاري تحسين الصورة للهاتف...';
+      textEl.textContent = ft('phoneOptimize');
 
       try {
-        if (typeof Tesseract === 'undefined') throw new Error('لم يتم تحميل محرك OCR.');
+        if (typeof Tesseract === 'undefined') throw new Error(ft('ocrNotLoaded'));
 
         // نحدد تخطيطاً صغيراً جداً من الصورة — بدون OCR — لالتقاط تغيرات بسيطة
         // في مكان الجدول/العمود بسبب الكاميرا.
@@ -1631,7 +1681,7 @@
         disposeCanvas(probe);
 
         // ---------- الرقم الموحد ----------
-        textEl.textContent = 'قراءة الرقم الموحد من القالب الرسمي...';
+        textEl.textContent = ft('readNumberTemplate');
         fillEl.style.width = '40%';
         let regPicked = '';
         let numberBest = null;
@@ -1649,7 +1699,7 @@
 
         // ---------- اسم الشركة ----------
         fillEl.style.width = '64%';
-        textEl.textContent = 'قراءة اسم الشركة من عمود الاسم...';
+        textEl.textContent = ft('readCompany');
         const baseName = layout && layout.nameZone ? layout.nameZone : FALLBACK_NAME_ZONE;
         const nameBoxes = [
           expandedBox(baseName, 0.008, 0.010),
@@ -1674,10 +1724,10 @@
 
         const lowNumberConfidence = !numberBest || numberBest.minScore < 0.68;
         if (regPicked && lowNumberConfidence) {
-          regNote.textContent = 'تمت قراءة الرقم آلياً لكن الثقة متوسطة. قارن الخانات مع الصورة المرجعية قبل الإرسال.';
+          regNote.textContent = ft('mediumConfidence');
           regNote.classList.add('show');
         } else if (!regPicked) {
-          regNote.textContent = 'تعذر استخراج الرقم آلياً. راجع الصورة المرجعية وأدخل الرقم يدوياً كآخر خطوة.';
+          regNote.textContent = ft('numberExtractFail');
           regNote.classList.add('show');
         }
 
@@ -1688,13 +1738,13 @@
         retryRow.classList.add('show');
 
         if (!regPicked && !companyName) {
-          await modalError('لم يتم استخراج البيانات تلقائياً.\n\nلم نرسل المستند إلى أي خدمة خارجية. راجع الصور المرجعية وأدخل البيانات يدوياً.', 'تعذر الاستخراج');
+          await modalError(ft('noExtraction'), ft('noExtraction').split('\n')[0]);
         } else if (!regPicked) {
-          await modalAlert('تم استخراج اسم الشركة، لكن الرقم الموحد لم يُقرأ بثقة كافية. أدخل الرقم يدوياً بعد مراجعته من الصورة.', 'الرقم يحتاج مراجعة');
+          await modalAlert(ft('numberReview'), ft('numberReviewTitle'));
         } else if (!companyName) {
-          await modalAlert('تم استخراج الرقم الموحد، لكن اسم الشركة يحتاج إدخالاً يدوياً بعد مراجعة الصورة.', 'اسم الشركة يحتاج مراجعة');
+          await modalAlert(ft('companyReview'), ft('companyReviewTitle'));
         } else if (!orientationConfident) {
-          await modalAlert('تمت المعالجة، لكن اتجاه الصورة لم يكن مؤكداً بالكامل. راجع النتيجة قبل الإرسال.', 'مراجعة سريعة');
+          await modalAlert(ft('quickReview'), ft('quickReviewTitle'));
         }
         return { regNumber: regPicked, companyName };
       } catch (err) {
@@ -1702,7 +1752,7 @@
         progressEl.style.display = 'none';
         fillEl.style.width = '0%';
         retryRow.classList.add('show');
-        await modalError('تعذر تشغيل معالجة الهاتف. لم يتم إرسال الصورة إلى أي خدمة خارجية. استخدم الإدخال اليدوي أو أعد التصوير بصورة أوضح.\n\n' + (err && err.message ? err.message : String(err)), 'تعذر المعالجة');
+        await modalError(ft('mobileError') + '\n\n' + (err && err.message ? err.message : String(err)), ft('mobileError').split('.')[0]);
         return null;
       }
     }
@@ -1712,7 +1762,7 @@
       lastUprightCanvas = upright;
       progressEl.style.display = 'block';
       fillEl.style.width = '20%';
-      textEl.textContent = 'جاري تجهيز المحرك...';
+      textEl.textContent = ft('engine');
       const retryRow = document.getElementById(type === 'upload' ? 'uploadRetry' : 'cameraRetry');
       retryRow.classList.remove('show');
       regZoneThumb.classList.remove('show');
@@ -1723,7 +1773,7 @@
       if (typeof Tesseract === 'undefined') {
         progressEl.style.display = 'none';
         retryRow.classList.add('show');
-        await modalError('تعذر تحميل مكتبة التعرف الضوئي.\nتأكد من الإنترنت أو أدخل البيانات يدوياً.', 'محرك التعرف غير متاح');
+        await modalError(ft('ocrLibraryError'), ft('ocrLibraryError').split('.')[0]);
         return null;
       }
 
@@ -1732,13 +1782,13 @@
       try {
         const textWorker = await getTextWorker();
 
-        textEl.textContent = 'تحليل تخطيط المستند...';
+        textEl.textContent = ft('header');
         fillEl.style.width = '26%';
         const probe = toGrayStretched(downscaleTo(upright, 1600));
         const layout = deriveLayout(probe);
 
         // ---------- الترويسة ----------
-        textEl.textContent = 'قراءة ترويسة المستند...';
+        textEl.textContent = ft('readHeader');
         fillEl.style.width = '34%';
         const headerBox = { x0: 0, y0: 0, x1: 1, y1: Math.max(0.10, layout.tableTop) };
         const headerCanvas = toGrayStretched(cropPixels(upright, headerBox, 620, 1900, 6));
@@ -1747,7 +1797,7 @@
         const headerLines = groupWordsToLines(headerOCR.words);
 
         // ---------- الرقم الموحد بمصنّف القوالب ----------
-        textEl.textContent = 'قراءة الرقم الموحد...';
+        textEl.textContent = ft('readNumber');
         fillEl.style.width = '48%';
 
         let result = null;
@@ -1803,7 +1853,7 @@
         }
 
         // ---------- اسم الشركة ----------
-        textEl.textContent = 'قراءة عمود اسم الشركة...';
+        textEl.textContent = ft('readName');
         fillEl.style.width = '68%';
         const nameCanvas = toGrayStretched(cropPixels(upright, layout.nameZone, 900, 620, 6));
         nameZoneImg.src = nameCanvas.toDataURL('image/png');
@@ -1836,10 +1886,10 @@
         if (regPicked || companyName) scheduleSave();
 
         if (lowConfidence) {
-          regNote.textContent = 'القراءة تمت بثقة منخفضة — قارن كل خانة بالصورة المرجعية قبل الإرسال.';
+          regNote.textContent = ft('lowConfidence');
           regNote.classList.add('show');
         } else if (!regPicked) {
-          regNote.textContent = 'تعذّرت القراءة الآلية للرقم. كبّر الصورة المرجعية بالأسفل وأدخل الخانات الخمس عشرة يدوياً.';
+          regNote.textContent = ft('manualNumber');
           regNote.classList.add('show');
         }
 
@@ -1851,19 +1901,19 @@
           retryRow.classList.add('show');
 
           if (!orientationConfident)
-            await modalAlert('لم يتحدّد اتجاه المستند بثقة كافية — قد تكون الصورة غير واضحة أو مقصوصة.\nراجع النتيجة بعناية أو أعد التصوير للصفحة كاملة.', 'اتجاه المستند غير مؤكد');
+            await modalAlert(ft('orientationUncertain'), ft('orientationTitle'));
 
           if (!regPicked && !companyName)
-            await modalError('لم يتم التعرف على الرقم أو الاسم تلقائياً.\n\nراجع الصورتين المرجعيتين تحت الحقلين وأدخل البيانات يدوياً، أو أعد المحاولة بصورة أوضح.', 'لم يتم الاستخراج');
+            await modalError(ft('nothingExtracted'), ft('nothingTitle'));
           else if (!regPicked)
-            await modalAlert('تم التعرف على اسم الشركة، لكن الرقم الموحد لم يُقرأ.\n\nاضغط على الصورة المرجعية تحت حقل الرقم لتكبيرها وأدخل الرقم يدوياً.', 'الرقم لم يُقرأ');
+            await modalAlert(ft('numberNotRead'), ft('numberNotReadTitle'));
           else if (!companyName)
-            await modalAlert('تم التعرف على الرقم الموحد، لكن اسم الشركة لم يُقرأ.\n\nاضغط على الصورة المرجعية تحت حقل الاسم لتكبيرها وأدخل الاسم يدوياً.', 'الاسم لم يُقرأ');
+            await modalAlert(ft('companyNotRead'), ft('companyNotReadTitle'));
           else
             await modalSuccess(
-              'رقم السجل: ' + '\u2066' + formatRegDisplay(regPicked) + '\u2069' + '\n' + 'اسم الشركة: ' + companyName +
-              (lowConfidence ? '\n\n⚠️ ثقة القراءة منخفضة — راجع كل خانة.' : '') +
-              '\n\nبرجاء مراجعة البيانات مقارنة بالصور المرجعية قبل الإرسال.', 'تم الاستخراج');
+              ft('regSummary') + ': ' + '\u2066' + formatRegDisplay(regPicked) + '\u2069' + '\n' + ft('companySummary') + ': ' + companyName +
+              (lowConfidence ? '\n\n⚠️ ' + ft('lowConfidenceAlert') : '') +
+              '\n\n' + ft('extractionCheck'), ft('extractionDone'));
         }, 350);
 
         return { regNumber: regPicked, companyName };
@@ -1871,8 +1921,7 @@
         console.error('OCR Error:', err);
         progressEl.style.display = 'none';
         retryRow.classList.add('show');
-        await modalError('فشل التعرف الضوئي:\n' + (err && err.message ? err.message : String(err)) +
-          '\n\nجرّب صورة أوضح أو أدخل البيانات يدوياً.', 'خطأ في الاستخراج');
+        await modalError(ft('extractionFailed') + '\n' + (err && err.message ? err.message : String(err)) + ft('extractionRetry'), ft('extractionFailedTitle'));
         return null;
       }
     }
@@ -1907,7 +1956,7 @@
       const txt = document.getElementById('uploadProgressText');
       prog.style.display = 'block';
       fill.style.width = '5%';
-      txt.textContent = 'جاري قراءة الملف: ' + (file.name || 'ملف');
+      txt.textContent = ft('fileRead') + ' ' + (file.name || ft('unnamedFile'));
 
       try {
         const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name || '');
@@ -1917,10 +1966,10 @@
         if (isPdf) {
           if (typeof pdfjsLib === 'undefined') {
             prog.style.display = 'none';
-            await modalError('مكتبة قراءة PDF غير محمّلة. استخدم صورة بدلاً من PDF.', 'PDF غير متاح');
+            await modalError(ft('pdfUnavailable'), 'PDF');
             return;
           }
-          txt.textContent = 'تحويل أول صفحة من PDF بدقة عالية...';
+          txt.textContent = ft('pdfConvert');
           fill.style.width = '10%';
           const buf = await file.arrayBuffer();
           const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
@@ -1934,24 +1983,24 @@
           await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
           source = c;
         } else if (isImage) {
-          txt.textContent = 'جاري تحميل الصورة...';
+          txt.textContent = ft('loadImage');
           fill.style.width = '10%';
           source = await loadImageOriented(file);
         } else {
           prog.style.display = 'none';
-          await modalError('يرجى اختيار صورة (JPG/PNG) أو ملف PDF فقط.', 'نوع ملف غير مدعوم');
+          await modalError(ft('unsupportedFile'), ft('unsupportedFile').split('.')[0]);
           return;
         }
 
         const up = await toUprightFullRes(source, fill, txt, 12);
         showPreview(uploadPreview, up.canvas);
-        txt.textContent = 'بدء التعرف الذكي...';
+        txt.textContent = ft('start');
         await runOCR(up.canvas, prog, fill, txt, 'upload', up.confident);
       } catch (err) {
         console.error('handleFile error:', err);
         prog.style.display = 'none';
         document.getElementById('uploadRetry').classList.add('show');
-        await modalError('فشل معالجة الملف:\n' + (err && err.message ? err.message : String(err)), 'خطأ في المعالجة');
+        await modalError(ft('processingError') + '\n' + (err && err.message ? err.message : String(err)), ft('processingTitle'));
       }
     }
 
@@ -1981,17 +2030,17 @@
       const txt = document.getElementById('cameraProgressText');
       prog.style.display = 'block';
       fill.style.width = '8%';
-      txt.textContent = 'جاري تحميل الصورة...';
+      txt.textContent = ft('loadImage');
       try {
         const source = await loadImageOriented(file);
         const up = await toUprightFullRes(source, fill, txt, 10);
         showPreview(cameraPreviewBox, up.canvas);
-        txt.textContent = 'بدء التعرف الذكي...';
+        txt.textContent = ft('start');
         await runOCR(up.canvas, prog, fill, txt, 'camera', up.confident);
       } catch (e) {
         console.error(e);
         prog.style.display = 'none';
-        await modalError('تعذر قراءة الصورة الملتقطة. حاول مرة أخرى.', 'خطأ في الصورة');
+        await modalError(ft('cameraReadError'), ft('cameraErrorTitle'));
       }
     });
 
@@ -2019,30 +2068,32 @@
     // =====================================================================
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.addEventListener('click', async () => {
+      const status = await refreshFormStatus();
+      if (status && status.isOpen === false) { await modalAlert(ft('closedErr')); return; }
       const regDigits = extractDigitsOnly(regInput.value);
       const company = companyInput.value.trim();
       const client = clientInput.value.trim();
 
       if (!isValidRegNumber(regInput.value)) {
         regInput.classList.add('invalid'); regError.classList.add('show'); regInput.focus();
-        await modalError('رقم السجل التجاري الموحد يجب أن يكون 15 رقماً فقط.', 'رقم السجل غير صحيح');
+        await modalError(ft('invalidReg'), ft('invalidRegTitle'));
         return;
       }
-      if (!company) { companyInput.focus(); await modalError('يرجى إدخال اسم الشركة / المنشأة.', 'حقل مطلوب'); return; }
-      if (!client) { clientInput.focus(); await modalError('يرجى إدخال رقمك الحاصل عليه من ماكينة الارقام (من 1 إلى 500).', 'حقل مطلوب'); return; }
+      if (!company) { companyInput.focus(); await modalError(ft('companyRequired'), ft('required')); return; }
+      if (!client) { clientInput.focus(); await modalError(ft('clientRequired'), ft('required')); return; }
 const clientNum = Number(String(client).replace(/\D/g, ''));
 if (!Number.isInteger(clientNum) || clientNum < 1 || clientNum > 500) {
   clientInput.focus();
-  await modalError('رقمك يجب أن يكون رقماً فقط بين 1 و 500.', 'رقم غير صالح');
+  await modalError(ft('invalidClient'), ft('invalidClientTitle'));
   return;
 }
 
       const dataHtml =
-        '<div class="row"><span class="lbl">رقم السجل</span><span class="val">' + formatRegDisplay(regDigits) + '</span></div>' +
-        '<div class="row"><span class="lbl">اسم الشركة</span><span class="val" style="direction:rtl;text-align:right">' + company + '</span></div>' +
-        '<div class="row"><span class="lbl">رقمى </span><span class="val">' + client + '</span></div>';
+        '<div class="row"><span class="lbl">'+ft('reg')+'</span><span class="val">' + formatRegDisplay(regDigits) + '</span></div>' +
+        '<div class="row"><span class="lbl">'+ft('company')+'</span><span class="val" style="direction:rtl;text-align:right">' + company + '</span></div>' +
+        '<div class="row"><span class="lbl">'+ft('client')+'</span><span class="val">' + client + '</span></div>';
 
-      if (!(await modalConfirm('برجاء مراجعة البيانات بدقة قبل الإرسال.', 'تأكيد الإرسال', dataHtml))) return;
+      if (!(await modalConfirm(ft('reviewMsg'), ft('reviewTitle'), dataHtml))) return;
 
       submitBtn.classList.add('loading');
       submitBtn.disabled = true;
@@ -2065,50 +2116,36 @@ if (!Number.isInteger(clientNum) || clientNum < 1 || clientNum > 500) {
         });
         submitResult = await resp.json().catch(() => null);
         if (!resp.ok || !submitResult || !submitResult.success) {
-          throw new Error((submitResult && submitResult.message) || 'حدث خطأ أثناء التسجيل');
+          throw new Error(resp.status === 409 ? ft('closedErr') : ft('genericSend'));
         }
 
         clearDraft();
-        // بناء رابط المتابعة
         const trackTicket = String((submitResult && submitResult.ticket) || client || '').replace(/\D/g, '');
         const trackToken = String((submitResult && (submitResult.trackToken || submitResult.token)) || '');
         let trackUrl = (submitResult && submitResult.trackUrl) ? String(submitResult.trackUrl) : '';
         if ((!trackUrl || trackUrl === 'undefined') && trackTicket && trackToken) {
-          // صفحة المتابعة على المسار /track/
-          const origin = window.location.origin;
-          trackUrl = origin + '/track/?ticket=' + encodeURIComponent(trackTicket) + '&token=' + encodeURIComponent(trackToken);
+          trackUrl = window.location.origin + '/track/?ticket=' + encodeURIComponent(trackTicket) + '&token=' + encodeURIComponent(trackToken);
         }
         if (trackTicket && trackToken) {
           try {
-            sessionStorage.setItem('cr_track_ticket_v2', trackTicket);
-            sessionStorage.setItem('cr_track_token_v2', trackToken);
+            localStorage.setItem('cr_track_ticket_v2', trackTicket);
+            localStorage.setItem('cr_track_token_v2', trackToken);
+            localStorage.setItem('queue_ui_lang_v1', formLangCode);
           } catch (e) {}
         }
-        if (trackUrl && trackTicket) {
-          const choice = await showModal({
-            icon: '✅',
-            title: 'تم التسجيل بنجاح',
-            message: 'تم حفظ البيانات. يمكنك متابعة رقمك الآن وتفعيل تنبيهات الهاتف من صفحة المتابعة للحصول على التحديثات عند الخلفية.',
-            dataHtml: '<div style="padding:12px;border-radius:12px;background:#f3f8ff;text-align:center;font-weight:800">رقمى : ' + escapeHtml(trackTicket) + '</div>',
-            horizontal: true,
-            buttons: [
-              { text: 'متابعة رقمي الآن', class: 'btn-success', value: 'track' },
-              { text: 'لاحقاً', class: 'btn-outline', value: 'close' }
-            ]
-          });
-          if (choice === 'track') {
-            window.location.replace(trackUrl);
-            return;
-          }
-        } else {
-          await modalSuccess('تم تسجيل البيانات بنجاح. افتح رابط المتابعة وفعّل تنبيهات الهاتف عند الحاجة.', 'تم التسجيل');
+        if (trackUrl && trackTicket && trackToken) {
+          $('submitText').textContent = ft('openingTracking');
+          window.location.replace(trackUrl);
+          return;
         }
+        await modalSuccess(ft('registrationSavedNoLink'), ft('done'));
       } catch (err) {
         console.error(err);
-        await modalError((err && err.message) || 'حدث خطأ أثناء الإرسال. تحقق من الاتصال وحاول مرة أخرى.', 'فشل الإرسال');
+        await modalError((err && err.message) || ft('sendError'), ft('sendFailed'));
       } finally {
         submitBtn.classList.remove('loading');
         submitBtn.disabled = false;
+        if (submitBtn.querySelector('.btn-text')) submitBtn.querySelector('.btn-text').textContent = ft('submit');
       }
     });
 
